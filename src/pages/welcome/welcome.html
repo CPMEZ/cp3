@@ -1,0 +1,46 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title><em>welcome to</em></ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding id="welcome">
+  <!-- <ng-template [ngIf]="!auth.loading"> -->
+    <!-- Not loading, not logged in: show login button -->
+    <!-- <button ion-button block color="primary" *ngIf="!auth.loggedIn" (click)="auth.login()">Log In</button> -->
+    <!-- Not loading, logged in: show profile and logout button -->
+    <!-- <ng-template [ngIf]="auth.loggedIn"> -->
+      <!-- <ion-card *ngIf="auth.user"> -->
+        <!-- <img [src]="auth.user.picture"> -->
+        <!-- <ion-card-content> -->
+          <!-- <ion-card-title>{{ auth.user.name }}</ion-card-title> -->
+          <!-- <pre>{{ auth.user | json }}</pre> -->
+        <!-- </ion-card-content> -->
+      <!-- </ion-card> -->
+      <!-- <button ion-button block color="danger" (click)="auth.logout()">Log Out</button> -->
+    <!-- </ng-template> -->
+  <!-- </ng-template> -->
+
+  <!-- <img src="assets/imgs/logo.png" class="logo" /> -->
+ <ion-grid>
+    <ion-row>
+      <ion-col center text-center>
+        <h2><em>Tina Marrelli's</em></h2>
+        <h1>Red Book Hospice Care Planning</h1>
+      </ion-col>
+    </ion-row>
+    <ion-row></ion-row>
+    <ion-row></ion-row>
+    <ion-row>
+      <ion-col center text-center>
+          <button ion-button icon-right (click)="continue()">
+            Log In
+          </button><br>
+          <button ion-button icon-right (click)="gotoPlans()">
+            Work Offline
+          </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
