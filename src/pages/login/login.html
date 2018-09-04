@@ -1,0 +1,22 @@
+
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Log In to Red Book</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <ion-item>
+    <ion-label stacked>User ID</ion-label>
+    <ion-input [(ngModel)]="userId"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label stacked>Password</ion-label>
+    <ion-input type="password" [(ngModel)]="pwd"></ion-input>
+  </ion-item>
+  <button ion-button (click)="editDone()">Log In</button>
+  <!-- <button *ngIf="!MPP.userValidSubscription" ion-button (click)="subscribe()">Subscribe</button> -->
+  <button ion-button (click)="cancelEdit()">Skip</button>
+</ion-content>

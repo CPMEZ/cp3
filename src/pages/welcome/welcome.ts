@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-// import { LoginPage } from '../login/login';
-// import { CarePlanPage } from '../careplan/careplan';
+import { LoginPage } from '../login/login';
+import { CarePlanPage } from '../careplan/careplan';
 
 @IonicPage()
 @Component({
@@ -19,13 +19,11 @@ export class WelcomePage {
   }
 
   continue() {
-    alert('continue');
-    // this.navCtrl.push(LoginPage);
+    this.navCtrl.push(LoginPage);
   }
   
   gotoPlans() {
-    alert('plans');
-    // this.navCtrl.push(CarePlanPage);
+    this.navCtrl.push(CarePlanPage);
   }
 
 }

@@ -1,0 +1,35 @@
+
+<ion-header>
+
+  <ion-navbar color="primary">
+          <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+          </button>
+          <ion-title>My Care Plans</ion-title>
+          <ion-buttons end>
+            <button ion-button (click)="help()">
+              <ion-icon name="help"></ion-icon>
+          </button>
+        </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <div class="helptext">touch the name or the icon <ion-icon name="create" class="tool"></ion-icon>to work with the contents of a plan</div>
+  <!-- <div class="helptext">touch the name to work with the contents of a plan</div> -->
+  <br>
+  <button ion-button icon-left (click)="addPlan()">
+    <ion-icon name="add"></ion-icon>
+    Add Care Plan
+  </button>
+  <ion-list>
+    <div ion-item text-wrap no-lines *ngFor="let p of PPP.plans">
+      <p class="plan" (click)="contents(p)" >{{p.name}}
+        <ion-icon name="create" class="tool"></ion-icon>
+      </p>
+      <br>
+    </div>
+  </ion-list>
+</ion-content>
