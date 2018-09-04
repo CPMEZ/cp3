@@ -1,0 +1,30 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Care Plan</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-item text-wrap>
+    <ion-textarea 
+        type="text" 
+        rows=2 
+        placeholder="Name the plan"
+        [(ngModel)]="plan.name">
+    </ion-textarea>
+  </ion-item>
+  <ion-item text-wrap>
+    <ion-textarea 
+        type="text" 
+        rows=6 
+        placeholder="Describe the plan" 
+        [(ngModel)]="plan.text">
+    </ion-textarea>
+  </ion-item>
+  <button ion-button (click)="editDone()">Save</button>
+  <button ion-button (click)="cancelEdit()">Cancel</button>
+</ion-content>
