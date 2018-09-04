@@ -14,7 +14,7 @@
 
 <ion-content padding>
   <p>Selecting a condition adds all the associated problems to your care plan.</p>
-  <button ion-button icon-left *ngIf="MPP.userLoggedIn" (click)="lookupMaster()">
+  <button ion-button icon-left *ngIf="auth.userLoggedIn" (click)="lookupMaster()">
     <ion-icon name="add"></ion-icon>
     Add a Condition from the Red Book
   </button>

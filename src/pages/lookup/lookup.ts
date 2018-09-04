@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { MasterPlansProvider } from '../../providers/master-plans/master-plans';
-import { LoginPage } from '../login/login';
 import { HelpPage } from '../help/help';
 
 @IonicPage()
@@ -17,7 +16,9 @@ export class LookupPage {
   itemsList: any;
   item: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public MPP: MasterPlansProvider) {
+  constructor(public navCtrl: NavController, 
+    public navParams: NavParams, 
+    public MPP: MasterPlansProvider) {
       this.types = this.navParams.get('types');
       this.type = this.navParams.get('type');
       this.searchTerm = this.navParams.get('searchTerm');

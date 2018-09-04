@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { MasterPlansProvider } from '../../providers/master-plans/master-plans';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 import { EditPlanPage } from '../edit-plan/edit-plan';
 import { EditProblemPage } from '../edit-problem/edit-problem';

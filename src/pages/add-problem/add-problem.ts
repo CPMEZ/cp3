@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
-import { MasterPlansProvider } from '../../providers/master-plans/master-plans';
+import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { LookupPage } from '../lookup/lookup';
 import { HelpPage } from '../help/help';
+import { MasterPlansProvider } from '../../providers/master-plans/master-plans';
+import { LoginPage } from '../login/login';
 
 @IonicPage()
 @Component({
@@ -16,7 +18,8 @@ export class AddProblemPage {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public PPP: PersonalPlansProvider,
-    public MPP: MasterPlansProvider) {
+    public MPP: MasterPlansProvider,
+    public auth: AuthenticationProvider) {
       // plan to which problem added
     this.plan = navParams.get('plan');
   }
@@ -68,4 +71,8 @@ export class AddProblemPage {
   help() {
     this.navCtrl.push(HelpPage);
   }
+
+  login() {
+    this.navCtrl.push(LoginPage);
+  }  
 }

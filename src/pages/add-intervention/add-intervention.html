@@ -12,9 +12,13 @@
 </ion-header>
 
 <ion-content padding>
-    <button ion-button icon-left *ngIf="MPP.userLoggedIn" (click)="lookupMaster()">
+    <button ion-button icon-left *ngIf="auth.userLoggedIn" (click)="lookupMaster()">
       <ion-icon name="add"></ion-icon>
-      Add Intervention from the Red Book
+     Add from the Red Book
+    </button>
+    <button ion-button icon-left *ngIf="!auth.userLoggedIn" (click)="login()">
+      <ion-icon name="lock"></ion-icon>
+      Log In to Add from the Red Book
     </button>
   <ion-item>
       <ion-textarea rows=4 type="text" placeholder="Describe the intervention here" [(ngModel)]="intervention.text">

@@ -2,8 +2,10 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 import { MasterPlansProvider } from '../../providers/master-plans/master-plans';
+import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { LookupPage } from '../lookup/lookup';
 import { HelpPage } from '../help/help';
+import { LoginPage } from '../login/login';
 
 @IonicPage()
 @Component({
@@ -17,7 +19,8 @@ export class AddGoalPage {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public PPP: PersonalPlansProvider,
-    public MPP: MasterPlansProvider) {
+    public MPP: MasterPlansProvider,
+    public auth: AuthenticationProvider) {
       // problem to which goal added
     this.plan = navParams.get('plan');
     this.problem = navParams.get('problem');
@@ -63,4 +66,8 @@ export class AddGoalPage {
   help() {
     this.navCtrl.push(HelpPage);
   }
+
+  login() {
+    this.navCtrl.push(LoginPage);
+  }  
 }
