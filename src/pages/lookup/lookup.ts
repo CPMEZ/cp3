@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { MasterPlansProvider } from '../../providers/master-plans/master-plans';
 import { LoginPage } from '../login/login';
+import { HelpPage } from '../help/help';
 
 @IonicPage()
 @Component({
@@ -44,5 +45,9 @@ export class LookupPage {
   choose(which) {
     this.MPP.listSelection = which;
     this.navCtrl.pop();
+  }
+
+  help() {
+    this.navCtrl.push(HelpPage);
   }
 }

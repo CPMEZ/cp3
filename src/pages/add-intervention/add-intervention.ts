@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 import { MasterPlansProvider } from '../../providers/master-plans/master-plans';
 import { LookupPage } from '../lookup/lookup';
+import { HelpPage } from '../help/help';
 
 @IonicPage()
 @Component({
@@ -71,5 +72,9 @@ export class AddInterventionPage {
   cancelEdit() {
     // exit w/o save
     this.navCtrl.pop();
+  }
+
+  help() {
+    this.navCtrl.push(HelpPage);
   }
 }

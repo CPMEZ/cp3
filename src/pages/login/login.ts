@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { MasterPlansProvider } from '../../providers/master-plans/master-plans';
 import { CarePlanPage } from '../careplan/careplan';
+import { HelpPage } from '../help/help';
 // import { SubscribePage } from '../subscribe/subscribe';
 
 // TODO this should use oauth, google, facebook, linkedin
@@ -66,4 +67,7 @@ export class LoginPage {
     this.navCtrl.setRoot(CarePlanPage);
   }
 
+  help() {
+    this.navCtrl.push(HelpPage);
+  }
 }

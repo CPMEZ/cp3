@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
+import { HelpPage } from '../help/help';
 
 @IonicPage()
 @Component({
@@ -30,5 +31,9 @@ export class EditGoalPage {
     // undo on cancel
     this.goal.text = this.saveGoal.text;
     this.navCtrl.pop();
+  }
+
+  help() {
+    this.navCtrl.push(HelpPage);
   }
 }

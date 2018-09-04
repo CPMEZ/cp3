@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { HelpPage } from '../help/help';
 
 
 @IonicPage()
@@ -30,5 +31,9 @@ export class EditInterventionPage {
     // undo on cancel
     this.intervention.text = this.saveIntervention.text;
     this.navCtrl.pop();
+  }
+
+  help() {
+    this.navCtrl.push(HelpPage);
   }
 }

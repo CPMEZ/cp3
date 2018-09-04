@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { HelpPage } from '../help/help';
 
 @IonicPage()
 @Component({
@@ -30,5 +31,9 @@ export class EditPlanPage {
     this.plan.text = this.savePlan.text;
     this.plan.updated = this.savePlan.updated;
     this.navCtrl.pop();
+  }
+
+  help() {
+    this.navCtrl.push(HelpPage);
   }
 }

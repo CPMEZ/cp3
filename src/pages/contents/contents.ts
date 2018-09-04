@@ -12,6 +12,7 @@ import { AddInterventionPage } from '../add-intervention/add-intervention';
 import { AddConditionPage } from '../add-condition/add-condition';
 import { CopyPage } from '../copy/copy';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
+import { HelpPage } from '../help/help';
 // import { TextPlanPage } from '../text-plan/text-plan';
 
 @IonicPage()
@@ -191,4 +192,7 @@ export class ContentsPage {
     return discText;
   }
 
+  help() {
+    this.navCtrl.push(HelpPage);
+  }
 }
