@@ -69,5 +69,8 @@ export class AddGoalPage {
 
   login() {
     this.navCtrl.push(LoginPage);
-  }  
+  }
+  logout() {
+    this.auth.logout();
+  }    
 }

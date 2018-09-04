@@ -79,4 +79,13 @@ export class AuthenticationProvider {
         }
     }    
 
+    logout() {
+        this.userLoggedIn = false;
+        this.userId= "";
+        this.pwd = "";
+        this.userKey = "";
+        this.renewal = "";
+        this.renewalType = "";
+        this.clientKey = "";  // for payments--TODO, might drop this
+    }
 }

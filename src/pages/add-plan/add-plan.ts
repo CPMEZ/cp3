@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 import { HelpPage } from '../help/help';
+import { LoginPage } from '../login/login';
+import { AuthenticationProvider } from '../../providers/authentication/authentication';
 
 @IonicPage()
 @Component({
@@ -11,7 +13,10 @@ import { HelpPage } from '../help/help';
 export class AddPlanPage {
   newPlan: { name: string, text: string, created: string, updated: string } = { name: "", text: "", created: "", updated: "" };
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public PPP: PersonalPlansProvider) {
+  constructor(public navCtrl: NavController, 
+    public navParams: NavParams,
+    public auth: AuthenticationProvider, 
+    public PPP: PersonalPlansProvider) {
   }
 
   ionViewDidLoad() {
@@ -34,4 +39,10 @@ export class AddPlanPage {
   help() {
     this.navCtrl.push(HelpPage);
   }
+  login() {
+    this.navCtrl.push(LoginPage);
+  }
+  logout() {
+    this.auth.logout();
+  }     
 }

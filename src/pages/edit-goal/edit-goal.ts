@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 import { HelpPage } from '../help/help';
+import { LoginPage } from '../login/login';
+import { AuthenticationProvider } from '../../providers/authentication/authentication';
 
 @IonicPage()
 @Component({
@@ -13,7 +15,9 @@ export class EditGoalPage {
   goal: any;
   saveGoal: { text: "" } = { text: "" };
   // remember to undo the checkbox too
-  constructor(public navCtrl: NavController, public navParams: NavParams, public PPP: PersonalPlansProvider) {
+  constructor(public navCtrl: NavController, 
+    public navParams: NavParams,
+    public auth: AuthenticationProvider) {
     this.plan = navParams.get('plan');
     this.goal = navParams.get('goal');
     this.saveGoal.text = this.goal.text;
@@ -36,4 +40,10 @@ export class EditGoalPage {
   help() {
     this.navCtrl.push(HelpPage);
   }
+  login() {
+    this.navCtrl.push(LoginPage);
+  }
+  logout() {
+    this.auth.logout();
+  }     
 }

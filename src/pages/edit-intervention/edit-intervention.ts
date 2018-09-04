@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { HelpPage } from '../help/help';
+import { LoginPage } from '../login/login';
+import { AuthenticationProvider } from '../../providers/authentication/authentication';
 
 
 @IonicPage()
@@ -13,7 +15,9 @@ export class EditInterventionPage {
   intervention: any;
   saveIntervention: { text: "" } = { text: "" };
   // remember to undo the radio button too
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, 
+    public navParams: NavParams,
+    public auth: AuthenticationProvider) {
     this.plan = navParams.get('plan');
     this.intervention = navParams.get('intervention');
     this.saveIntervention.text = this.intervention.text;
@@ -36,4 +40,10 @@ export class EditInterventionPage {
   help() {
     this.navCtrl.push(HelpPage);
   }
+  login() {
+    this.navCtrl.push(LoginPage);
+  }
+  logout() {
+    this.auth.logout();
+  }     
 }

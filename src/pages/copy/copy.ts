@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 import { HelpPage } from '../help/help';
+import { LoginPage } from '../login/login';
+import { AuthenticationProvider } from '../../providers/authentication/authentication';
 
 
 @IonicPage()
@@ -14,7 +16,8 @@ export class CopyPage {
   newPlan: any;
 
   constructor(public navCtrl: NavController, 
-    public navParams: NavParams, 
+    public navParams: NavParams,
+    public auth: AuthenticationProvider,
     public PPP: PersonalPlansProvider) {
     this.plan = navParams.get('plan');
     if (!this.plan.text) { this.plan.text = "";}
@@ -41,4 +44,10 @@ export class CopyPage {
   help() {
     this.navCtrl.push(HelpPage);
   }
+  login() {
+    this.navCtrl.push(LoginPage);
+  }
+  logout() {
+    this.auth.logout();
+  }     
 }

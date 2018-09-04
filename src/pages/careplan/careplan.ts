@@ -8,6 +8,8 @@ import { EditPlanPage } from '../edit-plan/edit-plan';
 import { ContentsPage } from '../contents/contents';
 import { AddPlanPage } from '../add-plan/add-plan';
 import { HelpPage } from '../help/help';
+import { LoginPage } from '../login/login';
+import { AuthenticationProvider } from '../../providers/authentication/authentication';
 // import { TextPlanPage } from '../text-plan/text-plan';
 // import { HelpPage } from '../help/help';
 
@@ -19,7 +21,8 @@ import { HelpPage } from '../help/help';
 export class CarePlanPage {
 
   constructor(public navCtrl: NavController, 
-    public navParams: NavParams, 
+    public navParams: NavParams,
+    public auth: AuthenticationProvider,
     public PPP: PersonalPlansProvider ) {
   }
 
@@ -44,25 +47,15 @@ export class CarePlanPage {
   //   });
   // }
 
-  // showPrint(plan) {
-  //   this.navCtrl.push(TextPlanPage, {
-  //     plan: plan
-  //   });
-  // }
-
-  // copyPlan(plan) {
-  //   this.navCtrl.push(CopyPage, {
-  //     plan: plan
-  //   });
-  // }
-
-  // deletePlan(plan) {
-  //   this.PPP.deletePlan(plan);
-  // }
-
   help() {
     this.navCtrl.push(HelpPage);
   }
+  login() {
+    this.navCtrl.push(LoginPage);
+  }
+  logout() {
+    this.auth.logout();
+  }     
 }
 
 

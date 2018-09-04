@@ -12,6 +12,7 @@ import { AddConditionPage } from '../add-condition/add-condition';
 import { CopyPage } from '../copy/copy';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { HelpPage } from '../help/help';
+import { LoginPage } from '../login/login';
 // import { TextPlanPage } from '../text-plan/text-plan';
 
 @IonicPage()
@@ -194,4 +195,10 @@ export class ContentsPage {
   help() {
     this.navCtrl.push(HelpPage);
   }
+  login() {
+    this.navCtrl.push(LoginPage);
+  }
+  logout() {
+    this.auth.logout();
+  }     
 }
