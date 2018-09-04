@@ -28,6 +28,8 @@ import { EditProblemPage } from '../pages/edit-problem/edit-problem';
 import { EditGoalPage } from '../pages/edit-goal/edit-goal';
 import { EditInterventionPage } from '../pages/edit-intervention/edit-intervention';
 import { HelpPage } from '../pages/help/help';
+import { CopyPage } from '../pages/copy/copy';
+import { TermsPage } from '../pages/terms/terms';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,9 @@ import { HelpPage } from '../pages/help/help';
     EditProblemPage,
     EditGoalPage,
     EditInterventionPage,
+    CopyPage,
     HelpPage,
+    TermsPage,
   ],
   imports: [
     BrowserModule,
@@ -69,7 +73,9 @@ import { HelpPage } from '../pages/help/help';
     EditProblemPage,
     EditGoalPage,
     EditInterventionPage,
+    CopyPage,
     HelpPage,
+    TermsPage,
   ],
   providers: [
     AuthenticationProvider,

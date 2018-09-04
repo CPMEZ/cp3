@@ -1,0 +1,34 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Copy Plan</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <ion-item text-wrap>
+    <ion-textarea type="text" rows=2 readonly=true [(ngModel)]="plan.name">
+    </ion-textarea>
+  </ion-item>
+  <ion-item text-wrap>
+    <ion-textarea type="text" rows=6 readonly=true placeholder="the Original plan" [(ngModel)]="plan.text">
+    </ion-textarea>
+  </ion-item>
+  <ion-item text-wrap>
+    <ion-textarea type="text" rows=2 placeholder="Name the New plan" [(ngModel)]="newPlan.name">
+    </ion-textarea>
+  </ion-item>
+  <ion-item text-wrap>
+    <ion-textarea type="text" rows=6 placeholder="Describe the New plan" [(ngModel)]="newPlan.text">
+    </ion-textarea>
+  </ion-item>
+  <ion-item no-lines>
+    <p>Note you will be returned to
+      <br>the Care Plan you copy <em>from</em>, 
+      <br>not the new one, when
+      <br>you leave this page.</p>
+    </ion-item>
+  <button ion-button (click)="makeCopy()">Copy</button>
+  <button ion-button (click)="cancelCopy()">Cancel</button>
+</ion-content>

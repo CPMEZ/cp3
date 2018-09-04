@@ -1,0 +1,24 @@
+
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Select to Add</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-item>
+    <ion-input type="text" placeholder="Search (blank for all)" [(ngModel)]="searchTerm">
+    </ion-input>
+  </ion-item>
+  <button class="search" (click)="getList()"><ion-icon name="search" class="tool"></ion-icon>Search</button>
+  <div *ngIf="itemsList">
+  <ion-list>
+    <div ion-item no-lines *ngFor="let z of itemsList">
+      <p (click)="choose(z)">{{z.text}}</p>
+    </div>
+  </ion-list>
+  </div>
+</ion-content>

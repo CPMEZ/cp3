@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { MasterPlansProvider } from '../../providers/master-plans/master-plans';
+import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
+import { EditPlanPage } from '../edit-plan/edit-plan';
 import { EditProblemPage } from '../edit-problem/edit-problem';
 import { EditGoalPage } from '../edit-goal/edit-goal';
 import { EditInterventionPage } from '../edit-intervention/edit-intervention';
-import { CopyPage } from '../copy/copy';
-import { MasterPlansProvider } from '../../providers/master-plans/master-plans';
-import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 import { AddProblemPage } from '../add-problem/add-problem';
 import { AddGoalPage } from '../add-goal/add-goal';
 import { AddInterventionPage } from '../add-intervention/add-intervention';
-import { TextPlanPage } from '../text-plan/text-plan';
-// import { CarePlanPage } from '../careplan/careplan';
 import { AddConditionPage } from '../add-condition/add-condition';
-import { EditPlanPage } from '../edit-plan/edit-plan';
+import { CopyPage } from '../copy/copy';
+import { AuthenticationProvider } from '../../providers/authentication/authentication';
+// import { TextPlanPage } from '../text-plan/text-plan';
 
 @IonicPage()
 @Component({
@@ -24,7 +24,7 @@ export class ContentsPage {
 
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
-    public MPP: MasterPlansProvider,
+    public auth: AuthenticationProvider,
     public PPP: PersonalPlansProvider) {
     this.plan = navParams.get('plan');
   }
@@ -156,9 +156,9 @@ export class ContentsPage {
   }
   
   showPrint() {
-    this.navCtrl.push(TextPlanPage, {
-      plan: this.plan
-    });
+    // this.navCtrl.push(TextPlanPage, {
+    //   plan: this.plan
+    // });
   } 
 
   copyPlan() {
