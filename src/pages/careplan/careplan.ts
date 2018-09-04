@@ -5,6 +5,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 // import { CopyPage } from '../copy/copy';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 import { EditPlanPage } from '../edit-plan/edit-plan';
+import { ContentsPage } from '../contents/contents';
+import { AddPlanPage } from '../add-plan/add-plan';
+import { HelpPage } from '../help/help';
 // import { TextPlanPage } from '../text-plan/text-plan';
 // import { HelpPage } from '../help/help';
 
@@ -25,42 +28,40 @@ export class CarePlanPage {
   }
 
   contents(plan) {
-    alert('contents');
-    // this.navCtrl.push(ContentsPage, {
-      //   plan: plan
-      // });
+    this.navCtrl.push(ContentsPage, {
+        plan: plan
+      });
     }
     
   addPlan() {
-    // alert('add');
-    // this.navCtrl.push(AddPlanPage, {
-      // });
+    this.navCtrl.push(AddPlanPage, {
+      });
     }
     
-  editPlan(plan) {
-    this.navCtrl.push(EditPlanPage, {
-      plan: plan
-    });
-  }
+  // editPlan(plan) {
+  //   this.navCtrl.push(EditPlanPage, {
+  //     plan: plan
+  //   });
+  // }
 
-  showPrint(plan) {
-    // this.navCtrl.push(TextPlanPage, {
-    //   plan: plan
-    // });
-  }
+  // showPrint(plan) {
+  //   this.navCtrl.push(TextPlanPage, {
+  //     plan: plan
+  //   });
+  // }
 
-  copyPlan(plan) {
-    // this.navCtrl.push(CopyPage, {
-    //   plan: plan
-    // });
-  }
+  // copyPlan(plan) {
+  //   this.navCtrl.push(CopyPage, {
+  //     plan: plan
+  //   });
+  // }
 
-  deletePlan(plan) {
-    // this.PPP.deletePlan(plan);
-  }
+  // deletePlan(plan) {
+  //   this.PPP.deletePlan(plan);
+  // }
 
   help() {
-    // this.navCtrl.push(HelpPage);
+    this.navCtrl.push(HelpPage);
   }
 }
 

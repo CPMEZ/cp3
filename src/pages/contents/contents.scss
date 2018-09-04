@@ -1,0 +1,55 @@
+page-contents {
+
+    button.footer {
+        color: color($colors, light);
+        background-color: color($colors, energy);
+        font-size: 1.4rem;
+    }
+    .footer {
+        background-color: color($colors, energy);
+    }
+    p {
+        // color: color($colors, prob);
+        word-break: break-word;
+        white-space: normal;
+    }
+    .problem {
+        color: red;
+    }
+    .goal {
+        color: green;
+    }
+    p.intervention {
+        color: blue;
+    }
+    p.discpline {
+        color: blue;
+        font-size: smaller;
+    }
+    .divHeader {
+        font-size: large;
+    }
+    .expandTool {
+        font-size: 1.8rem;
+        margin-right: 0.6rem;
+        color: black;
+        background-color: white;
+    }
+    .tool {
+        font-size: 1.6rem;
+        margin-right: 0.6rem;
+        color: grey;
+        background-color: white;
+    }
+    .trash {
+        font-size: 1.6rem;
+        margin-left: 0.8rem;
+        margin-right: 0.8rem;
+        color: grey;
+        background-color: white;
+    }
+    .helptext {
+        font-size: 0.8rem;
+        color: color($colors, primary);
+    }
+}

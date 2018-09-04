@@ -1,0 +1,34 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Add a Care Plan</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <ion-item text-wrap>
+    <ion-textarea type="text" rows=2 placeholder="Name the New plan" [(ngModel)]="newPlan.name">
+    </ion-textarea>
+  </ion-item>
+  <ion-item text-wrap>
+    <ion-textarea type="text" rows=6 placeholder="Describe the New plan" [(ngModel)]="newPlan.text">
+    </ion-textarea>
+  </ion-item>
+
+  <ion-item no-lines>
+    <p>You may create an "empty" plan and <br>add problems, goals, and interventions<br> to it later. (Go to the new<br> plan after you
+     leave this page.)</p>
+    </ion-item>
+      <ion-item no-lines>
+        <button ion-button (click)="addPlan()">Add an Empty Plan</button>
+      </ion-item>
+      <ion-item no-lines>
+    <p>Or you may copy an existing Plan<br> to make a new Plan.  Open the Plan you<br> want to copy, and select "Make a Copy <br>of this Plan" (at the bottom of the page.)</p>
+  </ion-item>
+  <ion-item no-lines>
+  <button ion-button (click)="cancelEdit()">Cancel Adding a Plan</button>
+  </ion-item>
+
+</ion-content>

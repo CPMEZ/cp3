@@ -1,0 +1,81 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Best Practices and User Guide</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <h1>
+    Create Care Plans faster with templates
+  </h1>
+  <p>
+    Templates provide a quick and easy way to include most-used content in your care plans, while enabling personalization to each patient's needs.
+  </p>
+  <p>
+    To create templates, follow these steps.
+  </p>
+  <ol>
+    <li>From My Care Plans, choose Add Care Plan.  We suggest naming your plan something easy to find later, such as CHF Template.  You may want to name all your templates so that they appear in the same section of My Care Plans, such as Template <em>condition</em></li>
+    <li>Add a care topic to the plan. <em>icon</em> Care topics may be problems, disciplines or just care focus areas.  You can select from the Red Book, or define your own.</li>
+    <li>Add or edit goals associated with the problem. <em>icons</em> If you've selected a problem from the Red Book, some goals (and interventions) will have been suggested for you.  You may edit or remove suggestions as needed.  Of course you may also create your own outcome statements.  Leave the blanks provided for specifics.</li>
+    <li>Add or edit interventions for each outcome.  Interventions may also have been suggested by the Red Book.  Again, you may select additional interventions from Red Book or create your own. Or remove or edit any of the interventions. Leave the blanks here too.</li>
+    <li>When your changes are complete and the template plan is satisfactory, you're all done.</li>
+  </ol>
+  <p>To begin planning for an individual patient, copy a template first.  From My Care Plans, choose Copy. <em>icon</em>  Add or remove problems, goals, or interventions to meet your individual patient's needs.  Fill in the blanks to provide necessary specifics.</p>
+  <p>Consider making multiple templates to apply to the most common conditions you encounter in your practice.</p>
+  <p>You may also choose to make co-morbid or multi-condition templates.  To do so, simply add the set of problems, goals, and interventions that apply to those conditions.  For example, you may have a Diabetes-Hypertension Template, or a Cancer-Opiod Management Template.</p>
+
+  <h1>How to use Red Book Care Planning</h1>
+
+<h2>With a Subscription</h2>
+<p>With your Red Book Care Planning subscription:</p>
+<ol>
+  <li>Choose content from Tina's extensive library</li>
+  <li>Care plans are stored securely in the cloud</li>
+  <li>Plan on multiple devices</li>
+  <li>Care planning you do while offline is synchronized the next time you connect</li>
+</ol>
+<p>The Red Book library is your assurance of high quality.</p>
+<ol>
+<li>Evidence-based</li>
+<li>Regulatory Compliant</li>
+<li>Pragmatic, tuned by real-world experience</li>
+</ol>
+<p>The library includes starter templates, baseline plans you can incorporate into your own templates, and tailor to your patients.  These are deliberately extensive to provide alternatives that fit your practice, and to remind of things that may be important to your patient.  Select the template by condition; it is quick and easy to remove any content not applicable to your situation. Then customize.</p>
+<p>Access to the library for writing plans, and access to cloud storage for synching your devices is only available, of course, when you are connected to the internet.  Care planning you do offline will be sync'd when you connect again.</p>
+<button ion-button (click)="subscribe()">Subscribe Now</button>
+<h2>Without a Subscription</h2>
+<p>You can use Care Planning without a subscription to the Red Book library.  Simply select "Work Offline" from the welcome page.  You can still enjoy the thoughtful structure and ease of use, you'll just be providing your own content.  Even with your own content, creating templates, copying and customizing plans, and using the text or pdf output in your documentation (or documentation system) will still save you countless hours, simplify your planning, and improve the quality of your documentation.</p>
+
+<h2>The Welcome Page</h2>
+<p>This is the page you see first when the app starts.</p>
+<p>"Login" to sign into your care plans library subscription.</p>
+<p>You may also select "Work Offline" to continue without using the library.</p>
+
+<h2>The Login Page</h2>
+<p>Reach this page from "Log In" on the Welcome page, or from the menu.  You may want to sign in from the menu if you've been offline.</p>
+<p>No surprises.  Enter your user ID and password, select "Log In." Log In will only be available if you're connected to the internet.  You may select "Skip" to work offline without signing in.</p>
+
+<h2>My Care Plans Page</h2>
+<p>This is your home page.  You got here by either selecting "Work offline" from the Welcome page, or by successfully signing in on the Login page, or by selecting "Skip" on the Login page.</p>
+<p>On this page, all your care plans are listed.  You will normally start out with an empty list, before you create your first plan.  Listed plans may be templates you've created to be copied (see above,) or plans you've written for individual patients (see Patient Privacy note, and terms and conditions.)</p>
+<p>There's a big red "Add Care Plan" button at the top of the page.  Select that button to create a new plan, whether you intend to make a template or an individual patient's plan.</p>
+<p>Each plan listed on the page is identified by the name you gave when you created it.  Below the name, there is a row of icons.</p>
+<p>For each plan, you can:</p>
+  <p><ion-icon name="create" class="tool"></ion-icon>  Change the Plan name or description</p>
+  <p><ion-icon name="basket" class="tool"></ion-icon>  Work with the Care Plan contents</p>
+  <p><ion-icon name="paper" class="tool"></ion-icon>  Show print-friendly text of the plan</p>
+  <p><ion-icon name="copy" class="tool"></ion-icon>  Copy the plan</p>
+  <p><ion-icon name="trash" class="tool"></ion-icon>  Permanently Delete the plan</p>
+
+
+
+<h2>Patient Privacy Note</h2>
+<p>As health care professionals, we expect to maintain utmost confidentiality in treating patients' private information.  In most countries, laws protect patient privacy, and many provide for severe penalties for violating this trust.  Red Book Care Planning strongly recommends you do not identify care plans with individual patient names, or any other protected health information.  We suggest using a mnemonic of some kind instead.  As the basic idea behind the app is to enable you to compose plans to be easily inserted into some other documentation or documentation system, we suggest you identify the plan to the specific patient only in the context of a separate, secure system.  While care plans stored in the cloud are encrypted and secure, we nonetheless feel minimizing exposure is the best approach.</p>
+  <button ion-button (click)="done()">Done</button>
+  <br><br>
+  <button ion-button (click)="terms()">Application Terms & Conditions</button>
+</ion-content>

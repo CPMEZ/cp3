@@ -1,0 +1,25 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Problem</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-item>
+    <ion-textarea 
+        rows=6 
+        type="text" 
+        placeholder="Problem, condition or aspect of care" 
+        [(ngModel)]="problem.text">
+    </ion-textarea>
+  </ion-item>
+  <ion-item>
+    <p class="hint">{{problem.hint}}</p>
+  </ion-item>
+  <button ion-button (click)="editDone()">Save</button>
+  <button ion-button (click)="cancelEdit()">Cancel</button>
+</ion-content>

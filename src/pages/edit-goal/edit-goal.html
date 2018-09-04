@@ -1,0 +1,35 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Outcome</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-item>
+    <ion-textarea 
+        rows=6
+        type="text" 
+        placeholder="Describe the outcome here"
+        [(ngModel)]="goal.text">
+    </ion-textarea>
+  </ion-item>
+  <ion-item>
+    <p class="hint">{{goal.hint}}</p>
+  </ion-item>
+  <ion-list radio-group [(ngModel)]="goal.term">
+    <ion-item>
+      <ion-label>Short Term</ion-label>
+      <ion-radio checked="true" value="ST"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>Long Term</ion-label>
+      <ion-radio value="LT"></ion-radio>
+    </ion-item>
+  </ion-list>
+  <button ion-button (click)="editDone()">Save</button>
+  <button ion-button (click)="cancelEdit()">Cancel</button>
+</ion-content>

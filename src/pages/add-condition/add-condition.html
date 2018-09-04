@@ -1,0 +1,24 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Add Condition</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <p>Selecting a condition adds all the associated problems to your care plan.</p>
+  <button ion-button icon-left *ngIf="MPP.userLoggedIn" (click)="lookupMaster()">
+    <ion-icon name="add"></ion-icon>
+    Add a Condition from the Red Book
+  </button>
+  <ion-item>
+    <ion-textarea rows=2 type="text" readonly=true placeholder="Condition" [(ngModel)]="condition.text">
+    </ion-textarea>
+  </ion-item>
+  <ion-item>
+  </ion-item>
+  <button ion-button (click)="editDone()">Save</button>
+  <button ion-button (click)="cancelEdit()">Cancel</button>
+</ion-content>

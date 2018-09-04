@@ -1,0 +1,24 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Add A Care Topic</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <button ion-button icon-left *ngIf="MPP.userLoggedIn" (click)="lookupMaster()">
+    <ion-icon name="add"></ion-icon>
+    Add Care Topic from the Red Book
+  </button>
+  <ion-item>
+    <ion-textarea rows=6 type="text" placeholder="Topic: focus or aspect of care" [(ngModel)]="problem.text">
+    </ion-textarea>
+  </ion-item>
+  <ion-item>
+    <p class="hint">{{problem.hint}}</p>
+  </ion-item>
+  <button ion-button (click)="editDone()">Save</button>
+  <button ion-button (click)="cancelEdit()">Cancel</button>
+</ion-content>

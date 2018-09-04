@@ -1,0 +1,101 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Care Plan</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <!-- <div class="helptext">touch the text of any item to change it</div>
+  <div class="helptext">touch the 
+    <ion-icon class="tool" name="arrow-dropright"></ion-icon>
+    <ion-icon class="tool" name="arrow-dropdown"></ion-icon>
+    to expand or collapse</div>
+  <div class="helptext">touch the text of any item to change it</div> -->
+
+  <div class="divHeader"><span (click)="editPlan()">{{plan.name}}</span>
+    <button class="tool" (click)="problemAdd()">
+      <ion-icon name="medical"></ion-icon>
+      <ion-icon name="add"></ion-icon>
+    </button>
+    <button class="tool" *ngIf="auth.userLoggedIn" (click)="conditionAdd()">
+      <ion-icon name="fastforward"></ion-icon>
+      <ion-icon name="add"></ion-icon>
+    </button>
+    <button class="tool">
+      <ion-icon name="trash" (click)="deletePlan()"></ion-icon>
+    </button>
+  </div>
+
+  <ion-grid>
+    <ion-row>
+      <ion-list>
+        <div ion-item no-lines *ngFor="let p of plan.problems">
+          <p class="problem">
+            <ion-icon class="expandTool" [name]="p.icon" (click)="toggleProblemExpand(p)" ></ion-icon>
+            <span  (click)="problemEdit(p)">{{p.text}}</span>
+          </p>
+          <div>
+            <div io-item *ngIf="p.expanded">
+              <div>
+                <button class="tool" (click)="goalAdd(p)">
+                  <ion-icon name="star"></ion-icon>
+                  <ion-icon name="add"></ion-icon>
+                </button>
+                <button class="tool" (click)="interventionAdd(p)">
+                  <ion-icon name="construct"></ion-icon>
+                  <ion-icon name="add"></ion-icon>
+                </button>
+                <button class="trash" (click)="problemDelete(p)">
+                  <ion-icon name="trash"></ion-icon>
+                </button>
+              </div>
+              <div ion-item *ngFor="let g of p.goals">
+                <p class="goal">
+                  <span (click)="goalEdit(g)">{{g.term}} {{g.text}}</span>
+                  <ion-icon class="trash" name="trash" (click)="goalDelete(p, g)"></ion-icon>
+                </p>
+              </div>
+              <div ion-item *ngFor="let n of p.interventions">
+                <p class="intervention">
+                  <span (click)="interventionEdit(n)">{{n.text}}</span>
+                  <ion-icon class="trash" name="trash" (click)="interventionDelete(p, n)"></ion-icon>
+                </p>
+                <p class="discpline">
+                  <em>{{discList(n)}}</em>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ion-list>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
+
+<ion-footer class="footer">
+  <ion-grid>
+    <ion-row no-padding no-margin>
+      <ion-col col-12 no-padding>
+        <button class="footer" (click)="showPrint()">
+          <ion-icon name="paper"></ion-icon> Show Printable Version for Sharing
+        </button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-12 no-padding>
+        <button class="footer" (click)="copyPlan()">
+          <ion-icon name="copy"></ion-icon> Make a Copy of this Plan</button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-12 no-padding>
+        <button class="footer" float-right (click)="deletePlan()">Permanently Delete this Plan
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
