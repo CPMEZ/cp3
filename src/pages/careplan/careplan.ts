@@ -19,10 +19,12 @@ export class CarePlanPage {
     private alertCtrl: AlertController,    
     public auth: AuthenticationProvider,
     public PPP: PersonalPlansProvider ) {
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad CareplanPage');
+    }
+    
+    ionViewDidLoad() {
+      console.log('ionViewDidLoad CareplanPage');
+      console.log('loading plans');
+      this.PPP.loadPlans();
   }
 
   contents(plan) {

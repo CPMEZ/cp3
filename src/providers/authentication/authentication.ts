@@ -20,36 +20,66 @@ export class AuthenticationProvider {
 
     WARN_DAYS: number = 5;
 
-    authenticate(): any {
+    authenticate(): Promise<boolean> {
         // exit if no credentials
         console.log('authenticate', this.userId, this.pwd);
-        if ((!this.userId) || (!this.pwd)) {
-            // either one missing 
-            this.userLoggedIn = false;
-            return this.userLoggedIn;
-        }
-        // TODO encrypt pwd before send
-        var path = this.cpapi.apiURL + "user/" + this.userId + "?p=" + this.pwd;
-        this.cpapi.getData(path).then((data) => {
-            const d = JSON.parse(data);
-            console.log('authenticate.then');
-            console.log(d);
-            if (d) {
-                this.userKey = d.key;
-                this.renewal = d.renewal;
-                this.renewalType = d.renewalType;
-                if (this.checkSubscription()) {
-                    this.userLoggedIn = true;
-                    return this.userLoggedIn;
-                } else { // subscription expired
-                    this.userLoggedIn = false;
-                    return this.userLoggedIn;
-                }
-            } else {  // no data, bad credentials
+        return new Promise<boolean>((resolve, reject) => {
+            if ((!this.userId) || (!this.pwd)) {
+                // either one missing 
                 this.userLoggedIn = false;
-                return this.userLoggedIn;
+                resolve(this.userLoggedIn);
             }
+            // TODO encrypt pwd before send
+            var path = this.cpapi.apiURL + "user/" + this.userId + "?p=" + this.pwd;
+            this.cpapi.getData(path).then((data) => {
+                const d = JSON.parse(data);
+                // console.log('authenticate.then');
+                // console.log(d);
+                if (d) {
+                    this.userKey = d.key;
+                    this.renewal = d.renewal;
+                    this.renewalType = d.renewalType;
+                    if (this.checkSubscription()) {
+                        this.userLoggedIn = true;
+                        resolve(this.userLoggedIn);
+                    } else { // subscription expired
+                        this.userLoggedIn = false;
+                        reject(this.userLoggedIn);
+                    }
+                } else {  // no data, bad credentials
+                    this.userLoggedIn = false;
+                    reject(this.userLoggedIn);
+                }
+            });
         });
+
+        // if ((!this.userId) || (!this.pwd)) {
+        //     // either one missing 
+        //     this.userLoggedIn = false;
+        //     resolve(this.userLoggedIn);
+        // }
+        // // TODO encrypt pwd before send
+        // var path = this.cpapi.apiURL + "user/" + this.userId + "?p=" + this.pwd;
+        // this.cpapi.getData(path).then((data) => {
+        //     const d = JSON.parse(data);
+        //     console.log('authenticate.then');
+        //     console.log(d);
+        //     if (d) {
+        //         this.userKey = d.key;
+        //         this.renewal = d.renewal;
+        //         this.renewalType = d.renewalType;
+        //         if (this.checkSubscription()) {
+        //             this.userLoggedIn = true;
+        //             return this.userLoggedIn;
+        //         } else { // subscription expired
+        //             this.userLoggedIn = false;
+        //             return this.userLoggedIn;
+        //         }
+        //     } else {  // no data, bad credentials
+        //         this.userLoggedIn = false;
+        //         return this.userLoggedIn;
+        //     }
+        // });        
     }
 
     checkSubscription(): boolean {

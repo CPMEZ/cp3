@@ -22,21 +22,10 @@ export class LoginPage {
     public navParams: NavParams, 
     public MPP: MasterPlansProvider, 
     private auth: AuthenticationProvider) {
-    // const logout: boolean = this.navParams.get('logout');
-    // if (logout) {
-    //   this.userId = "";
-    //   this.pwd = "";
-    //   this.auth.userId = "";
-    //   this.auth.pwd = "";
-    //   this.auth.userLoggedIn = false;
-    //   alert("You are logged out of Red Book.  You can still work with your plans on your device.");
-    //   this.editDone();
-    // } else {
       this.userId = this.auth.userId;
       this.pwd = this.auth.pwd;
-      console.log('in user', this.userId);
-      console.log('in pwd', this.pwd);
-    // }
+      console.log('Login constructor: user', this.userId);
+      console.log('Login constructor: pwd', this.pwd);
   }
   
   ionViewDidLoad() {
@@ -46,10 +35,9 @@ export class LoginPage {
   editDone() {
     this.auth.userId = this.userId;
     this.auth.pwd = this.pwd;
-    console.log('done user', this.auth.userId);
-    console.log('done pwd', this.auth.pwd);
-    this.auth.authenticate();
-    this.navToCarePlan();
+    console.log('after Login editDone: user', this.auth.userId);
+    console.log('after Login editDone: pwd', this.auth.pwd);
+    this.auth.authenticate().then( (result) => { this.navToCarePlan(); });
   }
   
   navToCarePlan() {
