@@ -30,6 +30,7 @@ import { EditInterventionPage } from '../pages/edit-intervention/edit-interventi
 import { HelpPage } from '../pages/help/help';
 import { CopyPage } from '../pages/copy/copy';
 import { TermsPage } from '../pages/terms/terms';
+import { LookupPage } from '../pages/lookup/lookup';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { TermsPage } from '../pages/terms/terms';
     AddProblemPage,
     AddGoalPage,
     AddInterventionPage,
+    LookupPage,
     EditPlanPage,
     EditProblemPage,
     EditGoalPage,
@@ -69,6 +71,7 @@ import { TermsPage } from '../pages/terms/terms';
     AddProblemPage,
     AddGoalPage,
     AddInterventionPage,
+    LookupPage,    
     EditPlanPage,
     EditProblemPage,
     EditGoalPage,

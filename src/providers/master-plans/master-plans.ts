@@ -9,11 +9,10 @@ export class MasterPlansProvider {
   // used to pass selections from lookup pages
   private _listSelection: any = "";
   
-  // always clears immediately after retrieving
   public get listSelection() : string {
-    const ls = this._listSelection;
-    this._listSelection = '';
-    return ls;
+    // const ls = this._listSelection;
+    // this._listSelection = "";
+    return this._listSelection;
   }
   public set listSelection(v : string) {
     this._listSelection = v;

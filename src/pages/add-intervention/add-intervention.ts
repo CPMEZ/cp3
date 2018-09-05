@@ -37,6 +37,7 @@ export class AddInterventionPage {
     this.intervention["hint"] = "";
     if (this.MPP.listSelection) {
       this.intervention = this.MPP.listSelection;
+      console.log('selected intervention',this.intervention);
       // clear it immediately after used
       this.MPP.listSelection = "";
     }
