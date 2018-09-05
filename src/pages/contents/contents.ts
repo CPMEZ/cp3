@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 import { EditPlanPage } from '../edit-plan/edit-plan';
 import { EditProblemPage } from '../edit-problem/edit-problem';
@@ -23,15 +23,16 @@ import { LoginPage } from '../login/login';
 export class ContentsPage {
   plan: any;
 
-  constructor(public navCtrl: NavController, 
+  constructor(public navCtrl: NavController,
     public navParams: NavParams,
+    private alertCtrl: AlertController,
     public auth: AuthenticationProvider,
     public PPP: PersonalPlansProvider) {
     this.plan = navParams.get('plan');
   }
-  
+
   ionViewDidEnter() {
-  console.log('ionViewDidEnter ContentsPage');
+    console.log('ionViewDidEnter ContentsPage');
   }
 
   // ionViewWillLeave() {
@@ -65,12 +66,12 @@ export class ContentsPage {
 
   toggleProblemExpand(problem) {
     if (problem.expanded) {
-        problem.expanded = false;
+      problem.expanded = false;
       problem.icon = "arrow-dropright";
-      } else {
-        problem.expanded = true;
+    } else {
+      problem.expanded = true;
       problem.icon = "arrow-dropdown";
-      }
+    }
   }
 
   conditionAdd() {
@@ -91,104 +92,172 @@ export class ContentsPage {
       problem: problem
     });
   }
-  
+
   problemDelete(problem) {
-    var p: number = this.plan.problems.indexOf(problem, 0)
-    if (p > -1) {
-      this.plan.problems.splice(p, 1);
-    }
-    const d: Date = new Date();
-    this.plan.updated = d.toLocaleDateString();    
-    this.PPP.write();
+    // confirm before delete
+    let prompt = this.alertCtrl.create({
+      title: 'Confirm Delete',
+      // message: 'Are you sure?',
+      buttons: [
+        {
+          text: "No, don't delete",
+          role: 'cancel'
+        },
+        {
+          text: 'Yes, delete',
+          handler: () => {
+            var p: number = this.plan.problems.indexOf(problem, 0)
+            if (p > -1) {
+              this.plan.problems.splice(p, 1);
+            }
+            const d: Date = new Date();
+            this.plan.updated = d.toLocaleDateString();
+            this.PPP.write();
+          }
+        }
+      ]
+    });
+    prompt.present();
   }
-  
+
   goalAdd(problem) {
     this.navCtrl.push(AddGoalPage, {
-      plan: this.plan,      
+      plan: this.plan,
       problem: problem
     });
   }
-  
+
   goalEdit(goal) {
     this.navCtrl.push(EditGoalPage, {
       plan: this.plan,
       goal: goal
     });
   }
-  
+
   goalDelete(problem, goal) {
-    var p: number = this.plan.problems.indexOf(problem, 0)
-    if (p > -1) {
-      var g: number = this.plan.problems[p].goals.indexOf(goal, 0)
-      if (g > -1) {
-        this.plan.problems[p].goals.splice(g, 1);
-      }
-    }
-    const d: Date = new Date();
-    this.plan.updated = d.toLocaleDateString();    
-    this.PPP.write();
+    // confirm before delete
+    let prompt = this.alertCtrl.create({
+      title: 'Confirm Delete',
+      // message: 'Are you sure?',
+      buttons: [
+        {
+          text: "No, don't delete",
+          role: 'cancel'
+        },
+        {
+          text: 'Yes, delete',
+          handler: () => {
+            var p: number = this.plan.problems.indexOf(problem, 0)
+            if (p > -1) {
+              var g: number = this.plan.problems[p].goals.indexOf(goal, 0)
+              if (g > -1) {
+                this.plan.problems[p].goals.splice(g, 1);
+              }
+            }
+            const d: Date = new Date();
+            this.plan.updated = d.toLocaleDateString();
+            this.PPP.write();
+          }
+        }
+      ]
+    });
+    prompt.present();
   }
-  
+
   interventionAdd(problem) {
     this.navCtrl.push(AddInterventionPage, {
       plan: this.plan,
       problem: problem
     });
   }
-  
+
   interventionEdit(intervention) {
     this.navCtrl.push(EditInterventionPage, {
       plan: this.plan,
       intervention: intervention
     });
   }
-  
+
   interventionDelete(problem, intervention) {
-    var p: number = this.plan.problems.indexOf(problem, 0)
-    if (p > -1) {
-        var n: number = this.plan.problems[p].interventions.indexOf(intervention, 0)
-          if (n > -1) {
-            this.plan.problems[p].interventions.splice(n, 1);
-          }        
-    }
-    const d: Date = new Date();
-    this.plan.updated = d.toLocaleDateString();    
-    this.PPP.write();
+    // confirm before delete
+    let prompt = this.alertCtrl.create({
+      title: 'Confirm Delete',
+      // message: 'Are you sure?',
+      buttons: [
+        {
+          text: "No, don't delete",
+          role: 'cancel'
+        },
+        {
+          text: 'Yes, delete',
+          handler: () => {
+            var p: number = this.plan.problems.indexOf(problem, 0)
+            if (p > -1) {
+              var n: number = this.plan.problems[p].interventions.indexOf(intervention, 0)
+              if (n > -1) {
+                this.plan.problems[p].interventions.splice(n, 1);
+              }
+            }
+            const d: Date = new Date();
+            this.plan.updated = d.toLocaleDateString();
+            this.PPP.write();
+          }
+        }
+      ]
+    });
+    prompt.present();
   }
-  
+
   showPrint() {
     // this.navCtrl.push(TextPlanPage, {
     //   plan: this.plan
     // });
-  } 
+  }
 
   copyPlan() {
     this.navCtrl.push(CopyPage, {
       plan: this.plan
     });
-  } 
-  
+  }
+
   deletePlan() {
-    this.PPP.deletePlan(this.plan);
-    this.navCtrl.pop();
+    // confirm before delete
+    let prompt = this.alertCtrl.create({
+      title: 'Confirm Delete',
+      // message: 'Are you sure?',
+      buttons: [
+        {
+          text: "No, don't delete",
+          role: 'cancel'
+        },
+        {
+          text: 'Yes, delete',
+          handler: () => {
+            this.PPP.deletePlan(this.plan);
+            this.navCtrl.pop();
+          }
+        }
+      ]
+    });
+    prompt.present();
   }
 
   discList(int: any): string {
     let discText: string = "";
-    if (int.interdisciplinary) { discText += "Interdisciplinary "}
-    if (int.nursing) { discText += "Nursing "}
-    if (int.aide) { discText += "Aide "}
-    if (int.bereavement) { discText += "Bereavement "}
-    if (int.dietary) { discText += "Dietary "}
-    if (int.music) { discText += "Music/Other "}
-    if (int.OT) { discText += "OT "}
-    if (int.PT) { discText += "PT "}
-    if (int.pharmacist) { discText += "Pharmacist "}
-    if (int.social) { discText += "Social Work "}
-    if (int.spiritual) { discText += "Spiritual Counselor "}
-    if (int.speech) { discText += "Speech "}
-    if (int.volunteer) { discText += "Volunteer "}
-    if (int.other) { discText += int.other}
+    if (int.interdisciplinary) { discText += "Interdisciplinary " }
+    if (int.nursing) { discText += "Nursing " }
+    if (int.aide) { discText += "Aide " }
+    if (int.bereavement) { discText += "Bereavement " }
+    if (int.dietary) { discText += "Dietary " }
+    if (int.music) { discText += "Music/Other " }
+    if (int.OT) { discText += "OT " }
+    if (int.PT) { discText += "PT " }
+    if (int.pharmacist) { discText += "Pharmacist " }
+    if (int.social) { discText += "Social Work " }
+    if (int.spiritual) { discText += "Spiritual Counselor " }
+    if (int.speech) { discText += "Speech " }
+    if (int.volunteer) { discText += "Volunteer " }
+    if (int.other) { discText += int.other }
     return discText;
   }
 
@@ -199,6 +268,20 @@ export class ContentsPage {
     this.navCtrl.push(LoginPage);
   }
   logout() {
-    this.auth.logout();
-  }     
+    // confirm before logout
+    let prompt = this.alertCtrl.create({
+      title: 'Confirm Log Out',
+      buttons: [
+        {
+          text: "No, don't log out",
+          role: 'cancel'
+        },
+        {
+          text: 'Yes, log out',
+          handler: () => { this.auth.logout(); }
+        }
+      ]
+    });
+    prompt.present();
+  }
 }
