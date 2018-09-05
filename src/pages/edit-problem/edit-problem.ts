@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { HelpPage } from '../help/help';
 import { LoginPage } from '../login/login';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
@@ -15,6 +15,7 @@ export class EditProblemPage {
   saveProblem: { text: "" } = { text: "" };
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
+    private alertCtrl: AlertController,
     public auth: AuthenticationProvider) {
     this.plan = navParams.get('plan');
     this.problem = navParams.get('problem');
@@ -42,6 +43,20 @@ export class EditProblemPage {
     this.navCtrl.push(LoginPage);
   }
   logout() {
-    this.auth.logout();
-  }   
+    // confirm before logout
+    let prompt = this.alertCtrl.create({
+      title: 'Confirm Log Out',
+      buttons: [
+        {
+          text: "No, don't log out",
+          role: 'cancel'
+        },
+        {
+          text: 'Yes, log out',
+          handler: () => { this.auth.logout(); }
+        }
+      ]
+    });
+    prompt.present();
+  }
 }

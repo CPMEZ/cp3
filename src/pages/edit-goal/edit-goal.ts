@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
+import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { HelpPage } from '../help/help';
 import { LoginPage } from '../login/login';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
@@ -17,6 +16,7 @@ export class EditGoalPage {
   // remember to undo the checkbox too
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
+    private alertCtrl: AlertController,    
     public auth: AuthenticationProvider) {
     this.plan = navParams.get('plan');
     this.goal = navParams.get('goal');
@@ -44,6 +44,20 @@ export class EditGoalPage {
     this.navCtrl.push(LoginPage);
   }
   logout() {
-    this.auth.logout();
-  }     
+    // confirm before logout
+    let prompt = this.alertCtrl.create({
+      title: 'Confirm Log Out',
+      buttons: [
+        {
+          text: "No, don't log out",
+          role: 'cancel'
+        },
+        {
+          text: 'Yes, log out',
+          handler: () => { this.auth.logout(); }
+        }
+      ]
+    });
+    prompt.present();
+  }   
 }

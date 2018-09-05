@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 import { MasterPlansProvider } from '../../providers/master-plans/master-plans';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
@@ -18,6 +18,7 @@ export class AddGoalPage {
   goal: {} = {};
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
+    private alertCtrl: AlertController,    
     public PPP: PersonalPlansProvider,
     public MPP: MasterPlansProvider,
     public auth: AuthenticationProvider) {
@@ -71,6 +72,20 @@ export class AddGoalPage {
     this.navCtrl.push(LoginPage);
   }
   logout() {
-    this.auth.logout();
-  }    
+    // confirm before logout
+    let prompt = this.alertCtrl.create({
+      title: 'Confirm Log Out',
+      buttons: [
+        {
+          text: "No, don't log out",
+          role: 'cancel'
+        },
+        {
+          text: 'Yes, log out',
+          handler: () => { this.auth.logout(); }
+        }
+      ]
+    });
+    prompt.present();
+  } 
 }
