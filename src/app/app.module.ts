@@ -31,6 +31,7 @@ import { HelpPage } from '../pages/help/help';
 import { CopyPage } from '../pages/copy/copy';
 import { TermsPage } from '../pages/terms/terms';
 import { LookupPage } from '../pages/lookup/lookup';
+import { SubscribePage } from '../pages/subscribe/subscribe';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { LookupPage } from '../pages/lookup/lookup';
     CopyPage,
     HelpPage,
     TermsPage,
+    SubscribePage,
   ],
   imports: [
     BrowserModule,
@@ -79,6 +81,7 @@ import { LookupPage } from '../pages/lookup/lookup';
     CopyPage,
     HelpPage,
     TermsPage,
+    SubscribePage,
   ],
   providers: [
     AuthenticationProvider,

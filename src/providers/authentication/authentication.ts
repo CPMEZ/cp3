@@ -16,6 +16,8 @@ export class AuthenticationProvider {
     renewalType: string = "";
     clientKey: string = "";  // for payments--TODO, might drop this
 
+    userValidSubscription: boolean = false;
+
     WARN_DAYS: number = 5;
 
     authenticate(): any {
@@ -54,7 +56,7 @@ export class AuthenticationProvider {
         // exit if no renewal value
         if (!this.renewal) return false;
         // use credentials to check last renewal date
-        let userValidSubscription: boolean = false;
+        // let userValidSubscription: boolean = false;
         let expiredMessage: string;
         if (this.renewalType === "auto") {
             return true;
@@ -66,19 +68,19 @@ export class AuthenticationProvider {
             if (duration < 0) {  // already expired
                 expiredMessage = "Your subscription to Marrelli's Red Book Care Plans has expired.  Please renew to continue building Red Book-based Care Plans.  If you've already renewed, first make sure you're connected to the internet and then login to the app, and your records will be updated.";
                 alert(expiredMessage);
-                userValidSubscription = false;
+                this.userValidSubscription = false;
             } else if (duration < this.WARN_DAYS) {
                 expiredMessage = "Your subscription to Marrelli's Red Book Care Plans expires in " + (duration + 1).toString() + " days.  Please renew to continue building Red Book-based Care Plans.";
                 alert(expiredMessage);
-                userValidSubscription = true;
+                this.userValidSubscription = true;
             } else {
                 // not expired
-                userValidSubscription = true;
+                this.userValidSubscription = true;
             }
-            return userValidSubscription
+            return this.userValidSubscription;
         }
     }    
-
+    
     logout() {
         this.userLoggedIn = false;
         this.userId= "";
@@ -87,5 +89,7 @@ export class AuthenticationProvider {
         this.renewal = "";
         this.renewalType = "";
         this.clientKey = "";  // for payments--TODO, might drop this
+
+        // this.userValidSubscription = false;
     }
 }

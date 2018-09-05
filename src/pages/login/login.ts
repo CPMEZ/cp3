@@ -4,7 +4,7 @@ import { AuthenticationProvider } from '../../providers/authentication/authentic
 import { MasterPlansProvider } from '../../providers/master-plans/master-plans';
 import { CarePlanPage } from '../careplan/careplan';
 import { HelpPage } from '../help/help';
-// import { SubscribePage } from '../subscribe/subscribe';
+import { SubscribePage } from '../subscribe/subscribe';
 
 // TODO this should use oauth, google, facebook, linkedin
 
@@ -22,21 +22,21 @@ export class LoginPage {
     public navParams: NavParams, 
     public MPP: MasterPlansProvider, 
     private auth: AuthenticationProvider) {
-    const logout: boolean = this.navParams.get('logout');
-    if (logout) {
-      this.userId = "";
-      this.pwd = "";
-      this.auth.userId = "";
-      this.auth.pwd = "";
-      this.auth.userLoggedIn = false;
-      alert("You are logged out of Red Book.  You can still work with your plans on your device.");
-      this.editDone();
-    } else {
+    // const logout: boolean = this.navParams.get('logout');
+    // if (logout) {
+    //   this.userId = "";
+    //   this.pwd = "";
+    //   this.auth.userId = "";
+    //   this.auth.pwd = "";
+    //   this.auth.userLoggedIn = false;
+    //   alert("You are logged out of Red Book.  You can still work with your plans on your device.");
+    //   this.editDone();
+    // } else {
       this.userId = this.auth.userId;
       this.pwd = this.auth.pwd;
       console.log('in user', this.userId);
       console.log('in pwd', this.pwd);
-    }
+    // }
   }
   
   ionViewDidLoad() {
@@ -55,12 +55,13 @@ export class LoginPage {
   navToCarePlan() {
     this.navCtrl.setRoot(CarePlanPage);
   }
-  // subscribe() {
-  //   this.navCtrl.push(SubscribePage, {
-  //     userId: this.userId,
-  //     pwd: this.pwd,
-  //   });
-  // }
+
+  subscribe() {
+    this.navCtrl.push(SubscribePage, {
+      userId: this.userId,
+      pwd: this.pwd,
+    });
+  }
 
   cancelEdit() {
     // proceed without signing in

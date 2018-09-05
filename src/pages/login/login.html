@@ -21,7 +21,7 @@
     <ion-label stacked>Password</ion-label>
     <ion-input type="password" [(ngModel)]="pwd"></ion-input>
   </ion-item>
-  <button ion-button (click)="editDone()">Log In</button>
-  <!-- <button *ngIf="!MPP.userValidSubscription" ion-button (click)="subscribe()">Subscribe</button> -->
+  <button ion-button (click)="editDone()">Log In</button><br>
+  <button *ngIf="!auth.userValidSubscription" ion-button (click)="subscribe()">Subscribe</button><br>
   <button ion-button (click)="cancelEdit()">Skip</button>
 </ion-content>

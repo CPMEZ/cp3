@@ -1,0 +1,27 @@
+
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Subscribe</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <div>Subscribe to use Red Book Care Plan content.</div>
+  <ion-item>
+    <ion-label stacked>Choose a User ID</ion-label>
+    <ion-input [(ngModel)]="userId"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label stacked>Choose a Password</ion-label>
+    <ion-input type="password" [(ngModel)]="pwd"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label stacked>Verify Password</ion-label>
+    <ion-input type="password" [(ngModel)]="pwdVer"></ion-input>
+  </ion-item>
+  <button ion-button *ngIf="pwd==pwdVer" (click)="editDone()">Subscribe</button>
+  <button ion-button (click)="cancelEdit()">Cancel</button>
+</ion-content>
