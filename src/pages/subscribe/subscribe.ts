@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
+import { CarePlanPage } from '../careplan/careplan';
 
 @IonicPage()
 @Component({
@@ -32,7 +33,8 @@ export class SubscribePage {
     //  include generate a userKey or else use braintree clientKey
     this.auth.userId = this.userId;
     this.auth.pwd = this.pwd;
+    // TODO then sign them in (which might be too async?)
     this.auth.authenticate();
-    this.navCtrl.pop();
+    this.navCtrl.setRoot(CarePlanPage);
   }
 }
