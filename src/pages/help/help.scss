@@ -1,8 +1,30 @@
 page-help {
+    h1 {
+        font-size: 1.8rem;
+        color: color($colors, primary);
+    }
+    h2 {
+        font-size: 1.6rem;
+        color: color($colors, primary);
+    }
+    h3 {
+        font-size: 1.4rem;
+        color: color($colors, primary);
+    }
+    p {
+        font-size: 1.4rem;
+        color: black;
+    }
     .tool {
         font-size: 1.6rem;
         margin-right: 0.4rem;
         color: grey;
         background-color: color($colors, light);
+    }
+    .hilite {
+        color: color($colors, primary);
+    }
+    .aside {
+        font-size: 1.2rem;
     }
 }
