@@ -10,6 +10,8 @@ import { CarePlanPage } from '../careplan/careplan';
 })
 export class WelcomePage {
 
+  acceptedTerms = false;
+
   constructor(public navCtrl: NavController, 
     public navParams: NavParams) {
   }
