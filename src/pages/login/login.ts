@@ -45,10 +45,7 @@ export class LoginPage {
   }
 
   subscribe() {
-    this.navCtrl.push(SubscribePage, {
-      userId: this.userId,
-      pwd: this.pwd,
-    });
+    this.navCtrl.push(SubscribePage);
   }
 
   cancelEdit() {

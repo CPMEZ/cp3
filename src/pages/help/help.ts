@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { TermsPage } from '../terms/terms';
+import { SubscribePage } from '../subscribe/subscribe';
 
 @IonicPage()
 @Component({
@@ -20,7 +21,11 @@ export class HelpPage {
     this.navCtrl.pop();
   }
   
-  terms() {
-    this.navCtrl.push(TermsPage);
+  // terms() {
+  //   this.navCtrl.push(TermsPage);
+  // }
+
+  subscribe() {
+    this.navCtrl.push(SubscribePage);
   }
 }
