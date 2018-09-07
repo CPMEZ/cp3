@@ -3,13 +3,17 @@ page-welcome {
     background: color($colors, primary);
     h1{
         color: color($colors, light);
-        font-size: 50px;
+        font-size: 3.6rem;
+    }
+    h2{
+        color: color($colors, dark);
+        font-size: 1.8rem;
     }
     .marginTop{
         margin-top:100px;
     }
     .logo{
-        height: 150px;
+        height: 100px;
     }
     .button{
         color: color($colors, light);
