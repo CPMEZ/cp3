@@ -1,0 +1,36 @@
+page-text-plan {
+    .ptext { 
+        color: black;
+        font-size: 1.4rem; 
+        word-break: break-all;
+        white-space: normal;
+    }
+    .prob { 
+        margin-top: 1.2rem;
+    }
+    .goal { 
+        margin-top: 0.8rem;
+        margin-left: 1rem;
+    }
+    .int { 
+        margin-top: 0.4rem;
+        margin-left: 1rem;
+        margin-bottom: 0;
+    }
+    .dsc { 
+        margin-top: 0;
+        margin-left: 2.2rem;
+        margin-bottom: 0;
+    }    
+    .h1text {
+        font-size: 1.6rem;
+    }
+    .footer {
+        background-color: color($colors, energy);
+        height: 2.4rem;
+    }
+    button{
+        color: color($colors, light);
+        background-color: color($colors, energy);
+    }    
+}
