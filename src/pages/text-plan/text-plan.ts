@@ -179,11 +179,11 @@ export class TextPlanPage {
             }
           });          
         } else {
-          alert("Email is not available.  Use 'Make a PDF' and attach the file to email.");
+          alert("Email is not available.  Use 'PDF' and attach the file to email.");
         }
       });      
     } else {
-      alert("If using a browser, automatic email is not available.  Use 'Make a PDF' and attach the file to email.");
+      alert("If using a browser, automatic email is not available.  Use 'PDF' and attach the file to email.");
     }
   }
   

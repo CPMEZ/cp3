@@ -26,6 +26,7 @@
   <div class="helptext">touch the text of any item to change it</div> -->
 
   <div class="divHeader"><span (click)="editPlan()">{{plan.name}}</span>
+    <div style="margin-top: 10px;">
     <button class="tool" (click)="problemAdd()">
       <ion-icon name="medical"></ion-icon>
       <ion-icon name="add"></ion-icon>
@@ -34,9 +35,16 @@
       <ion-icon name="fastforward"></ion-icon>
       <ion-icon name="add"></ion-icon>
     </button>
-    <button class="tool">
+    <button class="tool" (click)="showPrint()">
+      <ion-icon name="share"></ion-icon>
+    </button>
+    <button class="tool" (click)="copyPlan()">
+      <ion-icon name="copy"></ion-icon>
+    </button>
+    <button class="trash">
       <ion-icon name="trash" (click)="deletePlan()"></ion-icon>
     </button>
+    </div>
   </div>
 
   <ion-grid>
@@ -65,13 +73,19 @@
               <div ion-item *ngFor="let g of p.goals">
                 <p class="goal">
                   <span (click)="goalEdit(g)">{{g.term}} {{g.text}}</span>
-                  <ion-icon class="trash" name="trash" (click)="goalDelete(p, g)"></ion-icon>
+                <button class="trash" (click)="goalDelete(p, g)">
+                  <ion-icon name="trash"></ion-icon>
+                </button>
+                  <!-- <ion-icon class="trash" name="trash" (click)="goalDelete(p, g)"></ion-icon> -->
                 </p>
               </div>
               <div ion-item *ngFor="let n of p.interventions">
                 <p class="intervention">
                   <span (click)="interventionEdit(n)">{{n.text}}</span>
-                  <ion-icon class="trash" name="trash" (click)="interventionDelete(p, n)"></ion-icon>
+                <button class="trash" (click)="interventionDelete(p, n)">
+                  <ion-icon name="trash"></ion-icon>
+                </button>
+                  <!-- <ion-icon class="trash" name="trash" (click)="interventionDelete(p, n)"></ion-icon> -->
                 </p>
                 <p class="discpline">
                   <em>{{discList(n)}}</em>
@@ -86,7 +100,7 @@
 
 </ion-content>
 
-<ion-footer class="footer">
+<!-- <ion-footer class="footer">
   <ion-grid>
     <ion-row no-padding no-margin>
       <ion-col col-12 no-padding>
@@ -109,4 +123,4 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-</ion-footer>
+</ion-footer> -->

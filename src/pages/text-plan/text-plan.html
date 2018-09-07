@@ -3,6 +3,16 @@
 
   <ion-navbar color="primary">
     <ion-title>Care Plan</ion-title>
+        <ion-buttons end>
+    <!-- <div *ngIf="plt.is('ios') || plt.is('android')">   // add this back in production -->
+      <button (click)="sendEmail()">
+        <ion-icon name="send"></ion-icon>
+      </button>
+    <!-- </div> -->
+    <button float-right (click)="createPdf(true)">
+      <ion-icon name="paper"></ion-icon>PDF
+    </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -24,13 +34,6 @@
 
 </ion-content>
 
-<ion-footer class="footer">
-  <!-- <div *ngIf="plt.is('ios') || plt.is('android')">   // add this back in production-->
-    <button (click)="sendEmail()">
-      <ion-icon name="send"></ion-icon> Email
-    </button>
-  <!-- </div> -->
-  <button float-right (click)="createPdf(true)">
-    <ion-icon name="paper"></ion-icon> Make a PDF
-  </button>
-</ion-footer>
+<!-- <ion-footer class="footer">
+
+</ion-footer> -->
