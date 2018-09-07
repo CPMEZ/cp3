@@ -13,7 +13,7 @@ import { CopyPage } from '../copy/copy';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { HelpPage } from '../help/help';
 import { LoginPage } from '../login/login';
-// import { TextPlanPage } from '../text-plan/text-plan';
+import { TextPlanPage } from '../text-plan/text-plan';
 
 @IonicPage()
 @Component({
@@ -209,9 +209,9 @@ export class ContentsPage {
   }
 
   showPrint() {
-    // this.navCtrl.push(TextPlanPage, {
-    //   plan: this.plan
-    // });
+    this.navCtrl.push(TextPlanPage, {
+      plan: this.plan
+    });
   }
 
   copyPlan() {

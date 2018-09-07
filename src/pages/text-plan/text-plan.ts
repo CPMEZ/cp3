@@ -153,7 +153,7 @@ export class TextPlanPage {
           this.fileOpener.open(this.file.dataDirectory + flnm, 'application/pdf');
         })
       });
-    } else {
+    } else if (this.plt.is('core')){
       // on browser
       this.pdfObj.download();
     }

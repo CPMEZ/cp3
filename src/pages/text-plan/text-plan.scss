@@ -25,12 +25,12 @@ page-text-plan {
     .h1text {
         font-size: 1.6rem;
     }
-    .footer {
-        background-color: color($colors, energy);
-        height: 2.4rem;
-    }
-    button{
+    button {
         color: color($colors, light);
-        background-color: color($colors, energy);
-    }    
+        background-color: color($colors, primary);
+        font-size: 1.4rem;
+    }
+    .footer {
+        background-color: color($colors, primary);
+    }
 }

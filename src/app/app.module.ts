@@ -5,6 +5,9 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 // import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { IonicStorageModule } from '@ionic/storage';
+import { File } from '@ionic-native/file';
+import { FileOpener } from '@ionic-native/file-opener';
+import { EmailComposer } from '@ionic-native/email-composer';
 
 import { MyApp } from './app.component';
 
@@ -32,6 +35,7 @@ import { CopyPage } from '../pages/copy/copy';
 import { TermsPage } from '../pages/terms/terms';
 import { LookupPage } from '../pages/lookup/lookup';
 import { SubscribePage } from '../pages/subscribe/subscribe';
+import { TextPlanPage } from '../pages/text-plan/text-plan';
 
 @NgModule({
   declarations: [
@@ -51,6 +55,7 @@ import { SubscribePage } from '../pages/subscribe/subscribe';
     EditGoalPage,
     EditInterventionPage,
     CopyPage,
+    TextPlanPage,
     HelpPage,
     TermsPage,
     SubscribePage,
@@ -79,6 +84,7 @@ import { SubscribePage } from '../pages/subscribe/subscribe';
     EditGoalPage,
     EditInterventionPage,
     CopyPage,
+    TextPlanPage,
     HelpPage,
     TermsPage,
     SubscribePage,
@@ -91,6 +97,9 @@ import { SubscribePage } from '../pages/subscribe/subscribe';
     PersonalPlansProvider,
     StatusBar,
     Storage,
+    File,
+    FileOpener,
+    EmailComposer,
     // SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
