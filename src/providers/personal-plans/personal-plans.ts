@@ -200,7 +200,7 @@ export class PersonalPlansProvider {
       this.LSP.get(STORAGE_KEY)
       .then((data) => {
         console.log('read from local');
-        console.log(data);
+        // console.log(data);
         if (data) {
           resolve(this.decrypt(data, this.secret))
         } else { 
