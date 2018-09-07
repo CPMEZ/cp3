@@ -21,9 +21,9 @@ export class HelpPage {
     this.navCtrl.pop();
   }
   
-  // terms() {
-  //   this.navCtrl.push(TermsPage);
-  // }
+  terms() {
+    this.navCtrl.push(TermsPage);
+  }
 
   subscribe() {
     this.navCtrl.push(SubscribePage);
