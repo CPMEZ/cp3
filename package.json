@@ -31,6 +31,7 @@
     "@types/crypto-js": "^3.1.43",
     "@types/pdfmake": "^0.1.1",
     "cordova": "^8.0.0",
+    "cordova-plugin-email-composer": "^0.8.15",
     "cordova-plugin-file": "^6.0.1",
     "cordova-plugin-file-opener2": "^2.0.19",
     "cordova-plugin-ionic": "^5.1.2",
@@ -59,6 +60,7 @@
         "UPDATE_METHOD": "background"
       },
       "cordova-sqlite-storage": {},
+      "cordova-plugin-email-composer": {},
       "cordova-plugin-file": {},
       "cordova-plugin-file-opener2": {}
     }

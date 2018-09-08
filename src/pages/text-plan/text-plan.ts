@@ -60,6 +60,7 @@ export class TextPlanPage {
   pdfObj = null;
 
   createPdf(download: boolean) {
+    console.log('pdf');
     var docDefinition = {
       content: [
         { text: "Care Plan: " + this.plan.name, style: "header" },
@@ -140,17 +141,24 @@ export class TextPlanPage {
     this.pdfObj = pdfMake.createPdf(docDefinition);
     if (download) { this.downloadPdf(); }
   }
-  
+  // WORKING HERE
   downloadPdf() {
     // if (this.plt.is('ios') || this.plt.is('android')) {
+      console.log('download');
     if (this.plt.is('mobile')) {
+      console.log(this.pdfObj);
       this.pdfObj.getBuffer((buffer) => {
         var blob = new Blob([buffer], { type: 'application/pdf' });
         // Save the PDF to the data Directory of our App
         const flnm = this.plan.name + 'cp.pdf';
         this.file.writeFile(this.file.dataDirectory, flnm, blob, { replace: true }).then(fileEntry => {
+          console.log('written');
+          console.log(this.file.dataDirectory);
+          console.log(flnm);
           // Open the PDf with the correct OS tools
-          this.fileOpener.open(this.file.dataDirectory + flnm, 'application/pdf');
+          this.fileOpener.open(this.file.dataDirectory + flnm, 'application/pdf')
+          .then( () => console.log('hooray'))
+          .catch( e => console.log('error', e));
         })
       });
     } else if (this.plt.is('core')){
@@ -158,29 +166,52 @@ export class TextPlanPage {
       this.pdfObj.download();
     }
   }
+  // downloadPdf() {
+  //   // if (this.plt.is('ios') || this.plt.is('android')) {
+  //     console.log('download');
+  //   if (this.plt.is('mobile')) {
+  //     this.pdfObj.getBuffer((buffer) => {
+  //       var blob = new Blob([buffer], { type: 'application/pdf' });
+  //       // Save the PDF to the data Directory of our App
+  //       const flnm = this.plan.name + 'cp.pdf';
+  //       this.file.writeFile(this.file.dataDirectory, flnm, blob, { replace: true }).then(fileEntry => {
+  //         console.log('written')
+  //         // Open the PDf with the correct OS tools
+  //         this.fileOpener.open(this.file.dataDirectory + flnm, 'application/pdf');
+  //       })
+  //     });
+  //   } else if (this.plt.is('core')){
+  //     // on browser
+  //     this.pdfObj.download();
+  //   }
+  // }
   
   sendEmail() {
     // console.log(this.getPlanText());
     console.log(this.plt.platforms());
+    // alert(this.plt.platforms());
     if (this.plt.is('mobile')) {  // no email if not on device
-      this.em.isAvailable().then((available: boolean) => {
-        if (available) {
-          this.em.hasPermission().then((granted: boolean) => {
-            if (granted) {
+      console.log('mobile');
+      this.em.isAvailable().then((hasAccount) => {
+        console.log('hasAccount', hasAccount);
+        // if (hasAccount) {
+          // this.em.hasPermission().then((granted: boolean) => {
+          //   console.log('granted', granted);
+          //   if (granted) {
               this.createMail();
-            } else {
-              this.em.requestPermission().then((granted: boolean) => {
-                if (granted) {
-                  this.createMail();
-                } else {
-                  alert('You have not permitted Red Book to email from your device.');
-                }
-              });
-            }
-          });          
-        } else {
-          alert("Email is not available.  Use 'PDF' and attach the file to email.");
-        }
+          //   } else {
+          //     this.em.requestPermission().then((granted: boolean) => {
+          //       if (granted) {
+          //         this.createMail();
+          //       } else {
+          //         alert('You have not permitted Red Book to email from your device.');
+          //       }
+          //     });
+          //   }
+          // });          
+        // } else {
+        //   alert("Email is not available.  Use 'PDF' and attach the file to email.");
+        // }
       });      
     } else {
       alert("If using a browser, automatic email is not available.  Use 'PDF' and attach the file to email.");
@@ -188,30 +219,36 @@ export class TextPlanPage {
   }
   
   createMail() {
+    console.log('create');
     this.em.open({
       to: '',
-      subject: this.plan.name,
+      subject: "Care Plan " + this.plan.name,
       body: this.getPlanText(),
       isHtml: false
     });
   }
   
   getPlanText(): string {
+    console.log('getPlanText');
     var text: string = "Care Plan:  " + this.plan.name + "\r\n";
     text += "Created:  " + this.plan.created + "     Updated:  " + this.plan.updated + "\r\n";
     text += "    " + this.plan.text + "\r\n";
     if (this.plan.problems) {
+      // console.log('# problems:',this.plan.problems.length);
       for (let i = 0; i < this.plan.problems.length; i++) {
         text+= this.plan.problems[i].text + "\r\n";
-        if (this.plan.problems.goals) {
+        if (this.plan.problems[i].goals) {
+          // console.log('# goals:',this.plan.problems[i].goals.length);
           // text+="   Outcomes";
           for (let j = 0; j < this.plan.problems[i].goals.length; j++) {
-            text += "    " + this.plan.problems[i].goals[j].term + 
-            " Outcome:  " +
-            this.plan.problems[i].goals[j].text + "\r\n";
+            text += "    ";
+            if (this.plan.problems[i].goals[j].term) { text += this.plan.problems[i].goals[j].term; }
+            text += " Outcome:  " +
+              this.plan.problems[i].goals[j].text + "\r\n";
           }
         }
-        if (this.plan.problems.interventions) {
+        if (this.plan.problems[i].interventions) {
+          // console.log('# interventions:', this.plan.problems[i].interventions.length);
           // text += "   Interventions";
           for (let k = 0; k < this.plan.problems[i].interventions.length; k++) {
             text += "    " + 

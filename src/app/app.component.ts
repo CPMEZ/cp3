@@ -8,15 +8,19 @@ import { WelcomePage } from '../pages/welcome/welcome';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage: any = WelcomePage;
-
+  rootPage: any;
+  timer: any;
   // constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
-  constructor(platform: Platform, statusBar: StatusBar) {
-    platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
-      statusBar.styleDefault();
-      // splashScreen.hide();
+    constructor(platform: Platform, statusBar: StatusBar) {
+      platform.ready().then(() => {
+        this.timer = setTimeout(() => {
+          // just wait a bit, see if that cures plugin problems
+          this.rootPage = WelcomePage;
+          // Okay, so the platform is ready and our plugins are available.
+          // Here you can do any higher level native things you might need.
+          statusBar.styleDefault();
+          // splashScreen.hide();
+        }, 200);
     });
   }
 }
