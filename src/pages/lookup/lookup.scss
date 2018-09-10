@@ -1,6 +1,6 @@
 page-lookup {
     .problems {
-        color: red;
+        color:color($colors, primary);
     }
     .goals {
         color: green;
@@ -13,7 +13,7 @@ page-lookup {
         margin-left: 0.2rem;
         margin-right: 0.6rem;        
         color: white;
-        background-color: red;
+        background-color: color($colors, primary) ;
     }
 
     .tool {
@@ -21,7 +21,7 @@ page-lookup {
         margin-left: 1.0rem;
         margin-right: 0.6rem;
         color: white;
-        background-color: red;
+        background-color:color($colors, primary);
     }
 
 }

@@ -13,7 +13,7 @@ page-contents {
         white-space: normal;
     }
     .problem {
-        color: red;
+        color: color($colors, primary);
     }
     .goal {
         color: green;
