@@ -38,11 +38,13 @@ export class CarePlanPage {
       });
     }
     
-  // editPlan(plan) {
-  //   this.navCtrl.push(EditPlanPage, {
-  //     plan: plan
-  //   });
-  // }
+  pushToWeb() {
+    this.PPP.saveToWeb();
+  }
+
+  pullFromWeb() {
+    this.PPP.loadPlansWeb();
+  }
 
   help() {
     this.navCtrl.push(HelpPage);
