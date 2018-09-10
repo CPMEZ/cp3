@@ -59,4 +59,5 @@
     <plugin name="cordova-plugin-email-composer" spec="^0.8.15" />
     <plugin name="cordova-plugin-file" spec="^6.0.1" />
     <plugin name="cordova-plugin-file-opener2" spec="^2.0.19" />
+    <engine name="ios" spec="~4.5.5" />
 </widget>
