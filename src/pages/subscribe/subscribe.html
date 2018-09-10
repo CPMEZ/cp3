@@ -22,6 +22,27 @@
     <ion-label stacked>Verify Password</ion-label>
     <ion-input type="password" [(ngModel)]="pwdVer"></ion-input>
   </ion-item>
-  <button ion-button *ngIf="pwd==pwdVer" (click)="editDone()">Subscribe</button>
+  <ion-item>
+    Encryption Key will be used to make your care plans safe in the cloud.
+  </ion-item>
+  <ion-item>
+    Your content is encrypted on your device, before it is uploaded, so it is always secure while in transit and when stored in the cloud.
+  </ion-item>
+  <ion-item>
+    We suggest 20 characters or more, and memorable, such as a line from a favorite song.
+  </ion-item>
+  <br>
+  <ion-item>
+    After successfully subscribing, you will need to sign in with your new User Id and Password.
+  </ion-item>
+  <ion-item>
+    <ion-label stacked>Choose an Encryption Key</ion-label>
+    <ion-input type="password" [(ngModel)]="mykey"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label stacked>Verify Encryption Key</ion-label>
+    <ion-input type="password" [(ngModel)]="mykeyVer"></ion-input>
+  </ion-item>
+  <button ion-button *ngIf="pwd==pwdVer && mykey==mykeyVer" (click)="subscribe()">Subscribe</button>
   <button ion-button (click)="cancelEdit()">Cancel</button>
 </ion-content>
