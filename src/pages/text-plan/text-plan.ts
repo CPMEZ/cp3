@@ -146,19 +146,43 @@ export class TextPlanPage {
     // if (this.plt.is('ios') || this.plt.is('android')) {
       console.log('download');
     if (this.plt.is('mobile')) {
-      console.log(this.pdfObj);
+      // console.log(this.pdfObj);
+      // console.log(JSON.stringify(this.pdfObj));
+      // const flnm = 'Desc.pdf';
+      // const dd = 'file:///Android/data/io.ionic.devapp/';
+      // const dd = 'file:///Android/data/io.ionic.devapp/files/';
+      // const dd = this.file.externalDataDirectory;
+      // console.log('sure:', dd);
+      // // this.file.checkDir(dd, 'Test')
+      // this.file.checkFile(dd, flnm)
+      // // this.file.readAsText(this.file.externalDataDirectory, flnm)
+      // // this.file.readAsText(dd, flnm)
+      // // this.fileOpener.open(this.file.externalDataDirectory + flnm, 'application/pdf')
+      //   .then(() => console.log('hooray'))
+      //   .catch(e => console.log('error', JSON.stringify(e)));
+      var dd: string;
+      if (this.plt.is('ios')) {
+        dd = this.file.documentsDirectory;  // verify we can see these docs
+      } else if (this.plt.is('android')) {
+        dd = this.file.externalDataDirectory;
+      }
+      console.log('sure:', dd);
       this.pdfObj.getBuffer((buffer) => {
         var blob = new Blob([buffer], { type: 'application/pdf' });
         // Save the PDF to the data Directory of our App
-        const flnm = this.plan.name + 'cp.pdf';
-        this.file.writeFile(this.file.dataDirectory, flnm, blob, { replace: true }).then(fileEntry => {
+        const flnm = this.formatFileName(this.plan.name) + '_CP.pdf';
+        console.log(flnm);
+        this.file.writeFile(dd, flnm, blob, { replace: true }).then(fileEntry => {
           console.log('written');
-          console.log(this.file.dataDirectory);
+          console.log(dd);
           console.log(flnm);
-          // Open the PDf with the correct OS tools
-          this.fileOpener.open(this.file.dataDirectory + flnm, 'application/pdf')
-          .then( () => console.log('hooray'))
-          .catch( e => console.log('error', e));
+          // Open the pdf (not supported on DevApp)
+          // this.plt.ready().then(() => {
+            console.log('in plt.ready');
+            this.fileOpener.open(dd + flnm, 'application/pdf')
+              .then( () => console.log('hooray'))
+              .catch(e => console.log('error', JSON.stringify(e)));
+          // })
         })
       });
     } else if (this.plt.is('core')){
@@ -166,26 +190,15 @@ export class TextPlanPage {
       this.pdfObj.download();
     }
   }
-  // downloadPdf() {
-  //   // if (this.plt.is('ios') || this.plt.is('android')) {
-  //     console.log('download');
-  //   if (this.plt.is('mobile')) {
-  //     this.pdfObj.getBuffer((buffer) => {
-  //       var blob = new Blob([buffer], { type: 'application/pdf' });
-  //       // Save the PDF to the data Directory of our App
-  //       const flnm = this.plan.name + 'cp.pdf';
-  //       this.file.writeFile(this.file.dataDirectory, flnm, blob, { replace: true }).then(fileEntry => {
-  //         console.log('written')
-  //         // Open the PDf with the correct OS tools
-  //         this.fileOpener.open(this.file.dataDirectory + flnm, 'application/pdf');
-  //       })
-  //     });
-  //   } else if (this.plt.is('core')){
-  //     // on browser
-  //     this.pdfObj.download();
-  //   }
-  // }
+
+  formatFileName(f: string): string {
+    // special characters
+    // return f.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '_');
+    // keep numbers and letters only
+    return f.replace(/[^a-zA-Z0-9]/g, '_');
+  }
   
+
   sendEmail() {
     // console.log(this.getPlanText());
     console.log(this.plt.platforms());

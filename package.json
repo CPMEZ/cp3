@@ -38,6 +38,7 @@
     "cordova-sqlite-storage": "^2.4.0",
     "crypto-js": "^3.1.9-1",
     "install": "^0.12.1",
+    "ionic": "^4.1.2",
     "ionic-angular": "3.9.2",
     "ionicons": "3.0.0",
     "npm": "^6.4.1",
