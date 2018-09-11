@@ -249,15 +249,6 @@ export class PersonalPlansProvider {
     return p;
   }
 
-  // changeSecret(newsecret) {
-  //   this.secret = newsecret;
-  //   return this.LSP.ready()
-  //     .then(() => {
-  //       return this.LSP.set(this.storekey,
-  //         this.encrypt(this.localData ? this.localData : '', this.secret));
-  //     })
-  // }
-
   encrypt(data: {}, key: string): string {
     console.log("encrypting");
     return CryptoJS.AES.encrypt(JSON.stringify(data), key).toString();
@@ -270,3 +261,12 @@ export class PersonalPlansProvider {
   }
 
 }
+
+  // changeSecret(newsecret) {
+  //   this.secret = newsecret;
+  //   return this.LSP.ready()
+  //     .then(() => {
+  //       return this.LSP.set(this.storekey,
+  //         this.encrypt(this.localData ? this.localData : '', this.secret));
+  //     })
+  // }
