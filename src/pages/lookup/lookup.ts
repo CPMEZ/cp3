@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, LoadingController, NavController, NavParams } from 'ionic-angular';
 import { MasterPlansProvider } from '../../providers/master-plans/master-plans';
 import { HelpPage } from '../help/help';
 
@@ -17,6 +17,7 @@ export class LookupPage {
   item: any;
 
   constructor(public navCtrl: NavController, 
+    private lc: LoadingController,
     public navParams: NavParams, 
     public MPP: MasterPlansProvider) {
       this.types = this.navParams.get('types');
@@ -35,8 +36,14 @@ export class LookupPage {
   }
 
   getList() {
+    // wait indicator
+    let loading = this.lc.create({
+      content: 'Getting the list...'
+    });
+    loading.present();
     this.MPP.getMaster(this.types, this.searchTerm)
       .then((data) => {
+        loading.dismiss();
         const d = JSON.parse(data);
         this.itemsList = d[this.types];  
         // console.log(this.itemsList);
@@ -47,6 +54,19 @@ export class LookupPage {
     this.MPP.listSelection = which;
     this.navCtrl.pop();
   }
+
+  presentLoadingDefault() {
+    let loading = this.lc.create({
+      content: 'Getting the list...'
+    });
+
+    loading.present();
+
+    // setTimeout(() => {
+    //   loading.dismiss();
+    // }, 5000);
+  }
+
 
   help() {
     this.navCtrl.push(HelpPage);
