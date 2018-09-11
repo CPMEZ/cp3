@@ -21,10 +21,14 @@
           <!-- <button *ngIf="!acceptedTerms" ion-button (click)="terms()">
             Start Here:  Application Terms & Conditions
           </button>         -->
-          <button ion-button icon-right (click)="continue()">
+          <button *ngIf="conn.internet && auth.userLoggedIn" ion-button icon-right (click)="alreadyLoggedIn()">
+            Welcome Back! You're logged in.
+          </button>
+          <button *ngIf="conn.internet && !auth.userLoggedIn" ion-button icon-right (click)="login()">
             Log In
-          </button><br>
-          <button ion-button icon-right (click)="gotoPlans()">
+          </button>
+          <br>
+          <button ion-button *ngIf="!conn.internet" icon-right (click)="workOffline()">
             Work Offline
           </button>
       </ion-col>

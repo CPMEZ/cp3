@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { LoginPage } from '../login/login';
 import { CarePlanPage } from '../careplan/careplan';
+import { ConnectionProvider } from '../../providers/connection/connection';
 
 @IonicPage()
 @Component({
@@ -11,21 +13,31 @@ import { CarePlanPage } from '../careplan/careplan';
 export class WelcomePage {
 
   acceptedTerms = false;
+  onLine = false;
 
   constructor(public navCtrl: NavController, 
-    public navParams: NavParams) {
+    public navParams: NavParams,
+    private auth: AuthenticationProvider,
+    public conn:  ConnectionProvider) {
+      if (this.auth.alreadyLoggedIn()) {
+        this.auth.checkSubscription();
+      }
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad WelcomePage');
   }
 
-  continue() {
-    this.navCtrl.push(LoginPage);
+  alreadyLoggedIn() {
+    this.navCtrl.setRoot(CarePlanPage);
+  }
+
+  login() {
+    this.navCtrl.setRoot(LoginPage);
   }
   
-  gotoPlans() {
-    this.navCtrl.push(CarePlanPage);
+  workOffline() {
+    this.navCtrl.setRoot(CarePlanPage);
   }
 
 }
