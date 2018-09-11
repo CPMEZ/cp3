@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Toast } from '@ionic-native/toast';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { LookupPage } from '../lookup/lookup';
@@ -17,7 +18,8 @@ export class AddProblemPage {
   problem: {} = {};
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    private alertCtrl: AlertController,    
+    private alertCtrl: AlertController,
+    private toast: Toast,    
     public PPP: PersonalPlansProvider,
     public MPP: MasterPlansProvider,
     public auth: AuthenticationProvider) {
@@ -62,6 +64,9 @@ export class AddProblemPage {
     const d: Date = new Date();
     this.plan.updated = d.toLocaleDateString();
     this.plan.problems.push(this.problem);
+    // if (this.plt.is('cordova')) {
+    this.toast.show('Topic Added', '1500', 'center').subscribe( t => {});
+    // }
     this.navCtrl.pop();
   }
   cancelEdit() {

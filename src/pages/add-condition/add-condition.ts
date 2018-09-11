@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Toast } from '@ionic-native/toast';
 import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 import { MasterPlansProvider } from '../../providers/master-plans/master-plans';
@@ -20,6 +21,7 @@ export class AddConditionPage {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private alertCtrl: AlertController,
+    private toast: Toast,
     public PPP: PersonalPlansProvider,
     public MPP: MasterPlansProvider,
     public auth: AuthenticationProvider) {
@@ -69,6 +71,9 @@ export class AddConditionPage {
     const d: Date = new Date();
     this.plan.updated = d.toLocaleDateString();
     if (this.condition) this.populateProblems();
+    // if (this.plt.is('cordova')) {
+    this.toast.show('Added ' + this.condition["text"], '1500', 'center').subscribe( t => {});
+    // }
     this.navCtrl.pop();
   }
   cancelEdit() {

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Toast } from '@ionic-native/toast';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 import { HelpPage } from '../help/help';
 import { LoginPage } from '../login/login';
@@ -16,6 +17,7 @@ export class AddPlanPage {
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
     private alertCtrl: AlertController,
+    private toast: Toast,    
     public auth: AuthenticationProvider, 
     public PPP: PersonalPlansProvider) {
   }
@@ -30,6 +32,9 @@ export class AddPlanPage {
     this.newPlan.created = d.toLocaleDateString();
     this.newPlan.updated = d.toLocaleDateString();
     this.PPP.addPlan(this.newPlan);
+    // if (this.plt.is('cordova')) {
+    this.toast.show('Added ' + this.newPlan['name'], '1500', 'center').subscribe( t => {});
+    // }    
     this.navCtrl.pop();
   }
 

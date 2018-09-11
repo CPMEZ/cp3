@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Toast } from '@ionic-native/toast';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 import { MasterPlansProvider } from '../../providers/master-plans/master-plans';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
@@ -18,7 +19,8 @@ export class AddGoalPage {
   goal: {} = {};
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    private alertCtrl: AlertController,    
+    private alertCtrl: AlertController,
+    private toast: Toast,
     public PPP: PersonalPlansProvider,
     public MPP: MasterPlansProvider,
     public auth: AuthenticationProvider) {
@@ -57,6 +59,9 @@ export class AddGoalPage {
     const d: Date = new Date();
     this.plan.updated = d.toLocaleDateString();
     this.problem.goals.push(this.goal);
+    // if (this.plt.is('cordova')) {
+    this.toast.show('Outcome Added', '1500', 'center').subscribe( t => {});
+    // }    
     this.navCtrl.pop();
   }
   cancelEdit() {
