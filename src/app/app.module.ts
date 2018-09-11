@@ -9,6 +9,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { File } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener';
 import { EmailComposer } from '@ionic-native/email-composer';
+import { Toast } from '@ionic-native/toast';
 
 import { MyApp } from './app.component';
 
@@ -37,6 +38,8 @@ import { TermsPage } from '../pages/terms/terms';
 import { LookupPage } from '../pages/lookup/lookup';
 import { SubscribePage } from '../pages/subscribe/subscribe';
 import { TextPlanPage } from '../pages/text-plan/text-plan';
+import { ConnectionProvider } from '../providers/connection/connection';
+import { Network } from '@ionic-native/network';
 
 @NgModule({
   declarations: [
@@ -101,8 +104,11 @@ import { TextPlanPage } from '../pages/text-plan/text-plan';
     File,
     FileOpener,
     EmailComposer,
+    Toast,
+    Network,
     // SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    ConnectionProvider
   ]
 })
 export class AppModule {}
