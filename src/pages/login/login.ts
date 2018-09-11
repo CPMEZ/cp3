@@ -23,9 +23,9 @@ export class LoginPage {
     public MPP: MasterPlansProvider, 
     private auth: AuthenticationProvider) {
       this.userId = this.auth.userId;
-      this.pwd = this.auth.pwd;
+      // TODO remove this, so they always have to provide at least the pwd
+      // this.pwd = this.auth.pwd;  
       console.log('Login constructor: user', this.userId);
-      console.log('Login constructor: pwd', this.pwd);
   }
   
   ionViewDidLoad() {
