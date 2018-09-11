@@ -8,14 +8,13 @@ import { Platform } from 'ionic-angular';
 import CryptoJS from 'crypto-js';
 
 const STORAGE_KEY = 'plans';
-const ENCRYPT_KEY = 'A little life with dried tubers'  // ts eliot the waste land, line 7
 
 @Injectable()
 export class PersonalPlansProvider {
   lastWrite: string;
   plans: {}[] = [];
   secret: string;
-  storeKey: string = ENCRYPT_KEY;
+  storeKey: string;
 
   constructor(private http: HttpClient,
     private LSP: LocalStoreProvider,
@@ -24,7 +23,7 @@ export class PersonalPlansProvider {
     private pltfrm: Platform) {
     console.log('Constructor PersonalPlansProvider Provider');
     this.secret = auth.userKey;
-    // this.loadPlans();
+    this.storeKey = auth.encryptKey;
   }
 
   local: {};
