@@ -2,7 +2,7 @@
 <ion-header>
 
   <ion-navbar color="primary">
-  <div style="text-align: left; color: white">Care Plans</div>
+  <div style="text-align: left; color: white; font-size: 2.0rem;">Care Plans</div>
   <!-- <ion-toolbar color="primary"> -->
     <ion-buttons end>
       <button ion-button *ngIf="!auth.userLoggedIn" (click)="login()">
@@ -28,8 +28,8 @@
 
 
 <ion-content padding>
-  <div class="helptext">touch the name or the icon <ion-icon name="create" class="tool"></ion-icon>to work with the contents of a plan</div>
-    <br>
+  <!-- <div class="helptext">touch the name or the icon <ion-icon name="create" class="tool"></ion-icon>to work with the contents of a plan</div>
+    <br> -->
   <button ion-button icon-left (click)="addPlan()">
     <ion-icon name="add"></ion-icon>
     Add Care Plan

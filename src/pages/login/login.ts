@@ -32,7 +32,7 @@ export class LoginPage {
     console.log('ionViewDidLoad LoginPage');
   }
   
-  editDone() {
+  login() {
     this.auth.userId = this.userId;
     this.auth.pwd = this.pwd;
     console.log('after Login editDone: user', this.auth.userId);
