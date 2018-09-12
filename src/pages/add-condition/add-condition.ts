@@ -7,6 +7,7 @@ import { AuthenticationProvider } from '../../providers/authentication/authentic
 import { LookupPage } from '../lookup/lookup';
 import { HelpPage } from '../help/help';
 import { LoginPage } from '../login/login';
+import { ArrayType } from '@angular/compiler/src/output/output_ast';
 
 @IonicPage()
 @Component({
@@ -56,15 +57,66 @@ export class AddConditionPage {
   populateProblems() {
     // get the list of problems associated with a condition,
     // add the list to the plan
+
     this.MPP.getMaster(this.condition["file"])
       .then(data => {
         const cond: {} = JSON.parse(data);
-        cond["condition"]["problems"].forEach(p => {
+        this.mergeProblems(cond);
+      });
+  }
+  
+  mergeProblems(cond) {
+    if (this.plan.problems.length > 0) {
+      // if the plan is not currently empty, 
+      // merge into existing problems
+      cond["condition"]["problems"].forEach(p => {
+        let found = false;
+        for (var i = 0; i < this.plan.problems.length; i++) {
+          // problem in newly-added condition already in the plan?
+          if (this.plan.problems[i].text === p["text"]) {
+            found = true;
+            // these lines will cause problem to which we've added to be expanded
+            p["icon"] = "arrow-dropdown";
+            p["expanded"] = true;
+            // add all the goals and interventions to the existing problem
+            console.log("goals");
+            this.addNewItems(p["goals"],  "text", this.plan.problems[i].goals);
+            console.log("interventions");
+            this.addNewItems(p["interventions"], "text", this.plan.problems[i].interventions);
+            break;  // no need to look further
+          }
+        }
+        if (!found) {  // never found it, add the whole problem
           p["icon"] = "arrow-dropdown";
           p["expanded"] = true;
           this.plan.problems.push(p);
-        });
-      });
+        }
+      })
+    }
+  }
+
+  addNewItems(source: Array<object>, element: string, arr: Array<object>) {
+    // only insert items not already found
+    var work = source;
+    var found;
+    for (var i = 0; i < arr.length; i++) {
+      found = undefined;
+      for (var j = 0; j < work.length; j++) {
+        if (work[j][element] == arr[i][element]) {
+          found = j;
+        }
+      }
+      if (found < work.length) {
+        // remove from working array
+        work.splice(found, 1);
+      }
+    };
+    // now add the remaining
+    if (work.length > 0) {
+      for (var k = 0; k < work.length; k++) {
+        arr.push(work[k]);
+      } 
+    }
   }
 
   editDone() {
