@@ -7,7 +7,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { StatusBar } from '@ionic-native/status-bar';
 import { IonicStorageModule } from '@ionic/storage';
 import { File } from '@ionic-native/file';
-import { FileOpener } from '@ionic-native/file-opener';
 import { EmailComposer } from '@ionic-native/email-composer';
 import { Toast } from '@ionic-native/toast';
 
@@ -40,6 +39,7 @@ import { SubscribePage } from '../pages/subscribe/subscribe';
 import { TextPlanPage } from '../pages/text-plan/text-plan';
 import { ConnectionProvider } from '../providers/connection/connection';
 import { Network } from '@ionic-native/network';
+import { DocumentViewer } from '@ionic-native/document-viewer';
 
 @NgModule({
   declarations: [
@@ -99,16 +99,16 @@ import { Network } from '@ionic-native/network';
     LocalStoreProvider,
     MasterPlansProvider,
     PersonalPlansProvider,
+    ConnectionProvider,
     StatusBar,
     Storage,
     File,
-    FileOpener,
     EmailComposer,
+    DocumentViewer,
     Toast,
     Network,
     // SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    ConnectionProvider
   ]
 })
 export class AppModule {}

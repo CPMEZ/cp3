@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { File } from '@ionic-native/file';
-import { FileOpener } from '@ionic-native/file-opener';
 import { EmailComposer } from '@ionic-native/email-composer';
+import { DocumentViewer } from '@ionic-native/document-viewer';
 
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 
@@ -23,7 +23,7 @@ export class TextPlanPage {
     public PPP: PersonalPlansProvider,
     private plt: Platform,
     private file: File,
-    private fileOpener: FileOpener,
+    private dv: DocumentViewer,
     private em: EmailComposer) {
     this.plan = navParams.get('plan');
   }
@@ -179,10 +179,9 @@ export class TextPlanPage {
           // Open the pdf (not supported on DevApp)
           // this.plt.ready().then(() => {
             console.log('in plt.ready');
-            this.fileOpener.open(dd + flnm, 'application/pdf')
-              .then( () => console.log('hooray'))
-              .catch(e => console.log('error', JSON.stringify(e)));
-          // })
+          const opts = { title: this.plan.name, email: { enabled: true }, print: { enabled: true }, search: { enabled: true } };
+            this.dv.viewDocument(dd+flnm, 'application/pdf', 
+              opts)
         })
       });
     } else if (this.plt.is('core')){
