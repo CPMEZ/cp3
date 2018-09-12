@@ -1,13 +1,13 @@
 {
   "name": "cp3",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "Ionic Framework",
   "homepage": "http://ionicframework.com/",
   "private": true,
   "scripts": {
     "start": "ionic-app-scripts serve",
     "clean": "ionic-app-scripts clean",
-    "build": "ionic-app-scripts build",
+    "build": "ionic-app-scripts build",  
     "lint": "ionic-app-scripts lint"
   },
   "dependencies": {
