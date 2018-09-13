@@ -23,11 +23,11 @@ export class MyApp {
           // Here you can do any higher level native things you might need.
           statusBar.styleDefault();
           // splashScreen.hide();
+          console.log('cordova?', platform.is('cordova'));
           // is this a good place to subscribe to network connection?
           conn.checkConnection();
           console.log('connection subscribe');
           conn.connectionSubscribe();
-          console.log('cordova?', platform.is('cordova'));
         }, 200);
     });
   }
