@@ -32,7 +32,7 @@
     <p>You may create an "empty" plan and <br>add problems, goals, and interventions to it later.  <span *ngIf="auth.userLoggedIn">You may also add conditions from the Red Book.</span> The new plan will be shown below other plans in your list.</p>
     </ion-item>
       <ion-item no-lines>
-        <button ion-button (click)="addPlan()">Add an Empty Plan</button>
+        <button ion-button [disabled]="!newPlan.name" (click)="addPlan()">Add an Empty Plan</button>
       </ion-item>
       <ion-item no-lines>
     <p>Or you may copy an existing Plan<br> to make a new Plan.  Open the Plan you<br> want to copy, and select copy <ion-icon name="copy"></ion-icon> (below the plan name, near the top of the page.)</p>

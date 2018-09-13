@@ -61,10 +61,22 @@ export class AddConditionPage {
     this.MPP.getMaster(this.condition["file"])
       .then(data => {
         const cond: {} = JSON.parse(data);
-        this.mergeProblems(cond);
+        if (this.plan.problems.length > 0) {  // some problems already, therefore merge
+          this.mergeProblems(cond);
+        } else {  // no problems at all yet, just add from selected condition
+          this.addProblems(cond);
+        }
       });
   }
   
+  addProblems(cond){
+    cond["condition"]["problems"].forEach(p => {
+      p["icon"] = "arrow-dropdown";
+      p["expanded"] = true;
+      this.plan.problems.push(p);
+    });
+  }
+
   mergeProblems(cond) {
     if (this.plan.problems.length > 0) {
       // if the plan is not currently empty, 

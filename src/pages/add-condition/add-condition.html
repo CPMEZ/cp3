@@ -30,7 +30,7 @@
   </ion-item>
   <ion-item>
   </ion-item>
-  <button ion-button (click)="editDone()">Save</button>
+  <button ion-button [disabled]="!condition.text" (click)="editDone()">Save</button>
   <button ion-button (click)="cancelEdit()">Cancel</button>
   <br>
   <p>

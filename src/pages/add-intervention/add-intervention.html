@@ -92,7 +92,7 @@
     <ion-input type="text" placeholder="Other Discplines"  [(ngModel)]="intervention.other">
     </ion-input>
   </ion-item>
-  <button ion-button (click)="editDone()">Save</button>
+  <button ion-button [disabled]="!intervention.text" (click)="editDone()">Save</button>
   <button ion-button (click)="cancelEdit()">Cancel</button>
 </ion-content>
 
