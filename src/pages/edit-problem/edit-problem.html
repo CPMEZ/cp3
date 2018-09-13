@@ -31,6 +31,6 @@
   <ion-item>
     <p class="hint">{{problem.hint}}</p>
   </ion-item>
-  <button ion-button (click)="editDone()">Save</button>
+  <button ion-button [disabled]="!problem.text" (click)="editDone()">Save</button>
   <button ion-button (click)="cancelEdit()">Cancel</button>
 </ion-content>
