@@ -3,17 +3,23 @@
 
   <ion-navbar color="primary">
     <ion-title>Care Plan</ion-title>
+  </ion-navbar>
+    <ion-toolbar class="toolbar" color="primary">
         <ion-buttons end>
     <!-- <div *ngIf="plt.is('ios') || plt.is('android')">   // add this back in production -->
-      <button (click)="sendEmail()">
+      <button ion-button (click)="toClipboard()">
+        <ion-icon name="clipboard"></ion-icon>
+      </button>
+      <button ion-button (click)="sendEmail()">
         <ion-icon name="send"></ion-icon>
       </button>
     <!-- </div> -->
-    <button float-right (click)="createPdf(true)">
+    <!-- <button float-right (click)="createPdf(true)"> -->
+    <button ion-button (click)="createPdf(true)">
       <ion-icon name="paper"></ion-icon>PDF
     </button>
     </ion-buttons>
-  </ion-navbar>
+    </ion-toolbar>
 
 </ion-header>
 

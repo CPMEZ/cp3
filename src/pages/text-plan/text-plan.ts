@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { File } from '@ionic-native/file';
 import { EmailComposer } from '@ionic-native/email-composer';
 import { DocumentViewer } from '@ionic-native/document-viewer';
+import { Clipboard } from '@ionic-native/clipboard';
 
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 
@@ -20,11 +21,12 @@ export class TextPlanPage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    public PPP: PersonalPlansProvider,
+    private clpbrd: Clipboard,
     private plt: Platform,
     private file: File,
     private dv: DocumentViewer,
-    private em: EmailComposer) {
+    private em: EmailComposer,
+    public PPP: PersonalPlansProvider) {
     this.plan = navParams.get('plan');
   }
 
@@ -146,20 +148,6 @@ export class TextPlanPage {
     // if (this.plt.is('ios') || this.plt.is('android')) {
       console.log('download');
     if (this.plt.is('mobile')) {
-      // console.log(this.pdfObj);
-      // console.log(JSON.stringify(this.pdfObj));
-      // const flnm = 'Desc.pdf';
-      // const dd = 'file:///Android/data/io.ionic.devapp/';
-      // const dd = 'file:///Android/data/io.ionic.devapp/files/';
-      // const dd = this.file.externalDataDirectory;
-      // console.log('sure:', dd);
-      // // this.file.checkDir(dd, 'Test')
-      // this.file.checkFile(dd, flnm)
-      // // this.file.readAsText(this.file.externalDataDirectory, flnm)
-      // // this.file.readAsText(dd, flnm)
-      // // this.fileOpener.open(this.file.externalDataDirectory + flnm, 'application/pdf')
-      //   .then(() => console.log('hooray'))
-      //   .catch(e => console.log('error', JSON.stringify(e)));
       var dd: string;
       if (this.plt.is('ios')) {
         dd = this.file.documentsDirectory;  // verify we can see these docs
@@ -197,6 +185,9 @@ export class TextPlanPage {
     return f.replace(/[^a-zA-Z0-9]/g, '_');
   }
   
+  toClipboard() {
+    this.clpbrd.copy(this.getPlanText());
+  }
 
   sendEmail() {
     // console.log(this.getPlanText());
@@ -206,24 +197,7 @@ export class TextPlanPage {
       console.log('mobile');
       this.em.isAvailable().then((hasAccount) => {
         console.log('hasAccount', hasAccount);
-        // if (hasAccount) {
-          // this.em.hasPermission().then((granted: boolean) => {
-          //   console.log('granted', granted);
-          //   if (granted) {
-              this.createMail();
-          //   } else {
-          //     this.em.requestPermission().then((granted: boolean) => {
-          //       if (granted) {
-          //         this.createMail();
-          //       } else {
-          //         alert('You have not permitted Red Book to email from your device.');
-          //       }
-          //     });
-          //   }
-          // });          
-        // } else {
-        //   alert("Email is not available.  Use 'PDF' and attach the file to email.");
-        // }
+        this.createMail();
       });      
     } else {
       alert("If using a browser, automatic email is not available.  Use 'PDF' and attach the file to email.");
@@ -275,3 +249,39 @@ export class TextPlanPage {
   }
 
 }
+
+      // console.log(this.pdfObj);
+      // console.log(JSON.stringify(this.pdfObj));
+      // const flnm = 'Desc.pdf';
+      // const dd = 'file:///Android/data/io.ionic.devapp/';
+      // const dd = 'file:///Android/data/io.ionic.devapp/files/';
+      // const dd = this.file.externalDataDirectory;
+      // console.log('sure:', dd);
+      // // this.file.checkDir(dd, 'Test')
+      // this.file.checkFile(dd, flnm)
+      // // this.file.readAsText(this.file.externalDataDirectory, flnm)
+      // // this.file.readAsText(dd, flnm)
+      // // this.fileOpener.open(this.file.externalDataDirectory + flnm, 'application/pdf')
+      //   .then(() => console.log('hooray'))
+      //   .catch(e => console.log('error', JSON.stringify(e)));
+
+
+
+// if (hasAccount) {
+// this.em.hasPermission().then((granted: boolean) => {
+//   console.log('granted', granted);
+//   if (granted) {
+// this.createMail();
+          //   } else {
+          //     this.em.requestPermission().then((granted: boolean) => {
+          //       if (granted) {
+          //         this.createMail();
+          //       } else {
+          //         alert('You have not permitted Red Book to email from your device.');
+          //       }
+          //     });
+          //   }
+          // });          
+        // } else {
+        //   alert("Email is not available.  Use 'PDF' and attach the file to email.");
+        // }

@@ -40,6 +40,7 @@ import { TextPlanPage } from '../pages/text-plan/text-plan';
 import { ConnectionProvider } from '../providers/connection/connection';
 import { Network } from '@ionic-native/network';
 import { DocumentViewer } from '@ionic-native/document-viewer';
+import { Clipboard } from '@ionic-native/clipboard';
 
 @NgModule({
   declarations: [
@@ -107,6 +108,7 @@ import { DocumentViewer } from '@ionic-native/document-viewer';
     DocumentViewer,
     Toast,
     Network,
+    Clipboard,
     // SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
   ]
