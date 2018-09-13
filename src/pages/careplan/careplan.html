@@ -2,8 +2,10 @@
 <ion-header>
 
   <ion-navbar color="primary">
-  <div style="text-align: left; color: white; font-size: 1.8rem; font-weight: bold;">Care Plans</div>
-  <!-- <ion-toolbar color="primary"> -->
+    <ion-navbar color="primary">
+      <ion-title>Care Plans</ion-title>
+    </ion-navbar>
+    <ion-toolbar class="toolbar" color="primary">
     <ion-buttons end>
       <button ion-button *ngIf="!auth.userLoggedIn" (click)="login()">
         <ion-icon name="unlock"></ion-icon>
@@ -21,7 +23,7 @@
         <ion-icon name="help"></ion-icon>
       </button>
     </ion-buttons>
-    <!-- </ion-toolbar> -->
+    </ion-toolbar>
   </ion-navbar>
 
 </ion-header>
