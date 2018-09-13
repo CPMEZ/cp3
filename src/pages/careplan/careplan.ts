@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController, IonicPage, LoadingController, NavController, NavParams } from 'ionic-angular';
+import { AlertController, IonicPage, LoadingController, NavController, NavParams, Platform } from 'ionic-angular';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { ContentsPage } from '../contents/contents';
@@ -16,17 +16,21 @@ export class CarePlanPage {
 
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
+    private plt: Platform,
     private alertCtrl: AlertController,
-    private lc: LoadingController,
+    private loadCtrl: LoadingController,
     public auth: AuthenticationProvider,
     public PPP: PersonalPlansProvider ) {
+      this.plt.pause.subscribe(() => {
+          this.PPP.write();
+        });
     }
     
     ionViewDidLoad() {
       console.log('ionViewDidLoad CareplanPage');
       console.log('loading plans');
       // wait indicator
-      let loading = this.lc.create({
+      let loading = this.loadCtrl.create({
         content: 'Getting the list...'
       });
       loading.present();
