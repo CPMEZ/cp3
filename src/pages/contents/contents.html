@@ -1,9 +1,7 @@
 <ion-header>
 
-  <ion-navbar color="primary">
+  <ion-navbar class="navbarStyle" color="primary">
     <ion-title>Care Plan</ion-title>
-  </ion-navbar>
-  <ion-toolbar class="toolbar" color="primary">
       <ion-buttons end>
       <button ion-button *ngIf="!auth.userLoggedIn" (click)="login()">
         <ion-icon name="unlock"></ion-icon>
@@ -15,7 +13,7 @@
         <ion-icon name="help"></ion-icon>
       </button>
       </ion-buttons>
-  </ion-toolbar>
+  </ion-navbar>
 </ion-header>
 
 <ion-content padding>

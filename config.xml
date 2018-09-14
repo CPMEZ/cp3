@@ -80,4 +80,5 @@
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="SplashScreenDelay" value="3000" />
     <plugin name="cordova-clipboard" spec="^1.2.1" />
+    <plugin name="cordova-plugin-statusbar" spec="^2.4.2" />
 </widget>
