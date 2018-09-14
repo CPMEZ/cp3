@@ -4,6 +4,7 @@ import { File } from '@ionic-native/file';
 import { EmailComposer } from '@ionic-native/email-composer';
 import { DocumentViewer } from '@ionic-native/document-viewer';
 import { Clipboard } from '@ionic-native/clipboard';
+import { Toast } from '@ionic-native/toast';
 
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 
@@ -26,6 +27,7 @@ export class TextPlanPage {
     private file: File,
     private dv: DocumentViewer,
     private em: EmailComposer,
+    private toast: Toast,
     public PPP: PersonalPlansProvider) {
     this.plan = navParams.get('plan');
   }
@@ -187,6 +189,7 @@ export class TextPlanPage {
   
   toClipboard() {
     this.clpbrd.copy(this.getPlanText());
+    this.toast.show('Copied to clipboard', '1500', 'center').subscribe(t => { });
   }
 
   sendEmail() {
