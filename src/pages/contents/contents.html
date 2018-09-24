@@ -57,9 +57,8 @@
 
   <ion-grid>
     <ion-row>
-    <!-- <ion-list [dragula]='"prob-list"' [dragulaModel]="plan.problems"> -->
     <ion-list> 
-    <div ion-item no-lines *ngFor="let p of plan.problems">
+    <div ion-item no-lines *ngFor="let p of plan.problems; let i = index">
       <p class="problem">
         <ion-icon class="expandTool" [name]="p.icon" (click)="toggleProblemExpand(p)" ></ion-icon>
         <span  (click)="problemEdit(p)">{{p.text}}</span>
@@ -79,19 +78,21 @@
               <ion-icon name="trash"></ion-icon>
             </button>
           </div>
-          <ion-list [dragula]='"goal-list"' [dragulaModel]="p.goals">
+          <ion-list [dragula]='"goal-list"' [(dragulaModel)]="p.goals">
           <div ion-item *ngFor="let g of p.goals">
             <p class="goal">
+              <span class="probId" hidden>{{i}}</span>
               <span (click)="goalEdit(g)">{{g.term}} {{g.text}}</span>
-            <button class="trash" (click)="goalDelete(p, g)">
-              <ion-icon name="trash"></ion-icon>
-            </button>
+              <button class="trash" (click)="goalDelete(p, g)">
+                <ion-icon name="trash"></ion-icon>
+              </button>
             </p>
           </div>
-          </ion-list>
-          <ion-list [dragula]='"int-list"' [dragulaModel]="p.interventions">
-            <div ion-item *ngFor="let n of p.interventions">
-              <p class="intervention">
+        </ion-list>
+        <ion-list [dragula]='"int-list"' [(dragulaModel)]="p.interventions">
+          <div ion-item *ngFor="let n of p.interventions">
+            <p class="intervention">
+                <span class="probId" hidden>{{i}}</span>
                 <span (click)="interventionEdit(n)">{{n.text}}</span>
               <button class="trash" (click)="interventionDelete(p, n)">
                 <ion-icon name="trash"></ion-icon>
