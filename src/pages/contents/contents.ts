@@ -212,6 +212,11 @@ export class ContentsPage {
     });
   }
 
+  // intSwipeDelete(p, n) {
+  //   console.log('swipe left');
+  //   this.interventionDelete(p, n);
+  // }
+
   interventionDelete(problem, intervention) {
     // confirm before delete
     let prompt = this.alertCtrl.create({

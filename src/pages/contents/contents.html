@@ -93,6 +93,7 @@
           <div ion-item *ngFor="let n of p.interventions">
             <p class="intervention">
                 <span class="probId" hidden>{{i}}</span>
+                <!-- (panLeft)="intSwipeDelete(p,n)" -->
                 <span (click)="interventionEdit(n)">{{n.text}}</span>
               <button class="trash" (click)="interventionDelete(p, n)">
                 <ion-icon name="trash"></ion-icon>
