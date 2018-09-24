@@ -14,6 +14,8 @@ import { AuthenticationProvider } from '../../providers/authentication/authentic
 import { HelpPage } from '../help/help';
 import { LoginPage } from '../login/login';
 import { TextPlanPage } from '../text-plan/text-plan';
+// import { DragulaService } from 'ng2-dragula';
+// import { Drake } from 'dragula';
 
 @IonicPage()
 @Component({
@@ -23,12 +25,17 @@ import { TextPlanPage } from '../text-plan/text-plan';
 export class ContentsPage {
   plan: any;
 
+// WORKING HERE:  the local plan is not being copied to the PPP.plans[].plan?
+
+
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
+    // private ds: DragulaService,
     private alertCtrl: AlertController,
     public auth: AuthenticationProvider,
     public PPP: PersonalPlansProvider) {
     this.plan = navParams.get('plan');
+ 
   }
 
   ionViewDidEnter() {
@@ -53,6 +60,7 @@ export class ContentsPage {
       || (v.component === EditProblemPage)
       || (v.component === EditGoalPage)
       || (v.component === EditInterventionPage)) {
+        console.log(this.plan);
       this.PPP.write();
       return true;
     }

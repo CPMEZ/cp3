@@ -42,6 +42,8 @@ import { Network } from '@ionic-native/network';
 import { DocumentViewer } from '@ionic-native/document-viewer';
 import { Clipboard } from '@ionic-native/clipboard';
 
+import { DragulaModule } from 'ng2-dragula';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -69,7 +71,9 @@ import { Clipboard } from '@ionic-native/clipboard';
     BrowserModule,
     HttpClientModule,
     IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    DragulaModule.forRoot()  // ngDragula documentation says this way
+    // DragulaModule // example at devdactic says this way--prolly cause example single page
   ],
   bootstrap: [IonicApp],
   entryComponents: [
