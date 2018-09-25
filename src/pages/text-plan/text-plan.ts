@@ -68,7 +68,7 @@ export class TextPlanPage {
     var docDefinition = {
       content: [
         { text: "Care Plan: " + this.plan.name, style: "header" },
-        { text: "Created:  " + this.plan.created + "     Updated:  " + this.plan.updated, alignment: "right"},
+        { text: "Created:  " + this.plan.created + "     Updated:  " + this.plan.updated, alignment: "right" },
         { text: this.plan.text, style: "subheader" }
       ],
       styles: {
@@ -122,8 +122,8 @@ export class TextPlanPage {
           for (let j = 0; j < this.plan.problems[i].goals.length; j++) {
             docDefinition.content.push({
               text: // this.plan.problems[i].goals[j].term +
-              "Outcome:  " +
-              this.plan.problems[i].goals[j].text, style: "goalText"
+                "Outcome:  " +
+                this.plan.problems[i].goals[j].text, style: "goalText"
             });
           }
         }
@@ -131,7 +131,7 @@ export class TextPlanPage {
           for (let k = 0; k < this.plan.problems[i].interventions.length; k++) {
             docDefinition.content.push({
               text: // "Intervention:  " + 
-              this.plan.problems[i].interventions[k].text,
+                this.plan.problems[i].interventions[k].text,
               style: "intText"
             });
             docDefinition.content.push({
@@ -148,7 +148,7 @@ export class TextPlanPage {
   // WORKING HERE
   downloadPdf() {
     // if (this.plt.is('ios') || this.plt.is('android')) {
-      console.log('download');
+    console.log('download');
     if (this.plt.is('mobile')) {
       var dd: string;
       if (this.plt.is('ios')) {
@@ -168,13 +168,13 @@ export class TextPlanPage {
           console.log(flnm);
           // Open the pdf (not supported on DevApp)
           // this.plt.ready().then(() => {
-            console.log('in plt.ready');
+          console.log('in plt.ready');
           const opts = { title: this.plan.name, email: { enabled: true }, print: { enabled: true }, search: { enabled: true } };
-            this.dv.viewDocument(dd+flnm, 'application/pdf', 
-              opts)
+          this.dv.viewDocument(dd + flnm, 'application/pdf',
+            opts)
         })
       });
-    } else if (this.plt.is('core')){
+    } else if (this.plt.is('core')) {
       // on browser
       this.pdfObj.download();
     }
@@ -186,10 +186,12 @@ export class TextPlanPage {
     // keep numbers and letters only
     return f.replace(/[^a-zA-Z0-9]/g, '_');
   }
-  
+
   toClipboard() {
     this.clpbrd.copy(this.getPlanText());
-    this.toast.show('Copied to clipboard', '1500', 'center').subscribe(t => { });
+    if (this.plt.is('mobile')) {
+      this.toast.show('Copied to clipboard', '1500', 'center').subscribe(t => { });
+    }
   }
 
   sendEmail() {
@@ -201,12 +203,12 @@ export class TextPlanPage {
       this.em.isAvailable().then((hasAccount) => {
         console.log('hasAccount', hasAccount);
         this.createMail();
-      });      
+      });
     } else {
       alert("If using a browser, automatic email is not available.  Use 'PDF' and attach the file to email.");
     }
   }
-  
+
   createMail() {
     console.log('create');
     this.em.open({
@@ -216,7 +218,7 @@ export class TextPlanPage {
       isHtml: false
     });
   }
-  
+
   getPlanText(): string {
     console.log('getPlanText');
     var text: string = "Care Plan:  " + this.plan.name + "\r\n";
@@ -225,7 +227,7 @@ export class TextPlanPage {
     if (this.plan.problems) {
       // console.log('# problems:',this.plan.problems.length);
       for (let i = 0; i < this.plan.problems.length; i++) {
-        text+= this.plan.problems[i].text + "\r\n";
+        text += this.plan.problems[i].text + "\r\n";
         if (this.plan.problems[i].goals) {
           // console.log('# goals:',this.plan.problems[i].goals.length);
           // text+="   Outcomes";
@@ -240,9 +242,9 @@ export class TextPlanPage {
           // console.log('# interventions:', this.plan.problems[i].interventions.length);
           // text += "   Interventions";
           for (let k = 0; k < this.plan.problems[i].interventions.length; k++) {
-            text += "    " + 
-            this.plan.problems[i].interventions[k].text + "\r\n";
-            text += "        " + 
+            text += "    " +
+              this.plan.problems[i].interventions[k].text + "\r\n";
+            text += "        " +
               "(" + this.discList(this.plan.problems[i].interventions[k]) + ")" + "\r\n";
           }
         }

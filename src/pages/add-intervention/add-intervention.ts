@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AlertController, IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { Toast } from '@ionic-native/toast';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 import { MasterPlansProvider } from '../../providers/master-plans/master-plans';
@@ -20,11 +20,12 @@ export class AddInterventionPage {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private alertCtrl: AlertController,
-    private toast: Toast,    
+    private plt: Platform,
+    private toast: Toast,
     public PPP: PersonalPlansProvider,
     public MPP: MasterPlansProvider,
     public auth: AuthenticationProvider) {
-      // problem to which intervention added
+    // problem to which intervention added
     this.plan = navParams.get("plan");
     this.problem = navParams.get("problem");
   }
@@ -40,7 +41,7 @@ export class AddInterventionPage {
     this.intervention["hint"] = "";
     if (this.MPP.listSelection) {
       this.intervention = this.MPP.listSelection;
-      console.log('selected intervention',this.intervention);
+      console.log('selected intervention', this.intervention);
       // clear it immediately after used
       this.MPP.listSelection = "";
     }
@@ -74,9 +75,9 @@ export class AddInterventionPage {
     const d: Date = new Date();
     this.plan.updated = d.toLocaleDateString();
     this.problem.interventions.push(this.intervention);
-    // if (this.plt.is('cordova')) {
-    this.toast.show('Intervention Added', '1500', 'center').subscribe( t => {});
-    // }
+    if (this.plt.is('mobile')) {
+      this.toast.show('Intervention Added', '1500', 'center').subscribe(t => { });
+    }
     this.navCtrl.pop();
   }
   cancelEdit() {

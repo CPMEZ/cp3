@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AlertController, IonicPage, LoadingController, NavController, NavParams, Platform } from 'ionic-angular';
+import { Toast } from '@ionic-native/toast';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { ContentsPage } from '../contents/contents';
@@ -14,50 +15,57 @@ import { LoginPage } from '../login/login';
 })
 export class CarePlanPage {
 
-  constructor(public navCtrl: NavController, 
+  constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private plt: Platform,
     private alertCtrl: AlertController,
     private loadCtrl: LoadingController,
+    private toast: Toast,
     public auth: AuthenticationProvider,
-    public PPP: PersonalPlansProvider ) {
-      this.plt.pause.subscribe(() => {
-          this.PPP.write();
-        });
-    }
-    
-    ionViewDidLoad() {
-      console.log('ionViewDidLoad CareplanPage');
-      console.log('loading plans');
-      // wait indicator
-      let loading = this.loadCtrl.create({
-        content: 'Getting the list...'
-      });
-      loading.present();
-      this.PPP.loadPlans();
-      // cause we don't have async on loadPlans,
-      setTimeout(() => {
-        loading.dismiss();
-      }, 1000);
+    public PPP: PersonalPlansProvider) {
+    this.plt.pause.subscribe(() => {
+      this.PPP.write();
+    });
+  }
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad CareplanPage');
+    console.log('loading plans');
+    // wait indicator
+    let loading = this.loadCtrl.create({
+      content: 'Getting the list...'
+    });
+    loading.present();
+    this.PPP.loadPlans();
+    // cause we don't have async on loadPlans,
+    setTimeout(() => {
+      loading.dismiss();
+    }, 1000);
   }
 
   contents(plan) {
     this.navCtrl.push(ContentsPage, {
-        plan: plan
-      });
-    }
-    
+      plan: plan
+    });
+  }
+
   addPlan() {
     this.navCtrl.push(AddPlanPage, {
-      });
-    }
-    
+    });
+  }
+
   pushToWeb() {
     this.PPP.saveToWeb();
+    if (this.plt.is('mobile')) {
+      this.toast.show('Uploaded to Cloud', '1500', 'center').subscribe(t => { });
+    }
   }
 
   pullFromWeb() {
     this.PPP.loadPlansWeb();
+    if (this.plt.is('mobile')) {
+      this.toast.show('Downloaded from Cloud', '1500', 'center').subscribe(t => { });
+    }
   }
 
   help() {
@@ -82,7 +90,7 @@ export class CarePlanPage {
       ]
     });
     prompt.present();
-  }   
+  }
 }
 
 

@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { Toast } from '@ionic-native/toast';
-import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AlertController, IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 import { MasterPlansProvider } from '../../providers/master-plans/master-plans';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { LookupPage } from '../lookup/lookup';
 import { HelpPage } from '../help/help';
 import { LoginPage } from '../login/login';
-import { ArrayType } from '@angular/compiler/src/output/output_ast';
+// import { ArrayType } from '@angular/compiler/src/output/output_ast';
 
 @IonicPage()
 @Component({
@@ -22,6 +22,7 @@ export class AddConditionPage {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private alertCtrl: AlertController,
+    private plt: Platform,
     private toast: Toast,
     public PPP: PersonalPlansProvider,
     public MPP: MasterPlansProvider,
@@ -68,8 +69,8 @@ export class AddConditionPage {
         }
       });
   }
-  
-  addProblems(cond){
+
+  addProblems(cond) {
     cond["condition"]["problems"].forEach(p => {
       p["icon"] = "arrow-dropdown";
       p["expanded"] = true;
@@ -92,7 +93,7 @@ export class AddConditionPage {
             p["expanded"] = true;
             // add all the goals and interventions to the existing problem
             console.log("goals");
-            this.addNewItems(p["goals"],  "text", this.plan.problems[i].goals);
+            this.addNewItems(p["goals"], "text", this.plan.problems[i].goals);
             console.log("interventions");
             this.addNewItems(p["interventions"], "text", this.plan.problems[i].interventions);
             break;  // no need to look further
@@ -127,7 +128,7 @@ export class AddConditionPage {
     if (work.length > 0) {
       for (var k = 0; k < work.length; k++) {
         arr.push(work[k]);
-      } 
+      }
     }
   }
 
@@ -135,9 +136,9 @@ export class AddConditionPage {
     const d: Date = new Date();
     this.plan.updated = d.toLocaleDateString();
     if (this.condition) this.populateProblems();
-    // if (this.plt.is('cordova')) {
-    this.toast.show('Added ' + this.condition["text"], '1500', 'center').subscribe( t => {});
-    // }
+    if (this.plt.is('mobile')) {
+      this.toast.show('Added ' + this.condition["text"], '1500', 'center').subscribe(t => { });
+    }
     this.navCtrl.pop();
   }
   cancelEdit() {

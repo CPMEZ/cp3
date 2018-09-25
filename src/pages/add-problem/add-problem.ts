@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AlertController, IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { Toast } from '@ionic-native/toast';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
@@ -19,18 +19,19 @@ export class AddProblemPage {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private alertCtrl: AlertController,
-    private toast: Toast,    
+    private plt: Platform,
+    private toast: Toast,
     public PPP: PersonalPlansProvider,
     public MPP: MasterPlansProvider,
     public auth: AuthenticationProvider) {
-      // plan to which problem added
+    // plan to which problem added
     this.plan = navParams.get('plan');
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddProblemPage');
   }
-  
+
   ionViewDidEnter() {
     // may have come from add, may have returned from selection
     console.log('ionViewDidEnter AddProblemPage');
@@ -47,7 +48,7 @@ export class AddProblemPage {
     }
     if (!this.problem["interventions"]) {
       this.problem["interventions"] = [] as any[];
-    }    
+    }
     this.problem["expanded"] = true;
     this.problem["icon"] = "arrow-dropdown";
   }
@@ -64,9 +65,9 @@ export class AddProblemPage {
     const d: Date = new Date();
     this.plan.updated = d.toLocaleDateString();
     this.plan.problems.push(this.problem);
-    // if (this.plt.is('cordova')) {
-    this.toast.show('Topic Added', '1500', 'center').subscribe( t => {});
-    // }
+    if (this.plt.is('mobile')) {
+      this.toast.show('Topic Added', '1500', 'center').subscribe(t => { });
+    }
     this.navCtrl.pop();
   }
   cancelEdit() {
@@ -80,7 +81,7 @@ export class AddProblemPage {
 
   login() {
     this.navCtrl.push(LoginPage);
-  }  
+  }
   logout() {
     // confirm before logout
     let prompt = this.alertCtrl.create({
