@@ -37,20 +37,29 @@ export class ContentsPage {
     public PPP: PersonalPlansProvider) {
     this.plan = navParams.get('plan');
 
+    // document.addEventListener('touchstart', (e) => {
+    // document.addEventListener('touchend', (e) => {
+    document.addEventListener('touchmove', (e) => {
+      // console.log('touchmove event', this.nowDragging);
+      if (this.nowDragging) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+
     this.subs.add(this.ds.drag()
       .subscribe(({ name }) => {
         this.nowDragging = true;
         console.log('drag event', name, this.nowDragging);
-        })
-      );
-      this.subs.add(this.ds.drop()
+      })
+    );
+    this.subs.add(this.ds.dragend()
       .subscribe(({ name }) => {
         this.nowDragging = false;
-        console.log('drop event', name, this.nowDragging);
-        })
-      );
-      
-      this.subs.add(this.ds.dropModel()
+        console.log('dragend event', name, this.nowDragging);
+      })
+    );
+
+    this.subs.add(this.ds.dropModel()
       .subscribe(({ name, el, targetModel }) => {
         this.nowDragging = true;
         // reassignment to this.plans.problems[] fails if not explicit,
@@ -60,29 +69,26 @@ export class ContentsPage {
         const t = el.getElementsByClassName('probId');
         const c = parseInt(t[0].innerHTML);
         if (name === "goal-list") {
-          this.plan.problems[c].goals=targetModel;
-          console.log('goals', targetModel );
+          this.plan.problems[c].goals = targetModel;
+          console.log('goals', targetModel);
         } else {
-          this.plan.problems[c].interventions=targetModel;
-          console.log('interventions', targetModel );
+          this.plan.problems[c].interventions = targetModel;
+          console.log('interventions', targetModel);
         }
         this.ddChanges = true;
       })
-      );
+    );
   }
 
   ionViewDidEnter() {
     console.log('ionViewDidEnter ContentsPage');
   }
 
-  // ionViewDidLoad() {
-  //   console.log('ionViewDidLoad ContentsPage');
-
-  // }
-
   ionViewWillLeave() {
     console.log('ionViewWillLeave ContentsPage');
     this.subs.unsubscribe();
+    document.removeEventListener('touchmove', () => {});
+    document.removeEventListener('touchend', () => {});
     if (this.ddChanges) this.PPP.write();
     // console.log(this.subs);
   }
@@ -100,7 +106,7 @@ export class ContentsPage {
       || (v.component === EditProblemPage)
       || (v.component === EditGoalPage)
       || (v.component === EditInterventionPage)) {
-        console.log(this.plan);
+      console.log(this.plan);
       this.PPP.write();
       return true;
     }
@@ -225,11 +231,6 @@ export class ContentsPage {
       intervention: intervention
     });
   }
-
-  // intSwipeDelete(p, n) {
-  //   console.log('swipe left');
-  //   this.interventionDelete(p, n);
-  // }
 
   interventionDelete(problem, intervention) {
     // confirm before delete
