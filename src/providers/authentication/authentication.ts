@@ -121,7 +121,7 @@ export class AuthenticationProvider {
                 console.log('read session');
                 if (data) {
                     const state = this.decrypt(data, this.encryptKey);
-                    console.log(state);
+                    console.log('state', state);
                     this.userLoggedIn = state["userLoggedIn"];
                     this.userId = state["userId"];
                     this.pwd = state["pwd"];
