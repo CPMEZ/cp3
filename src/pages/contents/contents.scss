@@ -52,4 +52,11 @@ page-contents {
         font-size: 0.8rem;
         color: color($colors, primary);
     }
+    .scroller {
+        overflow-y: auto;
+    }
+    .noScroller {
+        overflow-y: hidden;
+    }
+
 }

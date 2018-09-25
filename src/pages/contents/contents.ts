@@ -16,8 +16,6 @@ import { LoginPage } from '../login/login';
 import { TextPlanPage } from '../text-plan/text-plan';
 import { DragulaService } from 'ng2-dragula';
 import { Subscription } from 'rxjs';
-// import { DragulaService } from 'ng2-dragula';
-// import { Drake } from 'dragula';
 
 @IonicPage()
 @Component({
@@ -26,9 +24,9 @@ import { Subscription } from 'rxjs';
 })
 export class ContentsPage {
   plan: any;
-  ddChanges: boolean = false;
 
-// WORKING HERE:  the local plan is not being copied to the PPP.plans[].plan?
+  ddChanges: boolean = false;
+  nowDragging: boolean = false;
   subs = new Subscription();
 
   constructor(public navCtrl: NavController,
@@ -39,32 +37,48 @@ export class ContentsPage {
     public PPP: PersonalPlansProvider) {
     this.plan = navParams.get('plan');
 
-    this.subs.add(this.ds.dropModel("goal-list")
-      .subscribe(({ el, targetModel }) => {
+    this.subs.add(this.ds.drag()
+      .subscribe(({ name }) => {
+        this.nowDragging = true;
+        console.log('drag event', name, this.nowDragging);
+        })
+      );
+      this.subs.add(this.ds.drop()
+      .subscribe(({ name }) => {
+        this.nowDragging = false;
+        console.log('drop event', name, this.nowDragging);
+        })
+      );
+      
+      this.subs.add(this.ds.dropModel()
+      .subscribe(({ name, el, targetModel }) => {
+        this.nowDragging = true;
         // reassignment to this.plans.problems[] fails if not explicit,
         //    this works on both source and target when dragging from one problem to another, 
         //      without assigning source explicitly.
         //      i don't understand it but it works. (so leave it alone)
         const t = el.getElementsByClassName('probId');
         const c = parseInt(t[0].innerHTML);
-        this.plan.problems[c].goals=targetModel;
+        if (name === "goal-list") {
+          this.plan.problems[c].goals=targetModel;
+          console.log('goals', targetModel );
+        } else {
+          this.plan.problems[c].interventions=targetModel;
+          console.log('interventions', targetModel );
+        }
         this.ddChanges = true;
       })
-    );
-    this.subs.add(this.ds.dropModel("int-list")
-      // .subscribe(({ name, el, target, source, sourceModel, targetModel, item }) => {
-      .subscribe(({ el, sourceModel, targetModel }) => {
-        const t = el.getElementsByClassName('probId');
-        const c = parseInt(t[0].innerHTML);
-        this.plan.problems[c].interventions=targetModel;
-        this.ddChanges = true;
-      })
-    );
+      );
   }
 
   ionViewDidEnter() {
     console.log('ionViewDidEnter ContentsPage');
   }
+
+  // ionViewDidLoad() {
+  //   console.log('ionViewDidLoad ContentsPage');
+
+  // }
 
   ionViewWillLeave() {
     console.log('ionViewWillLeave ContentsPage');

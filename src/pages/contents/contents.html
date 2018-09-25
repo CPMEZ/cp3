@@ -55,9 +55,7 @@
     </div>
   </div>
 
-  <ion-grid>
-    <ion-row>
-    <ion-list> 
+    <ion-list class="noScroller" > 
     <div ion-item no-lines *ngFor="let p of plan.problems; let i = index">
       <p class="problem">
         <ion-icon class="expandTool" [name]="p.icon" (click)="toggleProblemExpand(p)" ></ion-icon>
@@ -108,7 +106,5 @@
       </div>
     </div>
   </ion-list>
-    </ion-row>
-  </ion-grid>
 
 </ion-content>
