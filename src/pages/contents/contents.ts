@@ -28,7 +28,7 @@ export class ContentsPage {
   ddChanges: boolean = false;
   nowDragging: boolean = false;
   subs = new Subscription();
-
+ 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private ds: DragulaService,
@@ -151,7 +151,6 @@ export class ContentsPage {
     // confirm before delete
     let prompt = this.alertCtrl.create({
       title: 'Confirm Delete',
-      // message: 'Are you sure?',
       buttons: [
         {
           text: "No, don't delete",
@@ -192,7 +191,6 @@ export class ContentsPage {
     // confirm before delete
     let prompt = this.alertCtrl.create({
       title: 'Confirm Delete',
-      // message: 'Are you sure?',
       buttons: [
         {
           text: "No, don't delete",
@@ -236,7 +234,6 @@ export class ContentsPage {
     // confirm before delete
     let prompt = this.alertCtrl.create({
       title: 'Confirm Delete',
-      // message: 'Are you sure?',
       buttons: [
         {
           text: "No, don't delete",
@@ -278,7 +275,6 @@ export class ContentsPage {
     // confirm before delete
     let prompt = this.alertCtrl.create({
       title: 'Confirm Delete',
-      // message: 'Are you sure?',
       buttons: [
         {
           text: "No, don't delete",
