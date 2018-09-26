@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content padding>
-  <p class="aside">If you're in a hurry, see the Quick Guide further down this page.</p>
+  <p class="aside">If you're in a hurry, see the <span class="hilite">Quick Guide</span> further down this page.</p>
   <h1>How to use Red Book Care Planning</h1>
 
   <h2>With a Subscription</h2>
@@ -45,8 +45,12 @@
   <p>To create templates, follow these steps.</p>
   <ul>
     <li>From Care Plans, choose <span class='hilite'>ADD CARE PLAN</span>. We suggest naming your plan something easy
-      to find later, such as CHF Template. You may want to name all your templates so that they appear in the same section
-      of Care Plans, such as "Template <em>condition</em>"</li>
+      to find later, such as "CHF Template". You may want to name all your templates so that they appear in the same section
+      of Care Plans, such as "Template <em>(condition)</em>"</li>
+    <li>Add a condition
+      <ion-icon name="fastforward"></ion-icon>
+      <ion-icon name="add"></ion-icon> to the plan. If you add a condition, suggested topics, outcomes, and interventions will be added for you.
+    </li>
     <li>Add a care topic
       <ion-icon name="medical"></ion-icon>
       <ion-icon name="add"></ion-icon> to the plan. Care topics may be problems, disciplines or just care focus areas. You
@@ -54,7 +58,7 @@
     </li>
     <li>Add or edit outcomes
       <ion-icon name="star"></ion-icon>
-      <ion-icon name="add"></ion-icon> associated with the problem. If you've selected a problem from the Red Book, some
+      <ion-icon name="add"></ion-icon> associated with the problem. If you've selected a condition from the Red Book, some
       outcomes (and interventions) will have been suggested for you. You may edit or remove suggestions as needed. Of course
       you may also create your own outcome statements. Leave the blanks provided for specifics.
     </li>
@@ -66,8 +70,15 @@
     </li>
     <li>When your changes are complete and the template plan is satisfactory, you're all done.</li>
   </ul>
-  <p>To begin planning for an individual patient, copy a template first. From Care Plans, choose <span class='hilite'><ion-icon
-        name="copy"></ion-icon> Make a Copy of this Plan</span>. Add or remove problems, outcomes, or interventions to meet
+  <p>To begin planning for an individual patient, copy a template first.</p>
+  <ul>
+    <li>From Care Plans, select the template plan you wish to copy (tap on the plan name.) </li>
+    <li>From the selected Care Plan Page, choose Copy <ion-icon name="copy"></ion-icon>.</li>
+    <li>On the Copy Plan Page, in "Name the New Plan," label the new plan to be used for the patient.  
+    [see the <span class='hilite'>Patient Privacy Note</span>.]  Optionally, include a description.</li>
+    <li>Tap <span class='hilite'>COPY</span> to complete the copy.  Note that after <span class='hilite'>COPY</span>, you will be returned to the plan you copied from, NOT the new one.  You'll need to find the new one you just created before proceeding (it should be at the bottom of your list of plans).</li>
+    </ul>
+    <p> Open the new plan (tap on it's name to open its contents), then add or remove problems, outcomes, or interventions to meet
     your individual patient's needs. Fill in the blanks to provide necessary specifics.</p>
   <p>Consider making multiple templates to apply to the most common conditions you encounter in your practice.</p>
   <p>You may also choose to make co-morbid or multi-condition templates. To do so, simply add the set of problems, outcomes,
@@ -221,22 +232,30 @@
   </p>
 
   <h2>The Welcome Page</h2>
-  <p>This is the page you see first when the app starts.</p>
-  <p><span class='hilite'>LOGIN</span> to sign into your care plans library subscription.</p>
-  <p>You may also select <span class='hilite'>WORK OFFLINE</span> to continue without using the library.</p>
-
+  <p>This is the page you see first when the app starts.  Depending on how you last used Care Plans, you will see different options.</p>
+  <p>If you were signed in when you last used the app, you may see <span class='hilite'>WELCOME BACK, YOU'RE LOGGED IN</span>.  Tap to continue. </p>
+  <p>If you were off line when you last used the app, and you have an active internet connection you'll have the option to <span class='hilite'>LOGIN</span> to sign into your Red Book Care Plans library subscription.</p>
+  <p>If you were off line when last used, you are off line now, or you have never subscribed, or if you simply prefer to, you may also select <span class='hilite'>WORK OFFLINE</span> to continue without using the library.</p>
+  <p>If you'd like to subscribe, choose the <span class='hilite'>LOGIN</span> option.  You'll have an opportunity to subscribe from the login page.  Or just tap this:</p>
+   <button ion-button (click)="subscribe()">Subscribe Now</button>
+   <br>
   <h2>The Login Page</h2>
   <p>Reach this page from <span class='hilite'>LOGIN</span> on the Welcome page, or from the menu. You may want to sign in
     from the menu if you've been offline.</p>
   <p>No surprises. Enter your user ID and password, select <span class='hilite'>LOGIN</span>. Log In will only be available
-    if you're connected to the internet. You may select <span class='hilite'>SKIP</span> to work offline without signing
+    if you're connected to the internet. If you're not already subscribed, or if your subscription has expired, you will have the option to <span class='hilite'>SUBSCRIBE</span>.  
+    You may select <span class='hilite'>WORK OFFLINE</span> to work offline without signing
     in.
   </p>
 
   <h2>Care Plans Page</h2>
-  <p>This is your home page. You got here by either successfully signing in on the Login page, by selecting <span class='hilite'>WORK
-      OFFLINE
-    </span> from the Welcome page, or by selecting <span class='hilite'>SKIP</span> on the Login page.</p>
+  <p>This is your home page. You got here because you<p>
+    <ul>
+      <li>were <span class='hilite'>WELCOME</span>d <span class='hilite'>BACK</span>, or</li>
+      <li>successfully signed in on the Login page, or</li>
+      <li>selected <span class='hilite'>WORK OFFLINE</span> on the Welcome page, or
+      <li>selected <span class='hilite'>WORK OFFLINE</span> on the Login page.</li>
+      </ul>
     <p>On this page, all your care plans are listed. You will normally start out with an empty list, before you create your
       first plan. Listed plans may be templates you've created to be copied (see above,) or plans you've written for individual
       patients (see Patient Privacy note, and terms and conditions.)</p>
@@ -254,7 +273,7 @@
     <p>Note all the plans you have created are downloaded or uploaded together, so you don't want to have the latest of one plan on one device, and the latest of another plan on a different device.
     </p>
 
-  <h2>Care Plan Page</h2>
+  <h2>(specific) Care Plan Page</h2>
   <p>Where all the work happens. The plan you selected on Care Plans Page is shown. The name of the plan appears at the
     top. The name is followed by</p>
   <p>Add Care Topic
@@ -263,10 +282,19 @@
   </p>
   <p>Add Condition
     <ion-icon name="fastforward"></ion-icon>
-    <ion-icon name="add"></ion-icon>, only if you are logged in
+    <ion-icon name="add"></ion-icon>, only if you are logged in to your Red Book subscription.
+  </p>
+  <p>Share
+    <ion-icon name="share"></ion-icon>
+    , opens the Text Care Plan Page, from which you may clipboard, email, or make a PDF of your plan.
+  </p>
+  <p>Copy
+    <ion-icon name="copy"></ion-icon>
+    , opens the Copy Care Plan Page.
   </p>
   <p>Delete
     <ion-icon name="trash"></ion-icon>
+    , after confirmation, will remove the care plan permanently.
   </p>
   <p>Below the name, care topics are listed. These topics may be aspects of care, physiology, disciplines, or other focus
     areas. This area will be blank initially, as you are creating a new plan. Each care topic has an option to expand
@@ -295,12 +323,7 @@
     intervention text. Each is followed by a Delete option
     <ion-icon name="trash"></ion-icon>
   </p>
-  <p>At the bottom of the page, there are three additional options:</p>
-  <ul>
-    <li><span class='hilite'><ion-icon name="paper"></ion-icon> Show Printable Versions for Sharing</span> </li>
-    <li><span class='hilite'><ion-icon name="copy"></ion-icon> Make a Copy of this Plan</span></li>
-    <li><span class='hilite'>Permanently Delete this Plan <ion-icon name="trash"></ion-icon></span></li>
-  </ul>
+
   <p>Add Condition Page</p>
   <p>Add Care Topic Page</p>
   <p>Add Outcome Page</p>

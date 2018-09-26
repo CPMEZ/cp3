@@ -1,4 +1,10 @@
 page-terms {
+    h1 {
+        font-size: 1.8rem;
+        color: color($colors, primary);
+        white-space: normal;        
+        word-break: break-word;        
+    }
     p {
         font-size: 1.4rem;
         color: black;

@@ -22,14 +22,14 @@
             Start Here:  Application Terms & Conditions
           </button>         -->
           <button *ngIf="conn.internet && auth.userLoggedIn" ion-button icon-right (click)="alreadyLoggedIn()">
-            Welcome Back! You're logged in.
+            WELCOME BACK, YOU'RE LOGGED IN.
           </button>
           <button *ngIf="conn.internet && !auth.userLoggedIn" ion-button icon-right (click)="login()">
-            Log In
+            LOG IN
           </button>
           <br>
-          <button ion-button *ngIf="!conn.internet" icon-right (click)="workOffline()">
-            Work Offline
+          <button ion-button icon-right (click)="workOffline()">
+            WORK OFFLINE
           </button>
       </ion-col>
     </ion-row>
