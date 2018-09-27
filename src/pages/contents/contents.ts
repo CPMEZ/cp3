@@ -106,7 +106,7 @@ export class ContentsPage {
       || (v.component === EditProblemPage)
       || (v.component === EditGoalPage)
       || (v.component === EditInterventionPage)) {
-      console.log(this.plan);
+      // console.log(this.plan);
       this.PPP.write();
       return true;
     }
