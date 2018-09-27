@@ -38,6 +38,6 @@
     <p class="hilite">Note you will be returned to
       the Care Plan you copy <em>from</em>, not the new one, when you leave this page.</p>
     </ion-item>
-  <button ion-button [disabled]="!newPlan.name" (click)="makeCopy()">Copy</button>
+  <button ion-button [disabled]="newPlan.name>''" (click)="makeCopy()">Copy</button>
   <button ion-button (click)="cancelCopy()">Cancel</button>
 </ion-content>
