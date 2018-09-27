@@ -111,7 +111,7 @@ export class ContentsPage {
       return true;
     }
   }
-
+ 
   editPlan() {
     this.navCtrl.push(EditPlanPage, {
       plan: this.plan
