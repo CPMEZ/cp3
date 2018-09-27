@@ -1,0 +1,2 @@
+<key>ITSAppUsesNonExemptEncryption</key><false/>
+this goes in info.plist to specify export compliance
