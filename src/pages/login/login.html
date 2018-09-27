@@ -22,10 +22,12 @@
     <ion-input type="password" [(ngModel)]="pwd"></ion-input>
   </ion-item>
   <button ion-button (click)="login()">LOG IN</button><br>
-  <div>Log in to your Red Book account.</div><br><br>
-  <div></div>
-    <button *ngIf="!auth.userValidSubscription" ion-button (click)="subscribe()">SUBSCRIBE</button><br>
-    <div *ngIf="!auth.userValidSubscription">Subscribe to use the Red Book content in your care plans.</div>
+  <div>Log in to your Red Book account.</div>
+  <br><br>
+  <div *ngIf="!auth.userValidSubscription">
+    <button ion-button (click)="subscribe()">SUBSCRIBE</button><br>
+    <div>Subscribe to use the Red Book content in your care plans.</div>
+    </div>
   <br><br>
     <button ion-button (click)="cancelEdit()">WORK OFFLINE</button>
   <br>

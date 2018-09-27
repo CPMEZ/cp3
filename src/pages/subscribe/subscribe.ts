@@ -40,18 +40,24 @@ export class SubscribePage {
   }
 
   subscribe() {
+    // check:
+    // current subscription
+    // expired subscription
+    // can make payments--if not, don't show the subscribe at all
+
     // call the payment ui here
     // if successful, create a new user profile on web storage
-    //  include generate a userKey or else use braintree clientKey
     this.auth.userId = this.userId;
     this.auth.pwd = this.pwd;
     this.auth.userKey = this.myKey;
 
 
-
-    this.navCtrl.setRoot(LoginPage);
+    // this.navCtrl.setRoot(LoginPage);
     // TODO OR then sign them in (which might be too async?)
-    // this.auth.authenticate();
-    // this.navCtrl.setRoot(CarePlanPage);
+    this.auth.authenticate();
+    this.navCtrl.setRoot(CarePlanPage);
+  }
+  cancelEdit() {
+    this.navCtrl.pop();
   }
 }
