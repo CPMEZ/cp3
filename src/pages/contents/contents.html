@@ -62,7 +62,7 @@
             </button>
           </div>
           <ion-list [dragula]='"goal-list"' [(dragulaModel)]="p.goals">
-          <div ion-item *ngFor="let g of p.goals">
+          <div ion-item no-lines *ngFor="let g of p.goals">
             <p class="goal">
               <span class="probId" hidden>{{i}}</span>
               <span (click)="goalEdit(g)">{{g.term}} {{g.text}}</span>
@@ -73,7 +73,7 @@
           </div>
         </ion-list>
         <ion-list [dragula]='"int-list"' [(dragulaModel)]="p.interventions">
-          <div ion-item *ngFor="let n of p.interventions">
+          <div ion-item no-lines *ngFor="let n of p.interventions">
             <p class="intervention">
                 <span class="probId" hidden>{{i}}</span>
                 <!-- (panLeft)="intSwipeDelete(p,n)" -->
