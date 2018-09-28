@@ -9,23 +9,33 @@
 
 <ion-content padding>
   <div>Subscribe to use Red Book Care Plan content.</div>
+  <div ion-item no-lines *ngFor="let p of products; let i = index" class="hilite">
+    <p>{{p["title"]}</p>
+    <p>{{p["price"]}</p>
+  </div>
+  <!-- <ion-item no-lines>
+    <p class="hilite">Limited Time Introductory Offer 2 months 10.99USD</p>
+    <p class="hilite">First Year Subscription, get 2 months Free! 99.99USD</p>
+  </ion-item> -->
   <ion-item no-lines>
     <p>
       Subscribing to the Red Book Hospice Care Plan library gives you access to the library to use in your own care
-      planning.
-      The Red Book library provides high-quality, evidence-based, real-world-validated care plan content.
-      Included are Care Topics, Outcome statements, Interventions, and perhaps most important,
-      model care plans for conditions and disciplines that can be adapted to your own patients.
-    </p>
-  </ion-item>
-  <ion-item no-lines>
+      planning.</p>
+    <ul>
+      <li>High Quality</li>
+      <li>Evidence-based</li>
+      <li>Practice Validated</li>
+    </ul>
     <p>
-      Subscribing to the Red Book Hospice Care Plan library gives you access to the library to use in your own care
-      planning.
-      The Red Book library provides high-quality, evidence-based, real-world-validated care plan content.
-      Included are Care Topics, Outcome statements, Interventions, and perhaps most important,
-      model care plans for conditions and disciplines that can be adapted to your own patients.
+      Includes
     </p>
+    <ul>
+      <li><em>Complete Model Care Plans</em> for you to adapt</li>
+      <li>Care Topics</li>
+      <li>Outcomes</li>
+      <li>Interventions</li>
+      <li>All Disciplines</li>
+    </ul>
   </ion-item>
   <ion-item>
     <ion-label stacked>Choose a User ID</ion-label>
@@ -41,18 +51,6 @@
   </ion-item>
   <br>
   <br>
-  <ion-item no-lines>
-    <p>
-      The Encryption Key you assign below will be used to make your care plans safe in the cloud.</p>
-    <p>
-      Your content is encrypted on your device, before it is uploaded, so it is always secure while in transit and when
-      stored in the cloud.</p>
-    <p>We suggest 20 characters or more, and something memorable, such as a line from a favorite song.</p>
-  </ion-item>
-  <br>
-  <ion-item no-lines>
-    <p>After successfully subscribing, you will be automatically signed in, and sent to your Care Plans Page.</p>
-  </ion-item>
   <ion-item>
     <ion-label stacked>Choose an Encryption Key</ion-label>
     <ion-input type="password" [(ngModel)]="mykey"></ion-input>
@@ -61,6 +59,18 @@
     <ion-label stacked>Verify Encryption Key</ion-label>
     <ion-input type="password" [(ngModel)]="mykeyVer"></ion-input>
   </ion-item>
-  <button ion-button *ngIf="(!!pwd && pwd==pwdVer && !!mykey && mykey==mykeyVer)" (click)="subscribe()">Subscribe</button>
+  <ion-item no-lines>
+    <p>
+      The Encryption Key you assign will be used to make your care plans safe in the cloud.</p>
+    <p>
+      Your content is encrypted on your device, before it is uploaded, so it is always secure while in transit and when
+      stored in the cloud.</p>
+    <p>We suggest 20 characters or more, and something memorable, such as a line from a favorite song.</p>
+  </ion-item>
+  <button ion-button *ngIf="(!!pwd && pwd==pwdVer && !!mykey && mykey==mykeyVer)" (click)="subscribe()">Ready! Go to
+    Purchase</button><br>
+  <ion-item no-lines>
+    <p>After successfully subscribing, you will be automatically signed in, and sent to your Care Plans Page.</p>
+  </ion-item>
   <button ion-button (click)="cancelEdit()">Cancel</button>
 </ion-content>

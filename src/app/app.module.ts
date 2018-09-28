@@ -41,6 +41,7 @@ import { ConnectionProvider } from '../providers/connection/connection';
 import { Network } from '@ionic-native/network';
 import { DocumentViewer } from '@ionic-native/document-viewer';
 import { Clipboard } from '@ionic-native/clipboard';
+import { InAppPurchase } from '@ionic-native/in-app-purchase';
 
 import { DragulaModule } from 'ng2-dragula';
 
@@ -113,6 +114,7 @@ import { DragulaModule } from 'ng2-dragula';
     Toast,
     Network,
     Clipboard,
+    InAppPurchase,
     // SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
   ]

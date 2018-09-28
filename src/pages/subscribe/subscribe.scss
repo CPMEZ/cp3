@@ -3,4 +3,12 @@ page-subscribe {
         word-break: normal;
         white-space: normal;
     }
+    li {
+        word-break: normal;
+        white-space: normal;
+    }
+    .hilite {
+        font-size: medium;
+        color: color($colors, primary);
+    }
 }
