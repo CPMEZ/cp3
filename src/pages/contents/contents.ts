@@ -318,7 +318,7 @@ export class ContentsPage {
     if (int.other) { discText += int.other }
     return discText;
   }
-
+ 
   help() {
     this.navCtrl.push(HelpPage);
   }
