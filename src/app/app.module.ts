@@ -9,6 +9,10 @@ import { IonicStorageModule } from '@ionic/storage';
 import { File } from '@ionic-native/file';
 import { EmailComposer } from '@ionic-native/email-composer';
 import { Toast } from '@ionic-native/toast';
+import { LocalStoreProvider } from '../providers/local-store/local-store';
+import { DocumentViewer } from '@ionic-native/document-viewer';
+import { Clipboard } from '@ionic-native/clipboard';
+import { InAppPurchase } from '@ionic-native/in-app-purchase';
 
 import { MyApp } from './app.component';
 
@@ -16,7 +20,6 @@ import { MasterPlansProvider } from '../providers/master-plans/master-plans';
 import { AuthenticationProvider } from '../providers/authentication/authentication';
 import { CPAPI } from '../providers/cpapi/cpapi';
 import { PersonalPlansProvider } from '../providers/personal-plans/personal-plans';
-import { LocalStoreProvider } from '../providers/local-store/local-store';
 
 import { WelcomePage } from '../pages/welcome/welcome';
 import { LoginPage } from '../pages/login/login';
@@ -37,11 +40,9 @@ import { TermsPage } from '../pages/terms/terms';
 import { LookupPage } from '../pages/lookup/lookup';
 import { SubscribePage } from '../pages/subscribe/subscribe';
 import { TextPlanPage } from '../pages/text-plan/text-plan';
+import { SubselectPage } from '../pages/subselect/subselect';
 import { ConnectionProvider } from '../providers/connection/connection';
 import { Network } from '@ionic-native/network';
-import { DocumentViewer } from '@ionic-native/document-viewer';
-import { Clipboard } from '@ionic-native/clipboard';
-import { InAppPurchase } from '@ionic-native/in-app-purchase';
 
 import { DragulaModule } from 'ng2-dragula';
 
@@ -67,6 +68,7 @@ import { DragulaModule } from 'ng2-dragula';
     HelpPage,
     TermsPage,
     SubscribePage,
+    SubselectPage
   ],
   imports: [
     BrowserModule,
@@ -98,6 +100,7 @@ import { DragulaModule } from 'ng2-dragula';
     HelpPage,
     TermsPage,
     SubscribePage,
+    SubselectPage,
   ],
   providers: [
     AuthenticationProvider,
