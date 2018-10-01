@@ -9,26 +9,27 @@
 
 <ion-content padding>
   <div>Subscribe to use Red Book Care Plan content.</div>
-  <div ion-item no-lines *ngFor="let p of products; let i = index" class="hilite">
-    <p>{{p["title"]}</p>
-    <p>{{p["price"]}</p>
+  <div ion-item no-lines *ngFor="let p of products" class="hilite">
+    <div>{{p["title"]}</div>
+    <div>{{p.title}}</div>
+    <div>{{p["price"]}</div>
   </div>
   <!-- <ion-item no-lines>
-    <p class="hilite">Limited Time Introductory Offer 2 months 10.99USD</p>
-    <p class="hilite">First Year Subscription, get 2 months Free! 99.99USD</p>
+    <p class="hilite">Limited Time Introductory Offer 2 months 10.99USD</div>
+    <p class="hilite">First Year Subscription, get 2 months Free! 99.99USD</div>
   </ion-item> -->
   <ion-item no-lines>
-    <p>
+    <div>
       Subscribing to the Red Book Hospice Care Plan library gives you access to the library to use in your own care
-      planning.</p>
+      planning.</div>
     <ul>
       <li>High Quality</li>
       <li>Evidence-based</li>
       <li>Practice Validated</li>
     </ul>
-    <p>
+    <div>
       Includes
-    </p>
+    </div>
     <ul>
       <li><em>Complete Model Care Plans</em> for you to adapt</li>
       <li>Care Topics</li>
@@ -60,17 +61,17 @@
     <ion-input type="password" [(ngModel)]="mykeyVer"></ion-input>
   </ion-item>
   <ion-item no-lines>
-    <p>
-      The Encryption Key you assign will be used to make your care plans safe in the cloud.</p>
-    <p>
+    <div>
+      The Encryption Key you assign will be used to make your care plans safe in the cloud.</div>
+    <div>
       Your content is encrypted on your device, before it is uploaded, so it is always secure while in transit and when
-      stored in the cloud.</p>
-    <p>We suggest 20 characters or more, and something memorable, such as a line from a favorite song.</p>
+      stored in the cloud.</div>
+    <div>We suggest 20 characters or more, and something memorable, such as a line from a favorite song.</div>
   </ion-item>
   <button ion-button *ngIf="(!!pwd && pwd==pwdVer && !!mykey && mykey==mykeyVer)" (click)="subscribe()">Ready! Go to
     Purchase</button><br>
   <ion-item no-lines>
-    <p>After successfully subscribing, you will be automatically signed in, and sent to your Care Plans Page.</p>
+    <div>After successfully subscribing, you will be automatically signed in, and sent to your Care Plans Page.</div>
   </ion-item>
   <button ion-button (click)="cancelEdit()">Cancel</button>
 </ion-content>

@@ -46,6 +46,7 @@ export class SubscribePage {
     console.log('initStore');
     this.iap.getProducts(['CP3Subscription'])
       .then((prods) => {
+        alert(prods);
         console.log('products', prods);
         this.products = prods;
       })
@@ -54,11 +55,15 @@ export class SubscribePage {
       })
   }
 
+
+
+
   subscribe() {
     // check:
     // current subscription
     // expired subscription
     // can make payments--if not, don't show the subscribe at all
+    // TODO also check for active internet connection
     if (this.plt.is('cordova')) {
       let loading = this.loadCtrl.create({
         content: 'Purchasing subscription...'
@@ -69,6 +74,10 @@ export class SubscribePage {
         .then((data) => {
           loading.dismiss();
           console.log('subscribe success', data);
+
+// WORKING HERE  subscribe transaction worked for apple-sandbox-1
+// now create our new user on cpapi
+          
           // if successful, create a new user profile on web storage
           // this.auth.userId = this.userId;
           // this.auth.pwd = this.pwd;
@@ -107,12 +116,6 @@ export class SubscribePage {
           prompt.present();
         })
 
-      // this.navCtrl.setRoot(LoginPage);
-      // setTimeout(() => {
-      //   // if took too long
-      //   // where would this go, that would work?
-      //   loading.dismiss();
-      // }, 2000);
     } else {
       // redirect to the web store, someday?
       let prompt = this.alertCtrl.create({
