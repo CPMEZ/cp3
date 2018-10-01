@@ -1,12 +1,12 @@
 <ion-header>
 
-<ion-navbar class="navbarStyle" color="primary">
+  <ion-navbar class="navbarStyle" color="primary">
     <ion-title><em>welcome to</em></ion-title>
-</ion-navbar>
+  </ion-navbar>
 </ion-header>
 
 <ion-content padding id="welcome">
- <ion-grid>
+  <ion-grid>
     <ion-row>
       <ion-col center text-center>
         <h2><em>Tina Marrelli's</em></h2>
@@ -18,19 +18,19 @@
     <ion-row></ion-row>
     <ion-row>
       <ion-col center text-center>
-          <!-- <button *ngIf="!acceptedTerms" ion-button (click)="terms()">
-            Start Here:  Application Terms & Conditions
-          </button>         -->
-          <button *ngIf="conn.internet && auth.userLoggedIn" ion-button icon-right (click)="alreadyLoggedIn()">
-            WELCOME BACK, YOU'RE LOGGED IN.
-          </button>
-          <button *ngIf="conn.internet && !auth.userLoggedIn" ion-button icon-right (click)="login()">
-            LOG IN
-          </button>
-          <br>
-          <button ion-button icon-right (click)="workOffline()">
-            WORK OFFLINE
-          </button>
+        <button *ngIf="conn.internet && auth.userLoggedIn" ion-button icon-right (click)="alreadyLoggedIn()">
+          WELCOME BACK, YOU'RE LOGGED IN.
+        </button>
+        <button *ngIf="conn.internet && !auth.userLoggedIn" ion-button icon-right (click)="login()">
+          LOG IN
+        </button>
+        <br>
+        <ion-item *ngIf="!conn.internet">
+          <div>No internet connection? Could not connect to Red Book cloud.</div>
+        </ion-item>
+        <button ion-button icon-right (click)="workOffline()">
+          WORK OFFLINE
+        </button>
       </ion-col>
     </ion-row>
   </ion-grid>

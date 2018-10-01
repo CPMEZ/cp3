@@ -1,14 +1,13 @@
-
 <ion-header>
 
-<ion-navbar class="navbarStyle" color="primary">
+  <ion-navbar class="navbarStyle" color="primary">
     <ion-title>Log In to Red Book</ion-title>
     <ion-buttons end>
       <button ion-button (click)="help()">
         <ion-icon name="help"></ion-icon>
       </button>
     </ion-buttons>
-</ion-navbar>
+  </ion-navbar>
 
 </ion-header>
 
@@ -21,15 +20,23 @@
     <ion-label stacked>Password</ion-label>
     <ion-input type="password" [(ngModel)]="pwd"></ion-input>
   </ion-item>
-  <button ion-button (click)="login()">LOG IN</button><br>
-  <div>Log in to your Red Book account.</div>
+  <ion-item no-lines *ngIf="!conn.internet">
+    <div>No internet connection? Could not connect to Red Book cloud.</div>
+  </ion-item>
+  <ion-item no-lines *ngIf="conn.internet">
+    <button ion-button (click)="login()">LOG IN</button><br>
+    <div>Log in to your Red Book account.</div>
+  </ion-item>
   <br><br>
-  <div *ngIf="!auth.userValidSubscription">
+  <ion-item no-lines *ngIf="conn.internet">
     <button ion-button (click)="subscribe()">SUBSCRIBE</button><br>
     <div>Subscribe to use the Red Book content in your care plans.</div>
-    </div>
-  <br><br>
+  </ion-item>
+  <ion-item>
+    <br><br>
     <button ion-button (click)="cancelEdit()">WORK OFFLINE</button>
-  <br>
-  <div>Work Offline to work on plans on your device only, without saving to the cloud.  If you have a subscription, your changes will be synced to the cloud when you log in again.</div>
+    <br>
+    <div>Work Offline to work on plans on your device only, without saving to the cloud. If you have a subscription,
+      your changes will be synced to the cloud when you log in again.</div>
+  </ion-item>
 </ion-content>

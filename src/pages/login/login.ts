@@ -5,6 +5,7 @@ import { MasterPlansProvider } from '../../providers/master-plans/master-plans';
 import { CarePlanPage } from '../careplan/careplan';
 import { HelpPage } from '../help/help';
 import { SubscribePage } from '../subscribe/subscribe';
+import { ConnectionProvider } from '../../providers/connection/connection';
 
 // TODO this should use oauth, google, facebook, linkedin
 
@@ -20,12 +21,14 @@ export class LoginPage {
 
   constructor(public navCtrl: NavController, 
     public navParams: NavParams, 
+    private conn: ConnectionProvider,
     public MPP: MasterPlansProvider, 
     private auth: AuthenticationProvider) {
       this.userId = this.auth.userId;
       // TODO remove this, so they always have to provide at least the pwd
       // this.pwd = this.auth.pwd;  
       console.log('Login constructor: user', this.userId);
+      conn.checkConnection();
   }
   
   ionViewDidLoad() {

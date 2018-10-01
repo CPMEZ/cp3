@@ -1,6 +1,10 @@
 page-welcome {
 #welcome{
     background: color($colors, primary);
+    div {
+        color: color($colors, light);
+        background-color:  color($colors, primary);
+    }
     h1{
         color: color($colors, light);
         font-size: 3.6rem;

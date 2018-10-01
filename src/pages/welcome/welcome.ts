@@ -19,6 +19,7 @@ export class WelcomePage {
     public navParams: NavParams,
     private auth: AuthenticationProvider,
     public conn:  ConnectionProvider) {
+      conn.checkConnection();
       if (this.auth.alreadyLoggedIn()) {
         this.auth.checkSubscription();
       }
