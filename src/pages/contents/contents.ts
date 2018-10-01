@@ -28,7 +28,7 @@ export class ContentsPage {
   ddChanges: boolean = false;
   nowDragging: boolean = false;
   subs = new Subscription();
- 
+
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private ds: DragulaService,
@@ -37,8 +37,16 @@ export class ContentsPage {
     public PPP: PersonalPlansProvider) {
     this.plan = navParams.get('plan');
 
-    // document.addEventListener('touchstart', (e) => {
+    document.addEventListener('touchstart', (e) => {
+      if (this.nowDragging) {
+        e.preventDefault();
+      }
+    }, { passive: false });
     // document.addEventListener('touchend', (e) => {
+    //   if (this.nowDragging) {
+    //     e.preventDefault();
+    //   }
+    // }, { passive: false });
     document.addEventListener('touchmove', (e) => {
       // console.log('touchmove event', this.nowDragging);
       if (this.nowDragging) {
@@ -87,8 +95,8 @@ export class ContentsPage {
   ionViewWillLeave() {
     console.log('ionViewWillLeave ContentsPage');
     this.subs.unsubscribe();
-    document.removeEventListener('touchmove', () => {});
-    document.removeEventListener('touchend', () => {});
+    document.removeEventListener('touchmove', () => { });
+    document.removeEventListener('touchend', () => { });
     if (this.ddChanges) this.PPP.write();
     // console.log(this.subs);
   }
@@ -111,7 +119,7 @@ export class ContentsPage {
       return true;
     }
   }
- 
+
   editPlan() {
     this.navCtrl.push(EditPlanPage, {
       plan: this.plan
