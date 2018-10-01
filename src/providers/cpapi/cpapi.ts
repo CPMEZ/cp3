@@ -13,6 +13,9 @@ export class CPAPI {
     // apiURL = 'http://18.216.158.174:22000/CarePlan/'; 
     // apiURL = 'http://34.229.7.109:22000/CarePlan/';
 
+    MASTER_KEY = "Half a league, half a league, Half a league onward,"
+    // first 2 lines of charge of the light brigade
+    
     getData(type: string, filter ?: string): Promise < string > {
         // alert(type);
         console.log('getData',type);

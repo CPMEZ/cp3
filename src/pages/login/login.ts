@@ -4,8 +4,8 @@ import { AuthenticationProvider } from '../../providers/authentication/authentic
 import { MasterPlansProvider } from '../../providers/master-plans/master-plans';
 import { CarePlanPage } from '../careplan/careplan';
 import { HelpPage } from '../help/help';
-import { SubscribePage } from '../subscribe/subscribe';
 import { ConnectionProvider } from '../../providers/connection/connection';
+import { SubselectPage } from '../subselect/subselect';
 
 // TODO this should use oauth, google, facebook, linkedin
 
@@ -49,7 +49,7 @@ export class LoginPage {
 
   subscribe() {
     // alert('Subscribing is not available during initial test');
-    this.navCtrl.push(SubscribePage);
+    this.navCtrl.push(SubselectPage);
   }
 
   cancelEdit() {

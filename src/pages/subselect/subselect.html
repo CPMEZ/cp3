@@ -1,0 +1,46 @@
+<ion-header>
+
+  <ion-navbar class="navbarStyle" color="primary">
+    <ion-title>Subscribe</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <div>Subscribe to use Red Book Care Plan content.</div>
+  <div ion-item no-lines *ngFor="let p of products" class="hilite">
+    <div>{{p.title}} {{p.price}}
+  <button ion-button (click)="subscribe(p)">Purchase</button>
+    </div>
+  </div>
+
+  <ion-item no-lines>
+    <div>
+      Subscribing to the Red Book Hospice Care Plan library gives you access to the library to use in your own care
+      planning.</div>
+    <ul>
+      <li>High Quality</li>
+      <li>Evidence-based</li>
+      <li>Practice Validated</li>
+    </ul>
+    <div>
+      Includes
+    </div>
+    <ul>
+      <li><em>Complete Model Care Plans</em> for you to adapt</li>
+      <li>Care Topics</li>
+      <li>Outcomes</li>
+      <li>Interventions</li>
+      <li>All Disciplines</li>
+    </ul>
+  </ion-item>
+  <br>
+  <ion-item no-lines>
+    <div>
+      After tapping <span class="hilite">Purchase</span> you will confirm your purchase with the Store.
+    </div>
+    <div>After a successful purchase, you'll set up your subscriber information with the Red Book.
+        Subscriber information will include a unique user ID, a password, and your personal encryption key for securing your plans in the cloud.</div>
+  </ion-item>
+</ion-content>

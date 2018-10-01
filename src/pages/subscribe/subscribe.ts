@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, AlertController, Platform } from 'ionic-angular';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { CarePlanPage } from '../careplan/careplan';
-import { InAppPurchase } from '@ionic-native/in-app-purchase';
 
 @IonicPage()
 @Component({
@@ -28,110 +27,56 @@ export class SubscribePage {
     private loadCtrl: LoadingController,
     private alertCtrl: AlertController,
     private plt: Platform,
-    private iap: InAppPurchase,
     public auth: AuthenticationProvider) {
     this.userId = this.auth.userId;
     this.pwd = this.auth.pwd;
-    console.log(this.userId, this.pwd);
-    if (this.plt.is('cordova')) {
-      this.initStore();
-    }
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SubscribePage');
   }
 
-  initStore() {
-    console.log('initStore');
-    this.iap.getProducts(['CP3Subscription'])
-      .then((prods) => {
-        alert(prods);
-        console.log('products', prods);
-        this.products = prods;
-      })
-      .catch((err) => {
-        console.log('store error', err);
-      })
-  }
-
-
-
-
-  subscribe() {
-    // check:
-    // current subscription
-    // expired subscription
-    // can make payments--if not, don't show the subscribe at all
+  setup() {
     // TODO also check for active internet connection
+    // WORKING HERE
+    // subscribe trans success,
+    // now create our new user on cpapi
+
     if (this.plt.is('cordova')) {
       let loading = this.loadCtrl.create({
-        content: 'Purchasing subscription...'
+        content: 'Setting up...'
       });
       loading.present();
-
-      this.iap.subscribe('CP3Subscription')
-        .then((data) => {
-          loading.dismiss();
-          console.log('subscribe success', data);
-
-// WORKING HERE  subscribe transaction worked for apple-sandbox-1
-// now create our new user on cpapi
-          
-          // if successful, create a new user profile on web storage
-          // this.auth.userId = this.userId;
-          // this.auth.pwd = this.pwd;
-          // this.auth.userKey = this.myKey;
-          // this.auth.createSubscription();
-          // TODO OR then sign them in (which might be too async?)
-          // this.auth.authenticate();
-          // this.navCtrl.setRoot(CarePlanPage);
-
+      this.auth.userId = this.userId;
+      this.auth.pwd = this.pwd;
+      this.auth.userKey = this.myKey;
+      this.auth.createSubscription()
+        .then(() => {
+          // sucessful
+          loading.dismiss;
           let prompt = this.alertCtrl.create({
-            title: 'Subscribed!',
-            message: 'Welcome to the Red Book.',
-            buttons: [
-              {
-                text: "Continue",
-                role: 'cancel'
-              }
-            ]
+            title: 'Set Up Complete!',
+            buttons: [{ text: "Continue", role: 'cancel' }]
           });
-          prompt.present();
-
+          prompt.present()
+            .then(() => {
+              this.auth.authenticate();
+              this.navCtrl.setRoot(CarePlanPage);
+            })
+            // failed
+            .catch(() => {
+              loading.dismiss;
+              let prompt = this.alertCtrl.create({
+                title: 'Problem:',
+                message: 'Set up did not complete correctly',
+                buttons: [{ text: "Continue", role: 'cancel' }]
+              });
+              prompt.present()
+                .then(() => {
+                  this.navCtrl.setRoot(CarePlanPage);
+                })
+            });
         })
-        .catch((err) => {
-          loading.dismiss();
-          console.log('subscribe error', err);
-          let prompt = this.alertCtrl.create({
-            title: 'Store Error',
-            message: 'Unable to complete purchase.',
-            buttons: [
-              {
-                text: "Continue",
-                role: 'cancel'
-              }
-            ]
-          });
-          prompt.present();
-        })
-
-    } else {
-      // redirect to the web store, someday?
-      let prompt = this.alertCtrl.create({
-        title: 'Sorry',
-        message: 'You may only subscribe from a mobile device.',
-        buttons: [
-          {
-            text: "Continue",
-            role: 'cancel'
-          }
-        ]
-      });
-      prompt.present();
     }
-  }
-  cancelEdit() {
-    this.navCtrl.pop();
   }
 }

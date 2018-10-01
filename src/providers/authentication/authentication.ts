@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LocalStoreProvider } from '../local-store/local-store';
 import { CPAPI } from '../cpapi/cpapi';
+import { HttpClient } from '@angular/common/http';
 
 import CryptoJS from 'crypto-js';
 
@@ -9,7 +10,7 @@ const ENCRYPT_KEY = 'A little life with dried tubers'  // ts eliot the waste lan
 
 @Injectable()
 export class AuthenticationProvider {
-   
+
     userLoggedIn: boolean = false;
     userId: string = "";
     pwd: string = "";
@@ -17,14 +18,15 @@ export class AuthenticationProvider {
     renewal: string = "";
     renewalType: string = "";
     clientKey: string = "";  // for payments--TODO, might drop this
-    
+
     userValidSubscription: boolean = false;
-    
+
     WARN_DAYS: number = 5;
-    
+
     encryptKey: string;
-    
-    constructor(private cpapi: CPAPI, 
+
+    constructor(private cpapi: CPAPI,
+        private http: HttpClient,
         private LSP: LocalStoreProvider) {
         console.log('Constructor AuthenticationProvider Provider');
         this.encryptKey = ENCRYPT_KEY;
@@ -32,7 +34,7 @@ export class AuthenticationProvider {
 
     alreadyLoggedIn(): any {
         // check already logged in
-        this.readAuthState().then( (r) => {
+        this.readAuthState().then((r) => {
             return r as boolean;
         });
     }
@@ -74,6 +76,7 @@ export class AuthenticationProvider {
     }
 
     checkSubscription(): boolean {
+        // TODO: may need to rework this to use store validateReceipt
         // exit if no renewal value
         if (!this.renewal) return false;
         // use credentials to check last renewal date
@@ -100,8 +103,8 @@ export class AuthenticationProvider {
             }
             return this.userValidSubscription;
         }
-    }    
-    
+    }
+
     logout() {
         this.userLoggedIn = false;
         // this.userId= "";
@@ -117,31 +120,31 @@ export class AuthenticationProvider {
     readAuthState(): Promise<boolean> {
         return new Promise(resolve => {
             this.LSP.get(STORAGE_KEY)
-            .then((data) => {
-                console.log('read session');
-                if (data) {
-                    const state = this.decrypt(data, this.encryptKey);
-                    console.log('state', state);
-                    this.userLoggedIn = state["userLoggedIn"];
-                    this.userId = state["userId"];
-                    this.pwd = state["pwd"];
-                    this.userKey = state["userKey"];
-                    this.renewal = state["renewal"];
-                    this.renewalType = state["renewalType"];
-                    this.clientKey = state["clientKey"];  // for payments--TODO, might drop this
-                    // this.userValidSubscription = this.checkSubscription();
-                } else { 
-                    this.userLoggedIn = false;
-                    this.userId= "";
-                    this.pwd = "";
-                    this.userKey = "";
-                    this.renewal = "";
-                    this.renewalType = "";
-                    this.clientKey = "";  // for payments--TODO, might drop this
-                    this.userValidSubscription = false;                    
-                }
-                resolve(this.userLoggedIn);
-            });
+                .then((data) => {
+                    console.log('read session');
+                    if (data) {
+                        const state = this.decrypt(data, this.encryptKey);
+                        console.log('state', state);
+                        this.userLoggedIn = state["userLoggedIn"];
+                        this.userId = state["userId"];
+                        this.pwd = state["pwd"];
+                        this.userKey = state["userKey"];
+                        this.renewal = state["renewal"];
+                        this.renewalType = state["renewalType"];
+                        this.clientKey = state["clientKey"];  // for payments--TODO, might drop this
+                        // this.userValidSubscription = this.checkSubscription();
+                    } else {
+                        this.userLoggedIn = false;
+                        this.userId = "";
+                        this.pwd = "";
+                        this.userKey = "";
+                        this.renewal = "";
+                        this.renewalType = "";
+                        this.clientKey = "";  // for payments--TODO, might drop this
+                        this.userValidSubscription = false;
+                    }
+                    resolve(this.userLoggedIn);
+                });
             // .catch(e => reject => console.log("error: " + e));
         })
     }
@@ -173,5 +176,40 @@ export class AuthenticationProvider {
         console.log('decrypting');
         let bytes = CryptoJS.AES.decrypt(data, key);
         return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+    }
+
+    createSubscription(): Promise<boolean> {
+        return new Promise((resolve, reject) => {
+        // set up a new user on cpapi
+        // console.log("createSubscription");
+        // TODO: encrype user data 
+        // let e = this.encrypt(userData, this.cpapi.MASTER_KEY);
+        var renewalDate = new Date(Date.now());
+        // TODO: actual days needs to be annual or trial period
+        // however we'll later change to store validateReceipt to determine && see below also
+        renewalDate.setDate(renewalDate.getDate() + 30);
+        var ds = renewalDate.getDate() + "/" + (renewalDate.getMonth() + 1) + "/" + renewalDate.getFullYear();
+        let userData = {
+            user: this.userId,
+            password: this.pwd,
+            key: this.encryptKey,
+            renewal: ds,
+            // TODO also fix when changing to validateReceipt
+            renewalType: "annual",
+            clientKey: "keyval"
+        };
+        var api: string = this.cpapi.apiURL + "users/" + this.userId;
+        this.http.post(api, userData)
+            .subscribe(data => { 
+                console.log("saved new user"); 
+                resolve(true);
+            },
+            error => {
+                alert("not saved to web");  // remove for production
+                //  if no web connection?
+                console.log(error);
+                reject(false);
+            });
+        });
     }
 }

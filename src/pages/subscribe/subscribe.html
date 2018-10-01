@@ -1,43 +1,15 @@
 <ion-header>
 
   <ion-navbar class="navbarStyle" color="primary">
-    <ion-title>Subscribe</ion-title>
+    <ion-title>Set Up</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-  <div>Subscribe to use Red Book Care Plan content.</div>
-  <div ion-item no-lines *ngFor="let p of products" class="hilite">
-    <div>{{p["title"]}</div>
-    <div>{{p.title}}</div>
-    <div>{{p["price"]}</div>
-  </div>
-  <!-- <ion-item no-lines>
-    <p class="hilite">Limited Time Introductory Offer 2 months 10.99USD</div>
-    <p class="hilite">First Year Subscription, get 2 months Free! 99.99USD</div>
-  </ion-item> -->
-  <ion-item no-lines>
-    <div>
-      Subscribing to the Red Book Hospice Care Plan library gives you access to the library to use in your own care
-      planning.</div>
-    <ul>
-      <li>High Quality</li>
-      <li>Evidence-based</li>
-      <li>Practice Validated</li>
-    </ul>
-    <div>
-      Includes
-    </div>
-    <ul>
-      <li><em>Complete Model Care Plans</em> for you to adapt</li>
-      <li>Care Topics</li>
-      <li>Outcomes</li>
-      <li>Interventions</li>
-      <li>All Disciplines</li>
-    </ul>
-  </ion-item>
+  <div>Set up your subscriber information.</div>
+
   <ion-item>
     <ion-label stacked>Choose a User ID</ion-label>
     <ion-input [(ngModel)]="userId"></ion-input>
@@ -68,10 +40,9 @@
       stored in the cloud.</div>
     <div>We suggest 20 characters or more, and something memorable, such as a line from a favorite song.</div>
   </ion-item>
-  <button ion-button *ngIf="(!!pwd && pwd==pwdVer && !!mykey && mykey==mykeyVer)" (click)="subscribe()">Ready! Go to
-    Purchase</button><br>
+  <button ion-button *ngIf="(!!pwd && pwd==pwdVer && !!mykey && mykey==mykeyVer)" (click)="setup()">Save</button><br>
   <ion-item no-lines>
-    <div>After successfully subscribing, you will be automatically signed in, and sent to your Care Plans Page.</div>
+    <div>After set up, you will be automatically signed in, and sent to your Care Plans Page.</div>
   </ion-item>
   <button ion-button (click)="cancelEdit()">Cancel</button>
 </ion-content>
