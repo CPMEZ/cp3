@@ -57,13 +57,13 @@ export class ContentsPage {
     this.subs.add(this.ds.drag()
       .subscribe(({ name }) => {
         this.nowDragging = true;
-        console.log('drag event', name, this.nowDragging);
+        // console.log('drag event', name, this.nowDragging);
       })
     );
     this.subs.add(this.ds.dragend()
       .subscribe(({ name }) => {
         this.nowDragging = false;
-        console.log('dragend event', name, this.nowDragging);
+        // console.log('dragend event', name, this.nowDragging);
       })
     );
 
@@ -78,10 +78,10 @@ export class ContentsPage {
         const c = parseInt(t[0].innerHTML);
         if (name === "goal-list") {
           this.plan.problems[c].goals = targetModel;
-          console.log('goals', targetModel);
+          // console.log('goals', targetModel);
         } else {
           this.plan.problems[c].interventions = targetModel;
-          console.log('interventions', targetModel);
+          // console.log('interventions', targetModel);
         }
         this.ddChanges = true;
       })
