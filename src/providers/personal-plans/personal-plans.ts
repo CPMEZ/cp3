@@ -261,3 +261,12 @@ export class PersonalPlansProvider {
   }
 
 }
+
+  // changeSecret(newsecret) {
+  //   this.secret = newsecret;
+  //   return this.LSP.ready()
+  //     .then(() => {
+  //       return this.LSP.set(this.storekey,
+  //         this.encrypt(this.localData ? this.localData : '', this.secret));
+  //     })
+  // }
