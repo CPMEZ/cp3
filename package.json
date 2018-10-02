@@ -1,14 +1,15 @@
 {
   "name": "cp3",
   "version": "0.0.4",
-  "author": "Ionic Framework",
-  "homepage": "http://ionicframework.com/",
+  "author": "Stan Bell",
+  "homepage": "http://marrelli.com/",
   "private": true,
   "scripts": {
-    "start": "ionic-app-scripts serve",
     "clean": "ionic-app-scripts clean",
     "build": "ionic-app-scripts build",
-    "lint": "ionic-app-scripts lint"
+    "lint": "ionic-app-scripts lint",
+    "ionic:build": "ionic-app-scripts build",
+    "ionic:serve": "ionic-app-scripts serve"
   },
   "dependencies": {
     "@angular/animations": "5.2.11",
@@ -66,7 +67,7 @@
     "@ionic/lab": "1.0.8",
     "typescript": "~2.6.2"
   },
-  "description": "An Ionic project",
+  "description": "Professional Care Planning from Tina Marrelli",
   "cordova": {
     "plugins": {
       "cordova-plugin-ionic": {
