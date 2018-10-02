@@ -198,7 +198,7 @@ export class AuthenticationProvider {
             renewalType: "annual",
             clientKey: "keyval"
         };
-        var api: string = this.cpapi.apiURL + "users/" + this.userId;
+        var api: string = this.cpapi.apiURL + "user/" + this.userId;
         this.http.post(api, userData)
             .subscribe(data => { 
                 console.log("saved new user"); 
