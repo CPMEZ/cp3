@@ -2,7 +2,7 @@
 
   <ion-navbar class="navbarStyle" color="primary">
     <ion-title>Care Plan</ion-title>
-      <ion-buttons end>
+    <ion-buttons end>
       <button ion-button *ngIf="!auth.userLoggedIn" (click)="login()">
         <ion-icon name="unlock"></ion-icon>
       </button>
@@ -12,7 +12,7 @@
       <button ion-button (click)="help()">
         <ion-icon name="help"></ion-icon>
       </button>
-      </ion-buttons>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -20,35 +20,35 @@
 
   <div class="divHeader"><span (click)="editPlan()">{{plan.name}}</span>
     <div style="margin-top: 10px;">
-    <button class="tool" (click)="disciplineAdd()">
-      <ion-icon name="medical"></ion-icon>
-      <ion-icon name="add"></ion-icon>
-    </button>
-    <button class="tool" *ngIf="auth.userLoggedIn" (click)="conditionAdd()">
-      <ion-icon name="fastforward"></ion-icon>
-      <ion-icon name="add"></ion-icon>
-    </button>
-    <button class="tool" (click)="problemAdd()">
-      <ion-icon name="alert"></ion-icon>
-      <ion-icon name="add"></ion-icon>
-    </button>
-    <button class="tool" (click)="showPrint()">
-      <ion-icon name="share"></ion-icon>
-    </button>
-    <button class="tool" (click)="copyPlan()">
-      <ion-icon name="copy"></ion-icon>
-    </button>
-    <button class="trash">
-      <ion-icon name="trash" (click)="deletePlan()"></ion-icon>
-    </button>
+      <button class="tool" *ngIf="auth.userLoggedIn" (click)="conditionAdd()">
+        <ion-icon name="fastforward"></ion-icon>
+        <ion-icon name="add"></ion-icon>
+      </button>
+      <button class="tool" (click)="disciplineAdd()">
+        <ion-icon name="medical"></ion-icon>
+        <ion-icon name="add"></ion-icon>
+      </button>
+      <button class="tool" (click)="problemAdd()">
+        <ion-icon name="alert"></ion-icon>
+        <ion-icon name="add"></ion-icon>
+      </button>
+      <button class="tool" (click)="showPrint()">
+        <ion-icon name="share"></ion-icon>
+      </button>
+      <button class="tool" (click)="copyPlan()">
+        <ion-icon name="copy"></ion-icon>
+      </button>
+      <button class="trash">
+        <ion-icon name="trash" (click)="deletePlan()"></ion-icon>
+      </button>
     </div>
   </div>
 
-    <ion-list class="noScroller" > 
+  <ion-list class="noScroller">
     <div ion-item no-lines *ngFor="let p of plan.problems; let i = index">
       <p class="problem">
-        <ion-icon class="expandTool" [name]="p.icon" (click)="toggleProblemExpand(p)" ></ion-icon>
-        <span  (click)="problemEdit(p)">{{p.text}}</span>
+        <ion-icon class="expandTool" [name]="p.icon" (click)="toggleProblemExpand(p)"></ion-icon>
+        <span (click)="problemEdit(p)">{{p.text}}</span>
       </p>
       <div>
         <div io-item *ngIf="p.expanded">
@@ -66,25 +66,25 @@
             </button>
           </div>
           <ion-list [dragula]='"goal-list"' [(dragulaModel)]="p.goals">
-          <div ion-item no-lines *ngFor="let g of p.goals">
-            <p class="goal">
-              <span class="probId" hidden>{{i}}</span>
-              <span (click)="goalEdit(g)">{{g.term}} {{g.text}}</span>
-              <button class="trash" (click)="goalDelete(p, g)">
-                <ion-icon name="trash"></ion-icon>
-              </button>
-            </p>
-          </div>
-        </ion-list>
-        <ion-list [dragula]='"int-list"' [(dragulaModel)]="p.interventions">
-          <div ion-item no-lines *ngFor="let n of p.interventions">
-            <p class="intervention">
+            <div ion-item no-lines *ngFor="let g of p.goals">
+              <p class="goal">
+                <span class="probId" hidden>{{i}}</span>
+                <span (click)="goalEdit(g)">{{g.term}} {{g.text}}</span>
+                <button class="trash" (click)="goalDelete(p, g)">
+                  <ion-icon name="trash"></ion-icon>
+                </button>
+              </p>
+            </div>
+          </ion-list>
+          <ion-list [dragula]='"int-list"' [(dragulaModel)]="p.interventions">
+            <div ion-item no-lines *ngFor="let n of p.interventions">
+              <p class="intervention">
                 <span class="probId" hidden>{{i}}</span>
                 <!-- (panLeft)="intSwipeDelete(p,n)" -->
                 <span (click)="interventionEdit(n)">{{n.text}}</span>
-              <button class="trash" (click)="interventionDelete(p, n)">
-                <ion-icon name="trash"></ion-icon>
-              </button>
+                <button class="trash" (click)="interventionDelete(p, n)">
+                  <ion-icon name="trash"></ion-icon>
+                </button>
               </p>
               <p class="discpline">
                 <em>{{discList(n)}}</em>
