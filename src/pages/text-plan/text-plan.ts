@@ -96,7 +96,12 @@ export class TextPlanPage {
         },
         intText: {
           fontSize: 14,
-          margin: [20, 8, 0, 0]
+          margin: [10, 8, 0, 0]
+        },
+        typeHeader: {
+          fontSize: 14,
+          bold: true,
+          margin: [10, 8, 0, 0]
         },
         discText: {
           fontSize: 12,
@@ -118,16 +123,18 @@ export class TextPlanPage {
           text: this.plan.problems[i].text,
           style: "probText"
         });
-        if (this.plan.problems[i].goals) {
+        if (this.plan.problems[i].goals.length > 0) {
+          docDefinition.content.push({ text: "Outcomes", style: "typeHeader" });
           for (let j = 0; j < this.plan.problems[i].goals.length; j++) {
             docDefinition.content.push({
               text: // this.plan.problems[i].goals[j].term +
-                "Outcome:  " +
-                this.plan.problems[i].goals[j].text, style: "goalText"
+              "         " +
+              this.plan.problems[i].goals[j].text, style: "goalText"
             });
           }
         }
-        if (this.plan.problems[i].interventions) {
+        if (this.plan.problems[i].interventions.length > 0) {
+          docDefinition.content.push({ text: "Interventions", style: "typeHeader" });
           for (let k = 0; k < this.plan.problems[i].interventions.length; k++) {
             docDefinition.content.push({
               text: // "Intervention:  " + 
@@ -230,17 +237,18 @@ export class TextPlanPage {
         text += this.plan.problems[i].text + "\r\n";
         if (this.plan.problems[i].goals) {
           // console.log('# goals:',this.plan.problems[i].goals.length);
-          // text+="   Outcomes";
+          text+="   Outcomes";
           for (let j = 0; j < this.plan.problems[i].goals.length; j++) {
             text += "    ";
             if (this.plan.problems[i].goals[j].term) { text += this.plan.problems[i].goals[j].term; }
-            text += " Outcome:  " +
+            // text += " Outcome:  " +
+            text += "   " +
               this.plan.problems[i].goals[j].text + "\r\n";
           }
         }
         if (this.plan.problems[i].interventions) {
           // console.log('# interventions:', this.plan.problems[i].interventions.length);
-          // text += "   Interventions";
+          text += "   Interventions";
           for (let k = 0; k < this.plan.problems[i].interventions.length; k++) {
             text += "    " +
               this.plan.problems[i].interventions[k].text + "\r\n";
