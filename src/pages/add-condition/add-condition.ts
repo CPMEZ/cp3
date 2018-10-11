@@ -51,6 +51,7 @@ export class AddConditionPage {
     this.navCtrl.push(LookupPage, {
       types: "conditions",
       type: "condition",
+      searchName: "Condition",
       item: this.condition
     });
   }

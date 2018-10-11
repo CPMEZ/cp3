@@ -39,6 +39,10 @@ export class AddPlanPage {
     this.navCtrl.pop();
   }
 
+  choosePlan() {
+// default the name to the condition name
+  }
+
   cancelEdit() {
     this.navCtrl.pop();
   }

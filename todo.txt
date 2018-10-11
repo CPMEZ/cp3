@@ -1,0 +1,18 @@
+change *+ to discipline
+change >>+ to conditions only
+
+add name of selected thing to title bar, "select xxxxx"
+
+build some kind of undo?
+
+add the standard care plan button on the add plan page
+
+preview the condition or discipline contents before adding
+	show the library (text)
+	keep the library local, avoid reading from server
+
+re-use their content, including merge in old plans
+
+add to help text, add all your co morbid conditions all at once, and then refine after (cause the system takes care of all the unduplication)
+add expansion-when-merged description to help text
+

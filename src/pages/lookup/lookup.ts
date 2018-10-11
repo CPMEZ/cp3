@@ -13,16 +13,18 @@ export class LookupPage {
   types: string;
   type: string;
   searchTerm: string;
+  searchName: string;
   itemsList: any;
   item: any;
 
-  constructor(public navCtrl: NavController, 
+  constructor(public navCtrl: NavController,
     private lc: LoadingController,
-    public navParams: NavParams, 
+    public navParams: NavParams,
     public MPP: MasterPlansProvider) {
       this.types = this.navParams.get('types');
       this.type = this.navParams.get('type');
       this.searchTerm = this.navParams.get('searchTerm');
+      this.searchName = this.navParams.get('searchName');
       this.item = this.navParams.get('item');
   }
 
@@ -45,7 +47,7 @@ export class LookupPage {
       .then((data) => {
         loading.dismiss();
         const d = JSON.parse(data);
-        this.itemsList = d[this.types];  
+        this.itemsList = d[this.types];
         // console.log(this.itemsList);
       });
   }

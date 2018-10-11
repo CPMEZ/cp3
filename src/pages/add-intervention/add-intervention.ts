@@ -67,6 +67,7 @@ export class AddInterventionPage {
     this.navCtrl.push(LookupPage, {
       types: "interventions",
       type: "intervention",
+      searchName: "Intervention",
       item: this.intervention
     });
   }

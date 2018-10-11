@@ -52,6 +52,7 @@ export class AddGoalPage {
     this.navCtrl.push(LookupPage, {
       types: "goals",
       type: "goal",
+      searchName: "Goal",      
       item: this.goal
     });
   }
