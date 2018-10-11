@@ -108,6 +108,7 @@ export class ContentsPage {
     // else ignore
     let v = this.navCtrl.last();
     if ((v.component === AddConditionPage)
+      || (v.component === AddDisciplinePage)
       || (v.component === AddProblemPage)
       || (v.component === AddGoalPage)
       || (v.component === AddInterventionPage)
@@ -142,7 +143,7 @@ export class ContentsPage {
       plan: this.plan
     });
   }
-  
+
   disciplineAdd() {
     this.navCtrl.push(AddDisciplinePage, {
       plan: this.plan
