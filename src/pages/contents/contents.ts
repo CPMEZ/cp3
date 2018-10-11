@@ -9,6 +9,7 @@ import { AddProblemPage } from '../add-problem/add-problem';
 import { AddGoalPage } from '../add-goal/add-goal';
 import { AddInterventionPage } from '../add-intervention/add-intervention';
 import { AddConditionPage } from '../add-condition/add-condition';
+import { AddDisciplinePage } from '../add-discipline/add-discipline';
 import { CopyPage } from '../copy/copy';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { HelpPage } from '../help/help';
@@ -138,6 +139,12 @@ export class ContentsPage {
 
   conditionAdd() {
     this.navCtrl.push(AddConditionPage, {
+      plan: this.plan
+    });
+  }
+  
+  disciplineAdd() {
+    this.navCtrl.push(AddDisciplinePage, {
       plan: this.plan
     });
   }

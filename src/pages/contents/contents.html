@@ -20,12 +20,16 @@
 
   <div class="divHeader"><span (click)="editPlan()">{{plan.name}}</span>
     <div style="margin-top: 10px;">
-    <button class="tool" (click)="problemAdd()">
+    <button class="tool" (click)="disciplineAdd()">
       <ion-icon name="medical"></ion-icon>
       <ion-icon name="add"></ion-icon>
     </button>
     <button class="tool" *ngIf="auth.userLoggedIn" (click)="conditionAdd()">
       <ion-icon name="fastforward"></ion-icon>
+      <ion-icon name="add"></ion-icon>
+    </button>
+    <button class="tool" (click)="problemAdd()">
+      <ion-icon name="alert"></ion-icon>
       <ion-icon name="add"></ion-icon>
     </button>
     <button class="tool" (click)="showPrint()">

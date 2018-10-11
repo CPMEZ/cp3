@@ -45,6 +45,7 @@ import { ConnectionProvider } from '../providers/connection/connection';
 import { Network } from '@ionic-native/network';
 
 import { DragulaModule } from 'ng2-dragula';
+import { AddDisciplinePage } from '../pages/add-discipline/add-discipline';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { DragulaModule } from 'ng2-dragula';
     CarePlanPage,
     ContentsPage,
     AddPlanPage,
+    AddDisciplinePage,
     AddConditionPage,
     AddProblemPage,
     AddGoalPage,
@@ -87,6 +89,7 @@ import { DragulaModule } from 'ng2-dragula';
     ContentsPage,
     AddPlanPage,
     AddConditionPage,
+    AddDisciplinePage,
     AddProblemPage,
     AddGoalPage,
     AddInterventionPage,
