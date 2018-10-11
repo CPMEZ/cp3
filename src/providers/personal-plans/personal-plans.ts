@@ -6,6 +6,7 @@ import { LocalStoreProvider } from '../local-store/local-store';
 import { Platform } from 'ionic-angular';
 
 import CryptoJS from 'crypto-js';
+import { MasterPlansProvider } from '../master-plans/master-plans';
 
 const STORAGE_KEY = 'plans';
 
@@ -20,7 +21,8 @@ export class PersonalPlansProvider {
     private LSP: LocalStoreProvider,
     private auth: AuthenticationProvider,
     private cpapi: CPAPI,
-    private pltfrm: Platform) {
+    private pltfrm: Platform,
+    public MPP: MasterPlansProvider) {
     console.log('Constructor PersonalPlansProvider Provider');
     this.secret = auth.userKey;
     this.storeKey = auth.encryptKey;
@@ -30,7 +32,7 @@ export class PersonalPlansProvider {
   readLocal: boolean = false;
   localReadComplete: boolean = false;
   web: {};
-  readWeb: boolean = false;
+  readWeb: boolean = false; 
   webReadComplete: boolean = false;
 
   // .userValidSubscription and .userLoggedIn determines if user can search from master
@@ -57,6 +59,32 @@ export class PersonalPlansProvider {
     this.plans.push(newPlan);
     // console.log(this.plans);
     this.write();
+  }
+
+  standardPlan(np, condition) {
+    // add a standard plan
+    let newPlan: any;
+    newPlan = { name: np.name, text: np.text, created: "", updated: "", problems: [] };
+    if (newPlan.text === "") { newPlan.text = condition["text"]; }
+    const d: Date = new Date();
+    newPlan.created = d.toLocaleDateString();
+    newPlan.updated = d.toLocaleDateString();
+    this.MPP.getMaster(condition["file"])
+      .then(data => {
+        const cond: {} = JSON.parse(data);
+        this.addProblems(newPlan, cond);
+        this.plans.push(newPlan);
+        console.log(this.plans);
+        this.write();
+      });
+  }
+
+  addProblems(np, cond) {
+    cond["condition"]["problems"].forEach(p => {
+      p["icon"] = "arrow-dropdown";
+      p["expanded"] = true;
+      np["problems"].push(p);
+    });
   }
 
   copyPlan(op, np) {
@@ -167,7 +195,6 @@ export class PersonalPlansProvider {
         // none, init
         this.initPlans()
       }
-
     } // no "else" might be a problem
   }
 

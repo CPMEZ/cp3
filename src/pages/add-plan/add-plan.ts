@@ -5,6 +5,8 @@ import { PersonalPlansProvider } from '../../providers/personal-plans/personal-p
 import { HelpPage } from '../help/help';
 import { LoginPage } from '../login/login';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
+import { LookupPage } from '../lookup/lookup';
+import { MasterPlansProvider } from '../../providers/master-plans/master-plans';
 
 @IonicPage()
 @Component({
@@ -12,6 +14,7 @@ import { AuthenticationProvider } from '../../providers/authentication/authentic
   templateUrl: 'add-plan.html',
 })
 export class AddPlanPage {
+  condition: {};
   newPlan: { name: string, text: string, created: string, updated: string } = { name: "", text: "", created: "", updated: "" };
 
   constructor(public navCtrl: NavController,
@@ -20,18 +23,57 @@ export class AddPlanPage {
     private plt: Platform,
     private toast: Toast,
     public auth: AuthenticationProvider,
-    public PPP: PersonalPlansProvider) {
+    public PPP: PersonalPlansProvider,
+    public MPP: MasterPlansProvider) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddPlanPage');
   }
 
+  ionViewDidEnter() {
+    console.log('ionViewDidEnter AddPlanPage');
+    // may have returned from add condition selection
+    // if so, continue with processing the add
+    if (this.MPP.listSelection) {
+      this.finishAddStandard();
+    } // else entered initially vs returned
+  }
+
+  private finishAddStandard() {
+    // complete adding a standard care plan
+    // after re-entry from lookup
+    this.condition = this.MPP.listSelection;
+    // clear it immediately after used
+    this.MPP.listSelection = "";
+    // confirm before logout
+    let prompt = this.alertCtrl.create({
+      title: 'Confirm Add ' + this.condition["text"],
+      buttons: [
+        {
+          text: "No, don't add",
+          role: 'cancel',
+          handler: () => {
+            this.navCtrl.pop();
+          }
+        },
+        {
+          text: 'Yes, please',
+          handler: () => {
+            this.PPP.standardPlan(this.newPlan, this.condition);
+            if (this.plt.is('mobile')) {
+              this.toast.show('Added ' + this.newPlan['name'], '1500', 'center').subscribe(t => { });
+            }
+            this.navCtrl.pop();
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
+
   addPlan() {
     // console.log(this.newPlan.name, this.newPlan.text);
-    const d: Date = new Date();
-    this.newPlan.created = d.toLocaleDateString();
-    this.newPlan.updated = d.toLocaleDateString();
     this.PPP.addPlan(this.newPlan);
     if (this.plt.is('mobile')) {
       this.toast.show('Added ' + this.newPlan['name'], '1500', 'center').subscribe(t => { });
@@ -40,7 +82,14 @@ export class AddPlanPage {
   }
 
   choosePlan() {
-// default the name to the condition name
+    // newPlan should have name & text from the page
+    this.navCtrl.push(LookupPage, {
+      types: "conditions",
+      type: "condition",
+      searchName: "Condition",
+      item: this.condition
+    });
+    // process continues when return from selection
   }
 
   cancelEdit() {
