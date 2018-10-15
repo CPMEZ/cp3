@@ -48,7 +48,6 @@ export class LookupPage {
         loading.dismiss();
         const d = JSON.parse(data);
         this.itemsList = d[this.types];
-        // console.log(this.itemsList);
       });
   }
 

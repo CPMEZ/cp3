@@ -1,0 +1,24 @@
+<ion-header>
+
+  <ion-navbar class="navbarStyle" color="primary">
+    <ion-title>Preview</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <h1 class="h1text">{{type}}: {{plan.text}}</h1>
+  <div *ngFor="let p of plan.problems">
+    <p class="ptext prob">{{p.text}}</p>
+    <div>
+      <div *ngFor="let g of p.goals">
+        <p class="ptext goal"><em>{{g.term}} Outcome:</em> {{g.text}}</p>
+      </div>
+      <div *ngFor="let n of p.interventions">
+        <p class="ptext int"><em>Int:</em> {{n.text}}</p>
+        <p class="ptext dsc"><em>Disciplines:</em> {{discList(n)}}</p>
+      </div>
+    </div>
+  </div>
+<button ion-button (click)="cancelEdit()">Close</button>
+</ion-content>

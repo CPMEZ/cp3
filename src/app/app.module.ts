@@ -47,6 +47,7 @@ import { Network } from '@ionic-native/network';
 import { DragulaModule } from 'ng2-dragula';
 import { AddDisciplinePage } from '../pages/add-discipline/add-discipline';
 import { CacheProvider } from '../providers/cache/cache';
+import { PreviewPage } from '../pages/preview/preview';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { CacheProvider } from '../providers/cache/cache';
     HelpPage,
     TermsPage,
     SubscribePage,
-    SubselectPage
+    SubselectPage,
+    PreviewPage
   ],
   imports: [
     BrowserModule,
@@ -105,6 +107,7 @@ import { CacheProvider } from '../providers/cache/cache';
     TermsPage,
     SubscribePage,
     SubselectPage,
+    PreviewPage
   ],
   providers: [
     AuthenticationProvider,

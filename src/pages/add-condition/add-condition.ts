@@ -7,6 +7,7 @@ import { AuthenticationProvider } from '../../providers/authentication/authentic
 import { LookupPage } from '../lookup/lookup';
 import { HelpPage } from '../help/help';
 import { LoginPage } from '../login/login';
+import { PreviewPage } from '../preview/preview';
 // import { ArrayType } from '@angular/compiler/src/output/output_ast';
 
 @IonicPage()
@@ -15,6 +16,7 @@ import { LoginPage } from '../login/login';
   templateUrl: 'add-condition.html',
 })
 export class AddConditionPage {
+  planPreview: any;
   plan: any;
   condition: {} = {};
   // problem: {} = {};
@@ -38,7 +40,7 @@ export class AddConditionPage {
   ionViewDidEnter() {
     // may have come from add, may have returned from selection
     console.log('ionViewDidEnter AddConditionPage');
-    this.condition["text"] = "";
+    // this.condition["text"] = "";
     if (this.MPP.listSelection) {
       this.condition = this.MPP.listSelection;
       console.log(this.condition);
@@ -69,6 +71,20 @@ export class AddConditionPage {
           this.addProblems(cond);
         }
       });
+  }
+
+  preview() {
+    // get condition contents to preview
+    this.MPP.getMaster(this.condition["file"])
+      .then(data => {
+        this.planPreview = JSON.parse(data);
+        console.log(this.planPreview);
+        this.navCtrl.push(PreviewPage, {
+          plan: this.planPreview.condition,
+          type: "Condition"
+        });    
+      });    
+
   }
 
   addProblems(cond) {

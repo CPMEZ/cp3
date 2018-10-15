@@ -31,7 +31,9 @@
   </ion-item>
   <ion-item>
   </ion-item>
-  <button ion-button [disabled]="!discipline.text" (click)="editDone()">Confirm Add</button>
+  <button ion-button [disabled]="!discipline.text" (click)="preview()">Preview</button>
+  <br>
+  <button ion-button [disabled]="!discipline.text" (click)="editDone()">Add</button>
   <br>
   <button ion-button (click)="cancelEdit()">Cancel</button>
   <br>

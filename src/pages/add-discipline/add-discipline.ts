@@ -7,6 +7,7 @@ import { AuthenticationProvider } from '../../providers/authentication/authentic
 import { LookupPage } from '../lookup/lookup';
 import { HelpPage } from '../help/help';
 import { LoginPage } from '../login/login';
+import { PreviewPage } from '../preview/preview';
 // import { ArrayType } from '@angular/compiler/src/output/output_ast';
 
 @IonicPage()
@@ -15,6 +16,7 @@ import { LoginPage } from '../login/login';
   templateUrl: 'add-discipline.html',
 })
 export class AddDisciplinePage {
+  planPreview: any;
   plan: any;
   discipline: {} = {};
   // problem: {} = {};
@@ -37,7 +39,7 @@ export class AddDisciplinePage {
   ionViewDidEnter() {
     // may have come from add, may have returned from selection
     console.log('ionViewDidEnter AddDisciplinePage');
-    this.discipline["text"] = "";
+    // this.discipline["text"] = "";
     if (this.MPP.listSelection) {
       this.discipline = this.MPP.listSelection;
       console.log(this.discipline);
@@ -68,6 +70,20 @@ export class AddDisciplinePage {
           this.addProblems(cond);
         }
       });
+  }
+
+  preview() {
+    // get discipline contents to preview
+    this.MPP.getMaster(this.discipline["file"])
+      .then(data => {
+        this.planPreview = JSON.parse(data);
+        console.log(this.planPreview);
+        this.navCtrl.push(PreviewPage, {
+          plan: this.planPreview.discipline,
+          type: "Discipline"
+        });
+      });
+
   }
 
   addProblems(cond) {
