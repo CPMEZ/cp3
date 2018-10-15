@@ -10,24 +10,25 @@ export class LocalStoreProvider {
   }
 
   set(key: string, value): Promise<any> {
-    return this.storage.set(key, value).then(result => {
-      // console.log("set string in storage: " + result);
-      return true;
-    }).catch(function (reason) {
-      console.info(reason);
-      return false;
+    return new Promise((resolve, reject) => {
+      this.storage.set(key, value)
+        .then((result) => resolve(true))
+        .catch((reason) => {
+          console.info(reason);
+          reject(reason);
+        })
     });
   }
 
   get(key: string): Promise<any> {
-    return this.storage.get(key).then(result => {
-      // console.log("storageGET: " + key + ": " + result)
-      if (result != null) { return result }
-      return null;
-    }).catch(function (reason) {
-      console.info(reason);
-      return null;
-    });
+    return new Promise((resolve, reject) => {
+      this.storage.get(key)
+        .then(result => resolve(result))
+        .catch((reason) => {
+          console.info(reason);
+          reject(reason);
+        });
+    })
   }
 
   remove(key: string) {

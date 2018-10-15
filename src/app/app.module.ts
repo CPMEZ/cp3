@@ -46,6 +46,7 @@ import { Network } from '@ionic-native/network';
 
 import { DragulaModule } from 'ng2-dragula';
 import { AddDisciplinePage } from '../pages/add-discipline/add-discipline';
+import { CacheProvider } from '../providers/cache/cache';
 
 @NgModule({
   declarations: [
@@ -123,6 +124,7 @@ import { AddDisciplinePage } from '../pages/add-discipline/add-discipline';
     InAppPurchase,
     // SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
+    CacheProvider,
   ]
 })
 export class AppModule {}
