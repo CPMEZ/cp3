@@ -36,21 +36,15 @@ export class CacheProvider {
   }
 
   package(type: string, input: string): string {
-    // { type: { cached: '1/1/1', type: { } } }
+    // { type: { cached: '1/1/1', contents: { input } } }
     let p: object = {};
     p[type] = { 
       cached: Date.now().valueOf(), 
       contents: input 
     }
     return JSON.stringify(p); 
-    // // let s = input.replace('{', '');  // remove leading {
-    // let p = '{ "' + type + '": {';
-    // p+= ' "cached": ' + Date.now().valueOf() + ', "contents": ';
-    // p+= input + '}';
-    // // p+= s + '}';
-    // return p;
   }
-
+  
   read(type: string, filter?: string): Promise<string> {
     console.log('reading cache for ' + type);
     return new Promise((resolve, reject) => {
@@ -58,7 +52,7 @@ export class CacheProvider {
       .then((data) => {
         if (data) {
           console.log('got cache');
-          // checkRecent
+          // checkRecent--refresh
           // filter
           const r = this.unPackage(type, this.decrypt(data, this.auth.userKey));
           // console.log(r);
@@ -71,13 +65,11 @@ export class CacheProvider {
       // .catch(e => reject => console.log("error: " + e));
     })
   }
-
+  
   unPackage(type: string, input: string): string {
     // strip off container and date
-    // { type: { cached: '1/1/1', type: { } } }
-    // console.log(input);
+    // { type: { cached: '1/1/1', contents: { input } } }
     const p = JSON.parse(input);
-    // return JSON.stringify(p[type]["contents"]);
     return p[type].contents;
   }
 

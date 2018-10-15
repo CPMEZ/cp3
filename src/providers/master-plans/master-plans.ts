@@ -31,6 +31,8 @@ export class MasterPlansProvider {
     // this.cache.remove(type);
     // **************** for debugging
 
+
+    // TODO check for current subscription too
     if (this.auth.userLoggedIn) {
       return new Promise(resolve => {
         // check cache first
@@ -42,7 +44,6 @@ export class MasterPlansProvider {
             if (filter) { path = path + "?f=" + filter; }
             this.cpapi.getData(path)
               .then((data) => {
-                console.log('getMaster CATCH -should be string');
                 this.cache.write(type, data);
                 resolve(data)
               });
