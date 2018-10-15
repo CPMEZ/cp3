@@ -28,10 +28,14 @@
         <button ion-button icon-right (click)="workOffline()">
           WORK OFFLINE
         </button>
-        <ion-item *ngIf="!conn.internet">
-          <div>No internet connection? Could not connect to Red Book cloud.</div>
-        </ion-item>
       </ion-col>
+      <ion-row></ion-row>
     </ion-row>
+    <ion-row>
+      <ion-col>
+          <!-- <ion-item *ngIf="!conn.internet"> -->
+            <h3 *ngIf="!conn.internet">No internet connection? Could not connect to Red Book cloud.</h3>
+        </ion-col>
+      </ion-row>
   </ion-grid>
 </ion-content>
