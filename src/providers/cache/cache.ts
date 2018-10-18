@@ -27,6 +27,25 @@ export class CacheProvider {
     this.LSP.remove(type);
   }
 
+  clearCache() {
+    console.log('clearing cache');
+    this.LSP.keys()
+      .then((k) => {
+        for (const t in k) {
+          if (k.hasOwnProperty(t)) {
+            // remove everything except session and plans
+            if (k[t] !== "cp_session"
+              && k[t] !== "plans") {
+                console.log('clearing ', k[t]);
+              this.LSP.remove(k[t]);
+            } else {
+              console.log('not clearing ', k[t]);
+            }
+          }
+        }
+      });
+  }
+
   write(type: string, input: string) {
     console.log('caching ' + type);
     let p = this.encrypt(this.package(type, input), this.auth.userKey);

@@ -7,6 +7,7 @@ import { ContentsPage } from '../contents/contents';
 import { AddPlanPage } from '../add-plan/add-plan';
 import { HelpPage } from '../help/help';
 import { LoginPage } from '../login/login';
+import { CacheProvider } from '../../providers/cache/cache';
 
 @IonicPage()
 @Component({
@@ -22,6 +23,7 @@ export class CarePlanPage {
     private loadCtrl: LoadingController,
     private toast: Toast,
     public auth: AuthenticationProvider,
+    private cache: CacheProvider,
     public PPP: PersonalPlansProvider) {
     this.plt.pause.subscribe(() => {
       this.PPP.write();
@@ -66,6 +68,10 @@ export class CarePlanPage {
     if (this.plt.is('mobile')) {
       this.toast.show('Downloaded from Cloud', '1500', 'center').subscribe(t => { });
     }
+  }
+
+  clearCache() {
+    this.cache.clearCache();
   }
 
   help() {

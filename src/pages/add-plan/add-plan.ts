@@ -74,9 +74,9 @@ export class AddPlanPage {
   }
 
   nameChange(){
-    console.log('checking');
-    this.canUseName = this.PPP.checkPlanName(this.newPlan['name']);
-    console.log('checking=', this.canUseName);
+    // console.log('checking');
+    this.canUseName = this.PPP.checkPlanName(this.newPlan['name'].trim());
+    // console.log('checking=', this.canUseName);
   }
 
   addPlan() {

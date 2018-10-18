@@ -39,6 +39,17 @@ export class LocalStoreProvider {
     this.storage.clear();
   }
 
+  keys() {
+    return new Promise((resolve, reject) => {
+      this.storage.keys()
+        .then(result => resolve(result))
+        .catch((reason) => {
+          console.info(reason);
+          reject(reason);
+        });
+    })
+  }
+
 }
 
   // setObject(key: string, object: Object) {

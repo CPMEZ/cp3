@@ -8,7 +8,7 @@ import { Platform } from 'ionic-angular';
 import CryptoJS from 'crypto-js';
 import { MasterPlansProvider } from '../master-plans/master-plans';
 
-const STORAGE_KEY = 'plans';
+const STORAGE_KEY = 'plans';  // note CacheProvider ignores this key on clearCache
 
 @Injectable()
 export class PersonalPlansProvider {
