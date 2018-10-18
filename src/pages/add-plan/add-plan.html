@@ -19,7 +19,7 @@
 
 <ion-content padding>
   <ion-item text-wrap>
-    <ion-textarea type="text" rows=2 placeholder="Name the New plan" [(ngModel)]="newPlan.name">
+    <ion-textarea type="text" rows=2 placeholder="Name the New plan" [(ngModel)]="newPlan.name" (ngModelChange)="nameChange()">
     </ion-textarea>
   </ion-item>
   <ion-item text-wrap>
@@ -32,10 +32,10 @@
         may also add standard plans from the Red Book.</span> The new plan will be shown below other plans in your list.</p>
   </ion-item>
   <ion-item no-lines>
-    <button ion-button [disabled]="!newPlan.name" (click)="addPlan()">Add Care Plan</button>
+    <button ion-button [disabled]="(!canUseName || !newPlan.name)" (click)="addPlan()">Add Care Plan</button>
   </ion-item>
   <ion-item no-lines>
-    <button ion-button [disabled]="!newPlan.name" (click)="choosePlan()">Add a Standard Plan from the Red Book</button>
+    <button ion-button [disabled]="(!canUseName || !newPlan.name)" (click)="choosePlan()">Add a Standard Plan from the Red Book</button>
   </ion-item>
   <ion-item no-lines>
     <p>Or you may copy an existing Plan<br> to make a new Plan. Open the Plan you<br> want to copy, and select copy

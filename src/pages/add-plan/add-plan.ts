@@ -16,6 +16,7 @@ import { MasterPlansProvider } from '../../providers/master-plans/master-plans';
 export class AddPlanPage {
   condition: {};
   newPlan: { name: string, text: string, created: string, updated: string } = { name: "", text: "", created: "", updated: "" };
+  canUseName: boolean;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -72,8 +73,15 @@ export class AddPlanPage {
     prompt.present();
   }
 
+  nameChange(){
+    console.log('checking');
+    this.canUseName = this.PPP.checkPlanName(this.newPlan['name']);
+    console.log('checking=', this.canUseName);
+  }
+
   addPlan() {
     // console.log(this.newPlan.name, this.newPlan.text);
+    if (this.PPP.checkPlanName(this.newPlan['name'])) {}
     this.PPP.addPlan(this.newPlan);
     if (this.plt.is('mobile')) {
       this.toast.show('Added ' + this.newPlan['name'], '1500', 'center').subscribe(t => { });

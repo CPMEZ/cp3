@@ -287,7 +287,18 @@ export class PersonalPlansProvider {
     return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
   }
 
+  checkPlanName(name: string): boolean {
+    // see if the name's already in use
+    var canUseName: boolean = true;
+    this.plans.forEach(p => {
+      if (p["name"]==name) {
+        canUseName = false;
+      }
+    });
+    return canUseName;
+  }
 }
+
 
   // changeSecret(newsecret) {
   //   this.secret = newsecret;
