@@ -78,7 +78,9 @@ import { PreviewPage } from '../pages/preview/preview';
   imports: [
     BrowserModule,
     HttpClientModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {
+      pageTransition: "ios-transition"
+    }),
     IonicStorageModule.forRoot(),
     DragulaModule.forRoot()  // ngDragula documentation says this way
     // DragulaModule // example at devdactic says this way--prolly cause example single page
