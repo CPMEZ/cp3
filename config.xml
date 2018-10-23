@@ -2,7 +2,7 @@
 <widget id="com.cpmez.cp3" version="0.0.4" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>cp3</name>
     <description>Tina Marrelli's Red Book Care Planning</description>
-    <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
+    <author email="stan@e-caregiving.com" href="http://marrelli.com/">Marrelli and Associates</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -78,6 +78,7 @@
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="SplashScreenDelay" value="3000" />
+    <preference name="SplashScreenSpinnerColor" value="#FFFFFF"/>
     <plugin name="cordova-clipboard" spec="^1.2.1" />
     <plugin name="cordova-plugin-statusbar" spec="^2.4.2" />
     <plugin name="cordova-plugin-inapppurchase" spec="^1.2.0" />
