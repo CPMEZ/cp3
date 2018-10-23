@@ -17,5 +17,19 @@ build some kind of undo?
 re-use their content, including merge in old plans
 
 x add to help text, add all your co morbid conditions all at once, and then refine after (cause the system takes care of all the unduplication)
-add expansion-when-merged description to help text
+x add expansion-when-merged description to help text
 
+
+x another my care plans banner
+float add button at side?
+
+_ change color of loading spinner on splashscreen--don't seem to be able to
+
+when reusing your own content, be able to merge in condition plans i've previously created, ie merge from any of mine
+
+x add name of plan to select list eg add xxxx for planX
+x		no, put in text below banner, above search
+
+cut and paste to rearrange
+
+drag and drop scroll beyond limits --try ionic reorder
