@@ -43,6 +43,7 @@ import { TextPlanPage } from '../pages/text-plan/text-plan';
 import { SubselectPage } from '../pages/subselect/subselect';
 import { ConnectionProvider } from '../providers/connection/connection';
 import { Network } from '@ionic-native/network';
+import { Printer } from '@ionic-native/printer';
 
 import { DragulaModule } from 'ng2-dragula';
 import { AddDisciplinePage } from '../pages/add-discipline/add-discipline';
@@ -130,6 +131,7 @@ import { PreviewPage } from '../pages/preview/preview';
     // SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     CacheProvider,
+    Printer
   ]
 })
 export class AppModule {}

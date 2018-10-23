@@ -78,8 +78,9 @@
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="SplashScreenDelay" value="3000" />
-    <preference name="SplashScreenSpinnerColor" value="#FFFFFF"/>
+    <preference name="SplashScreenSpinnerColor" value="#FFFFFF" />
     <plugin name="cordova-clipboard" spec="^1.2.1" />
     <plugin name="cordova-plugin-statusbar" spec="^2.4.2" />
     <plugin name="cordova-plugin-inapppurchase" spec="^1.2.0" />
+    <plugin name="cordova-plugin-printer" spec="^0.7.3" />
 </widget>
