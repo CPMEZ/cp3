@@ -36,7 +36,7 @@ export class LoginPage {
   }
   
   login() {
-    this.auth.userId = this.userId;
+    this.auth.userId = this.userId.trim().toLowerCase();
     this.auth.pwd = this.pwd;
     console.log('after Login editDone: user', this.auth.userId);
     console.log('after Login editDone: pwd', this.auth.pwd);
