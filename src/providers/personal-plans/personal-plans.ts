@@ -200,10 +200,6 @@ export class PersonalPlansProvider {
 
   write() {
     console.log('writing');
-    // console.log(this.pltfrm);
-    // console.log(this.plans);
-    // why this pltfrm test?  i think because didn't want to write local if web user
-    // TODO maybe need to reinstate the mobile-only for local storage
     // if (this.pltfrm.is('mobile')) {
       this.saveToLocal();
     // }
