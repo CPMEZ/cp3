@@ -10,8 +10,10 @@ page-careplan {
         color: grey;
         background-color: color($colors, light);
     }
-    .helptext {
-        font-size: 0.8rem;
-        color: color($colors, primary);
+    .addButton {
+        z-index: 100;
+        position: absolute;
+        // left: 300px;
+        top: 60px;
     }
 }
