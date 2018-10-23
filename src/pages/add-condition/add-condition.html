@@ -29,7 +29,7 @@
     Add a Condition from the Red Book
   </button>
   <ion-item>
-    <ion-textarea type="text" readonly=true placeholder="Condition" [(ngModel)]="condition.text">
+    <ion-textarea type="text" readonly=true [(ngModel)]="condition.text">
     </ion-textarea>
   </ion-item>
   <button ion-button [disabled]="!condition.text" (click)="preview()">Preview</button>
