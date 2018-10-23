@@ -56,3 +56,10 @@
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
   filter: alpha(opacity=20);
 }
+
+/* for where-am-i text on each screen */
+  p.helpful {
+      font-style: italic;
+      color: grey;
+      font-size: 1.4rem;
+  }

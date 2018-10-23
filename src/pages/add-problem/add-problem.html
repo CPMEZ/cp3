@@ -19,14 +19,18 @@
 
 
 <ion-content padding>
+  <p class="helpful">Adding a Care Topic to {{plan.name}}
+  </p>
+  <br>
   <button ion-button icon-left *ngIf="auth.userLoggedIn" (click)="lookupMaster()">
     <ion-icon name="add"></ion-icon>
-     Add from the Red Book
-    </button>
-    <button ion-button icon-left *ngIf="!auth.userLoggedIn" (click)="login()">
-      <ion-icon name="lock"></ion-icon>
-      Log In to Add from the Red Book
-    </button>
+    Add from the Red Book
+  </button>
+  <button ion-button icon-left *ngIf="!auth.userLoggedIn" (click)="login()">
+    <ion-icon name="lock"></ion-icon>
+    Log In to Add from the Red Book
+  </button>
+
   <ion-item>
     <ion-textarea rows=4 type="text" placeholder="Topic: focus or aspect of care" [(ngModel)]="problem.text">
     </ion-textarea>

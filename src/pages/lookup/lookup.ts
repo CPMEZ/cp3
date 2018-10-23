@@ -14,6 +14,7 @@ export class LookupPage {
   type: string;
   searchTerm: string;
   searchName: string;
+  planName: string;
   itemsList: any;
   item: any;
 
@@ -25,6 +26,7 @@ export class LookupPage {
       this.type = this.navParams.get('type');
       this.searchTerm = this.navParams.get('searchTerm');
       this.searchName = this.navParams.get('searchName');
+      this.planName = this.navParams.get('planName');
       this.item = this.navParams.get('item');
   }
 

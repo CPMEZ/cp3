@@ -1,4 +1,3 @@
-
 <ion-header>
 
   <ion-navbar class="navbarStyle" color="primary">
@@ -20,12 +19,11 @@
 
 
 <ion-content padding>
+  <p class="helpful">Changing an Outcome in {{plan.name}}
+  </p>
+  <br>
   <ion-item>
-    <ion-textarea 
-        rows=4
-        type="text" 
-        placeholder="Describe the outcome here"
-        [(ngModel)]="goal.text">
+    <ion-textarea rows=4 type="text" placeholder="Describe the outcome here" [(ngModel)]="goal.text">
     </ion-textarea>
   </ion-item>
   <ion-item>

@@ -57,7 +57,8 @@ export class AddProblemPage {
     this.navCtrl.push(LookupPage, {
       types: "problems",
       type: "problem",
-      searchName: "Topic",      
+      searchName: "Topic",
+      planName: this.plan.name,
       item: this.problem
     });
   }

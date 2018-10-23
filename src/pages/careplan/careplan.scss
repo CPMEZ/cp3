@@ -4,16 +4,7 @@ page-careplan {
         color:black;
         font-size: 20px;
     }
-    // button{
-    //     color: color($colors, light);
-    //     background-color: color($colors, primary);
-    //     font-size: 1.4rem;
-    //     margin-left: 2.2rem;
-    // }
-    // .toolbar {
-    //     min-height: 30px;
-    // }    
-    .tool {
+     .tool {
         font-size: 1.4rem;
         margin-left: 0.4rem;
         color: grey;
@@ -23,5 +14,4 @@ page-careplan {
         font-size: 0.8rem;
         color: color($colors, primary);
     }
-
 }

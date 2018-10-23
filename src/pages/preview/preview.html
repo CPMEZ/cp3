@@ -7,6 +7,8 @@
 </ion-header>
 
 <ion-content padding>
+  <p class="helpful">Preview before adding
+  </p>
   <h1 class="h1text">{{type}}: {{plan.text}}</h1>
   <div *ngFor="let p of plan.problems">
     <p class="ptext prob">{{p.text}}</p>
@@ -20,5 +22,5 @@
       </div>
     </div>
   </div>
-<button ion-button (click)="cancelEdit()">Close</button>
+  <button ion-button (click)="cancelEdit()">Close</button>
 </ion-content>

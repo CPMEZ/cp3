@@ -18,81 +18,84 @@
 </ion-header>
 
 <ion-content padding>
-    <button ion-button icon-left *ngIf="auth.userLoggedIn" (click)="lookupMaster()">
-      <ion-icon name="add"></ion-icon>
-     Add from the Red Book
-    </button>
-    <button ion-button icon-left *ngIf="!auth.userLoggedIn" (click)="login()">
-      <ion-icon name="lock"></ion-icon>
-      Log In to Add from the Red Book
-    </button>
+  <p class="helpful">Adding an Intervention to {{plan.name}}
+  </p>
+  <br>
+  <button ion-button icon-left *ngIf="auth.userLoggedIn" (click)="lookupMaster()">
+    <ion-icon name="add"></ion-icon>
+    Add from the Red Book
+  </button>
+  <button ion-button icon-left *ngIf="!auth.userLoggedIn" (click)="login()">
+    <ion-icon name="lock"></ion-icon>
+    Log In to Add from the Red Book
+  </button>
+
   <ion-item>
-      <ion-textarea rows=4 type="text" placeholder="Describe the intervention here" [(ngModel)]="intervention.text">
+    <ion-textarea rows=4 type="text" placeholder="Describe the intervention here" [(ngModel)]="intervention.text">
     </ion-textarea>
   </ion-item>
   <ion-item>
     <p class="hint">{{intervention.hint}}</p>
   </ion-item>
   <ion-list>
-    <ion-list-header>Disciplines/Care Team</ion-list-header>
-      <ion-item>
-        <ion-label>Interdisciplinary</ion-label>
-        <ion-checkbox [(ngModel)]="intervention.interdisciplinary"></ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-label>Nursing</ion-label>
-        <ion-checkbox [(ngModel)]="intervention.nursing"></ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-label>Aide</ion-label>
-        <ion-checkbox [(ngModel)]="intervention.aide"></ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-label>Bereavement</ion-label>
-        <ion-checkbox [(ngModel)]="intervention.bereavement"></ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-label>Dietary</ion-label>
-        <ion-checkbox [(ngModel)]="intervention.dietary"></ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-label>Music/Other</ion-label>
-        <ion-checkbox [(ngModel)]="intervention.music"></ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-label>Occupational Therapy</ion-label>
-        <ion-checkbox [(ngModel)]="intervention.OT"></ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-label>Physical Therapy</ion-label>
-        <ion-checkbox [(ngModel)]="intervention.PT"></ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-label>Pharmacist</ion-label>
-        <ion-checkbox [(ngModel)]="intervention.pharmacist"></ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-label>Social Work</ion-label>
-        <ion-checkbox [(ngModel)]="intervention.social"></ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-label>Spiritual Counselor</ion-label>
-        <ion-checkbox [(ngModel)]="intervention.spiritual"></ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-label>Speech Therapy</ion-label>
-        <ion-checkbox [(ngModel)]="intervention.speech"></ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-label>Volunteer</ion-label>
-        <ion-checkbox [(ngModel)]="intervention.volunteer"></ion-checkbox>
+    <ion-list-header>Designate the Discipline/Care Team for this Intervention:</ion-list-header>
+    <ion-item>
+      <ion-label>Interdisciplinary</ion-label>
+      <ion-checkbox [(ngModel)]="intervention.interdisciplinary"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Nursing</ion-label>
+      <ion-checkbox [(ngModel)]="intervention.nursing"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Aide</ion-label>
+      <ion-checkbox [(ngModel)]="intervention.aide"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Bereavement</ion-label>
+      <ion-checkbox [(ngModel)]="intervention.bereavement"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Dietary</ion-label>
+      <ion-checkbox [(ngModel)]="intervention.dietary"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Music/Other</ion-label>
+      <ion-checkbox [(ngModel)]="intervention.music"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Occupational Therapy</ion-label>
+      <ion-checkbox [(ngModel)]="intervention.OT"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Physical Therapy</ion-label>
+      <ion-checkbox [(ngModel)]="intervention.PT"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Pharmacist</ion-label>
+      <ion-checkbox [(ngModel)]="intervention.pharmacist"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Social Work</ion-label>
+      <ion-checkbox [(ngModel)]="intervention.social"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Spiritual Counselor</ion-label>
+      <ion-checkbox [(ngModel)]="intervention.spiritual"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Speech Therapy</ion-label>
+      <ion-checkbox [(ngModel)]="intervention.speech"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Volunteer</ion-label>
+      <ion-checkbox [(ngModel)]="intervention.volunteer"></ion-checkbox>
     </ion-item>
   </ion-list>
   <ion-item>
-    <ion-input type="text" placeholder="Other Discplines"  [(ngModel)]="intervention.other">
+    <ion-input type="text" placeholder="Other Discplines" [(ngModel)]="intervention.other">
     </ion-input>
   </ion-item>
   <button ion-button [disabled]="!intervention.text" (click)="editDone()">Save</button>
   <button ion-button (click)="cancelEdit()">Cancel</button>
 </ion-content>
-

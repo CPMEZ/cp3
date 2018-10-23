@@ -18,6 +18,9 @@
 </ion-header>
 
 <ion-content padding>
+  <p class="helpful">Creating a new Care Plan by Copying
+  </p>
+  <br>
   <ion-item text-wrap>
     <ion-textarea type="text" rows=2 readonly=true [(ngModel)]="plan.name">
     </ion-textarea>
@@ -37,7 +40,7 @@
   <ion-item no-lines>
     <p class="hilite">Note you will be returned to
       the Care Plan you copy <em>from</em>, not the new one, when you leave this page.</p>
-    </ion-item>
+  </ion-item>
   <button ion-button [disabled]="newPlan.name<''" (click)="makeCopy()">Copy</button>
   <button ion-button (click)="cancelCopy()">Cancel</button>
 </ion-content>

@@ -54,6 +54,7 @@ export class AddConditionPage {
       types: "conditions",
       type: "condition",
       searchName: "Condition",
+      planName: this.plan.name,
       item: this.condition
     });
   }
@@ -70,6 +71,7 @@ export class AddConditionPage {
         } else {  // no problems at all yet, just add from selected condition
           this.addProblems(cond);
         }
+        this.PPP.write();
       });
   }
 

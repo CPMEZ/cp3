@@ -1,6 +1,6 @@
 <ion-header>
 
-    <ion-navbar class="navbarStyle" color="primary">
+  <ion-navbar class="navbarStyle" color="primary">
     <ion-title>Add Condition</ion-title>
     <ion-buttons end>
       <button ion-button *ngIf="!auth.userLoggedIn" (click)="login()">
@@ -20,6 +20,9 @@
 
 
 <ion-content padding>
+  <p class="helpful">Adding a Condition to Care Plan: {{plan.name}}
+  </p>
+  <br>
   <p>Selecting a condition adds all the associated topics to your care plan, with suggested outcomes and interventions.</p>
   <button ion-button icon-left *ngIf="auth.userLoggedIn" (click)="lookupMaster()">
     <ion-icon name="add"></ion-icon>
@@ -36,6 +39,7 @@
   <button ion-button (click)="cancelEdit()">Cancel</button>
   <br>
   <p>
-    If there are already topics in the care plan, such as when adding a second condition, outcomes and interventions will be added at the end of their matching topics.  New topics will be added below existing topics.
+    If there are already topics in the care plan, such as when adding a second condition, outcomes and interventions
+    will be added at the end of their matching topics. New topics will be added below existing topics.
   </p>
 </ion-content>

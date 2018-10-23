@@ -1,6 +1,6 @@
 <ion-header>
 
-    <ion-navbar class="navbarStyle" color="primary">
+  <ion-navbar class="navbarStyle" color="primary">
     <ion-title>Add Discipline</ion-title>
     <ion-buttons end>
       <button ion-button *ngIf="!auth.userLoggedIn" (click)="login()">
@@ -20,11 +20,16 @@
 
 
 <ion-content padding>
-  <p>Selecting a discipline adds all the associated topics to your care plan, with suggested outcomes and interventions.</p>
+  <p class="helpful">Adding a Discipline to Care Plan: {{plan.name}}
+  </p>
+  <br>
+  <p>Selecting a discipline adds all the associated topics to your care plan, with suggested outcomes and
+    interventions.</p>
   <button ion-button icon-left *ngIf="auth.userLoggedIn" (click)="lookupMaster()">
     <ion-icon name="add"></ion-icon>
     Add a Discipline from the Red Book
   </button>
+
   <ion-item>
     <ion-textarea rows=2 type="text" readonly=true placeholder="Discipline" [(ngModel)]="discipline.text">
     </ion-textarea>

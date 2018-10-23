@@ -20,6 +20,9 @@
 
 
 <ion-content padding>
+  <p class="helpful">Adding an Outcome to {{plan.name}}
+  </p>
+  <br>
   <button ion-button icon-left *ngIf="auth.userLoggedIn" (click)="lookupMaster()">
     <ion-icon name="add"></ion-icon>
     Add from the Red Book

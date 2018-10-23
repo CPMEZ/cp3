@@ -53,6 +53,7 @@ export class AddDisciplinePage {
       types: "disciplines",
       type: "discipline",
       searchName: "Discipline",
+      planName: this.plan.name,      
       item: this.discipline
     });
   }
@@ -69,6 +70,7 @@ export class AddDisciplinePage {
         } else {  // no problems at all yet, just add from selected discipline
           this.addProblems(cond);
         }
+        this.PPP.write();
       });
   }
 
@@ -107,11 +109,23 @@ export class AddDisciplinePage {
             // these lines will cause problem to which we've added to be expanded
             p["icon"] = "arrow-dropdown";
             p["expanded"] = true;
-            // add all the goals and interventions to the existing problem
+            // add the goals and interventions to the existing problem
             console.log("goals");
-            this.addNewItems(p["goals"], "text", this.plan.problems[i].goals);
+            if (p.hasOwnProperty("goals")) {
+              if (this.plan.problems[i].hasOwnProperty("goals")) {  // existing has goals already
+                this.addNewItems(p["goals"], "text", this.plan.problems[i].goals);
+              } else { // no goals on existing problem, create "goals" & add
+                this.plan.problems[i]["goals"] = p["goals"];
+              }
+            }
             console.log("interventions");
-            this.addNewItems(p["interventions"], "text", this.plan.problems[i].interventions);
+            if (p.hasOwnProperty("interventions")) {
+              if (this.plan.problems[i].hasOwnProperty("interventions")) {  // existing has interventions already
+                this.addNewItems(p["interventions"], "text", this.plan.problems[i].interventions);
+              } else { // no interventions on existing problem, create "interventions" & add
+                this.plan.problems[i]["interventions"] = p["interventions"];
+              }
+            }
             break;  // no need to look further
           }
         }

@@ -29,16 +29,18 @@
 <ion-content padding>
   <!-- <div class="helptext">touch the name or the icon <ion-icon name="create" class="tool"></ion-icon>to work with the contents of a plan</div>
     <br> -->
+    <div align="right">
   <button ion-button icon-left (click)="addPlan()">
     <ion-icon name="add"></ion-icon>
-    Add Care Plan
+    Create a New Plan
   </button>
-  <ion-list>
-    <div ion-item text-wrap no-lines *ngFor="let p of PPP.plans">
-      <p class="plan" (click)="contents(p)">{{p.name}}
-        <ion-icon name="create" class="tool"></ion-icon>
-      </p>
-      <br>
-    </div>
-  </ion-list>
+  </div>
+  <p class="helpful">Care plans I've created.</p>
+    <ion-list>
+      <div ion-item text-wrap no-lines *ngFor="let p of PPP.plans">
+        <p class="plan" (click)="contents(p)">{{p.name}}
+          <ion-icon name="create" class="tool"></ion-icon>
+        </p>
+      </div>
+    </ion-list>
 </ion-content>

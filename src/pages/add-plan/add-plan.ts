@@ -95,6 +95,7 @@ export class AddPlanPage {
       types: "conditions",
       type: "condition",
       searchName: "Condition",
+      planName: this.newPlan['name'],      
       item: this.condition
     });
     // process continues when return from selection
