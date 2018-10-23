@@ -18,8 +18,9 @@
     <ion-row></ion-row>
     <ion-row>
       <ion-col center text-center>
+        <h2 *ngIf="conn.internet && auth.userLoggedIn">Welcome Back, you're logged in as {{auth.userId}}.</h2>
         <button *ngIf="conn.internet && auth.userLoggedIn" ion-button icon-right (click)="alreadyLoggedIn()">
-          WELCOME BACK, YOU'RE LOGGED IN.
+          CONTINUE
         </button>
         <button *ngIf="conn.internet && !auth.userLoggedIn" ion-button icon-right (click)="login()">
           LOG IN
