@@ -72,6 +72,9 @@ export class CarePlanPage {
 
   clearCache() {
     this.cache.clearCache();
+    if (this.plt.is('mobile')) {
+      this.toast.show('Cache Cleared', '1000', 'center').subscribe(t => { });
+    }
   }
 
   help() {
