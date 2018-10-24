@@ -7,9 +7,9 @@ export class CPAPI {
         console.log('Constructor CPAPI Provider');
     }
 
-    // apiURL = 'http://34.229.7.109:22000/CarePlan/';
+    apiURL = 'http://34.229.7.109:22000/CarePlan/';
 
-    apiURL = 'http://127.0.0.1:22000/CarePlan/';
+    // apiURL = 'http://127.0.0.1:22000/CarePlan/';
     // apiURL = 'http://18.216.158.174:22000/CarePlan/'; 
     // apiURL = 'http://34.229.7.109:22000/CarePlan/';
 
