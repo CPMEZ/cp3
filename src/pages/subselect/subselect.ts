@@ -104,4 +104,8 @@ export class SubselectPage {
   cancelEdit() {
     this.navCtrl.pop();
   }
+  
+  test() {
+    this.navCtrl.push(SubscribePage);
+  }
 }

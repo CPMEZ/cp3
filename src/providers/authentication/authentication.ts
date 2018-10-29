@@ -182,20 +182,22 @@ export class AuthenticationProvider {
         return new Promise((resolve, reject) => {
         // set up a new user on cpapi
         // console.log("createSubscription");
-        // TODO: encrype user data 
+        // TODO: encrypt user data 
         // let e = this.encrypt(userData, this.cpapi.MASTER_KEY);
         var renewalDate = new Date(Date.now());
         // TODO: actual days needs to be annual or trial period
         // however we'll later change to store validateReceipt to determine && see below also
-        renewalDate.setDate(renewalDate.getDate() + 30);
-        var ds = renewalDate.getDate() + "/" + (renewalDate.getMonth() + 1) + "/" + renewalDate.getFullYear();
+        // this is setting a MONTHLY subscription
+        renewalDate.setDate(renewalDate.getDate());
+        //                                +1 because monthly subscription, +1 because .getMonth jan=0
+        var ds = renewalDate.getDate() + "/" + (renewalDate.getMonth() + 1 + 1) + "/" + renewalDate.getFullYear();
         let userData = {
             user: this.userId,
             password: this.pwd,
             key: this.encryptKey,
             renewal: ds,
             // TODO also fix when changing to validateReceipt
-            renewalType: "annual",
+            renewalType: "auto",  // checks for auto & skips expiration messages
             clientKey: "keyval"
         };
         var api: string = this.cpapi.apiURL + "user/" + this.userId;
@@ -209,6 +211,27 @@ export class AuthenticationProvider {
                 //  if no web connection?
                 console.log(error);
                 reject(false);
+            });
+        });
+    }
+
+    checkUser(user: string): Promise<boolean> {
+        return new Promise((resolve) => {
+        // see if user already used, or is available, on cpapi
+        // console.log("auth checkUser");
+        // TODO: could be user is present but expired, allow to be used?  no
+        var api: string = this.cpapi.apiURL + "user/" + user;
+        this.http.head(api)
+            .subscribe(data => { 
+                console.log('check user', data);
+                console.log("can't use ", user);
+                resolve(false);
+            },
+            error => {
+                //  if no web connection?
+                console.log('check user error', error);
+                console.log("can use ", user);
+                resolve(true);
             });
         });
     }

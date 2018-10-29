@@ -11,4 +11,14 @@ page-subscribe {
         font-size: medium;
         color: color($colors, primary);
     }
+    .taken {
+        font-style: italic;
+        font-size: medium;
+        color: red;
+    }
+    .available {
+        font-style: italic;
+        font-size: medium;
+        color: green;
+    }
 }

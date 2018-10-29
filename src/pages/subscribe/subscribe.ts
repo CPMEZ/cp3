@@ -15,6 +15,7 @@ export class SubscribePage {
   myKey: string;
   myKeyVer: string;
   products: any;
+  uidAvail: boolean = false;
 
   // TODO change button label to "renew" if they're already subscribed?
   // NOTE!! don't think we can ever change the key once established, or encrypted plans wouldn't be de-cryptable
@@ -50,6 +51,7 @@ export class SubscribePage {
       this.auth.userId = this.userId;
       this.auth.pwd = this.pwd;
       this.auth.userKey = this.myKey;
+      // if (!this.uidAvail) { this.checkAvail(); }
       this.auth.createSubscription()
         .then(() => {
           // sucessful
@@ -79,4 +81,10 @@ export class SubscribePage {
         })
     }
   }
+
+  checkAvail() {
+    this.auth.checkUser(this.userId)
+    .then((d) => { this.uidAvail = d;})
+  }
+
 }
