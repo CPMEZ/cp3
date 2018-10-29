@@ -31,3 +31,8 @@ when reusing your own content, be able to merge in condition plans i've previous
 cut and paste to rearrange
 drag and drop scroll beyond limits --try ionic reorder
 
+***malformed UTF-8 error is caused by using the user's personal encryption key, so when you change users, fails
+	needs to have user-specific storage for PPP & masters' cache
+
+x check user id exists before creating new
+	(using cpapi)
