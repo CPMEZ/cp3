@@ -62,9 +62,9 @@ export class SubselectPage {
         content: 'Purchasing subscription...'
       });
       loading.present();
-      alert(p.productId);
+      // alert(p.productId);
       // this.iap.subscribe(p.productId)
-      this.iap.subscribe('CP3Subscription')
+      this.iap.subscribe('CP3SubMonthly')
         .then((data) => {
           loading.dismiss();
           console.log('subscribe success', data);
