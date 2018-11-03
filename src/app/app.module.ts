@@ -2,17 +2,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { HttpClientModule } from '@angular/common/http';
-// import { HttpClientModule, HttpClient } from '@angular/common/http';
-// import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { IonicStorageModule } from '@ionic/storage';
 import { File } from '@ionic-native/file';
 import { EmailComposer } from '@ionic-native/email-composer';
 import { Toast } from '@ionic-native/toast';
-import { LocalStoreProvider } from '../providers/local-store/local-store';
 import { DocumentViewer } from '@ionic-native/document-viewer';
 import { Clipboard } from '@ionic-native/clipboard';
 import { InAppPurchase } from '@ionic-native/in-app-purchase';
+import { Network } from '@ionic-native/network';
+import { Printer } from '@ionic-native/printer';
+import { DragulaModule } from 'ng2-dragula';
 
 import { MyApp } from './app.component';
 
@@ -20,6 +20,9 @@ import { MasterPlansProvider } from '../providers/master-plans/master-plans';
 import { AuthenticationProvider } from '../providers/authentication/authentication';
 import { CPAPI } from '../providers/cpapi/cpapi';
 import { PersonalPlansProvider } from '../providers/personal-plans/personal-plans';
+import { LocalStoreProvider } from '../providers/local-store/local-store';
+import { CacheProvider } from '../providers/cache/cache';
+import { ConnectionProvider } from '../providers/connection/connection';
 
 import { WelcomePage } from '../pages/welcome/welcome';
 import { LoginPage } from '../pages/login/login';
@@ -41,14 +44,9 @@ import { LookupPage } from '../pages/lookup/lookup';
 import { SubscribePage } from '../pages/subscribe/subscribe';
 import { TextPlanPage } from '../pages/text-plan/text-plan';
 import { SubselectPage } from '../pages/subselect/subselect';
-import { ConnectionProvider } from '../providers/connection/connection';
-import { Network } from '@ionic-native/network';
-import { Printer } from '@ionic-native/printer';
-
-import { DragulaModule } from 'ng2-dragula';
 import { AddDisciplinePage } from '../pages/add-discipline/add-discipline';
-import { CacheProvider } from '../providers/cache/cache';
 import { PreviewPage } from '../pages/preview/preview';
+
 
 @NgModule({
   declarations: [
@@ -119,8 +117,8 @@ import { PreviewPage } from '../pages/preview/preview';
     MasterPlansProvider,
     PersonalPlansProvider,
     ConnectionProvider,
+    CacheProvider,
     StatusBar,
-    Storage,
     File,
     EmailComposer,
     DocumentViewer,
@@ -128,10 +126,10 @@ import { PreviewPage } from '../pages/preview/preview';
     Network,
     Clipboard,
     InAppPurchase,
-    // SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    CacheProvider,
     Printer
+    // SplashScreen,
+    // Storage,
   ]
 })
 export class AppModule {}

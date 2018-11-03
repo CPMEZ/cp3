@@ -17,9 +17,6 @@
 </ion-header>
 
 <ion-content padding>
-    <!-- <p class="helpful">Working with My Care Plan
-    </p>
-    <br> -->
   <div class="divHeader"><span (click)="editPlan()">{{plan.name}}</span>
     <div style="margin-top: 10px;">
       <button class="tool" *ngIf="auth.userLoggedIn" (click)="conditionAdd()">
@@ -93,6 +90,20 @@
               </p>
             </div>
           </ion-list>
+<!--           <ion-list>
+            <div ion-item no-lines *ngFor="let n of p.interventions">
+              <p class="intervention">
+                <span class="probId" hidden>{{i}}</span>
+                <span (press)="intPressed()" (click)="interventionEdit(n)">{{n.text}}</span>
+                <button class="trash" (click)="interventionDelete(p, n)">
+                  <ion-icon name="trash"></ion-icon>
+                </button>
+              </p>
+              <p class="discpline">
+                <em>{{discList(n)}}</em>
+              </p>
+            </div>
+          </ion-list> -->
         </div>
       </div>
     </div>

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-// import { resolveDefinition } from '@angular/core/src/view/util';
 import { AuthenticationProvider } from '../authentication/authentication';
 import { CPAPI } from '../cpapi/cpapi';
 import { CacheProvider } from '../cache/cache';
