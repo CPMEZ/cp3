@@ -9,7 +9,8 @@
 
 <ion-content padding>
   <ion-item no-lines>
-    <div>Subscribe to use Red Book Care Plan content.</div>
+    <h1>Subscribe to use Red Book Care Plan content.</h1>
+
     <div ion-item no-lines *ngFor="let p of products" class="hilite">
       <div>{{p.title}} {{p.price}}
         <button ion-button (click)="subscribe(p)">Purchase</button>
@@ -19,7 +20,7 @@
   <!-- <button ion-button (click)="test()">test</button> -->
   <ion-item no-lines>
     <div>
-      Subscribing to the Library gives you access to content to use in your own care
+      Subscribing gives you access to content to use in your own care
       planning.</div>
     <ul>
       <li>High Quality</li>
@@ -36,6 +37,27 @@
       <li>Interventions</li>
       <li>All Disciplines</li>
     </ul>
+    <div>
+      Content provided with the subscription comes from the
+      "Handbook of Home Health Standards, 6th Edition" written by Tina M. Marrelli, the "Red Book."</div>
+      <br>
+    <div>The content is offered as a monthly subscription service.
+      <ul>
+        <li>The subscription is called "Hospice Monthly"</li>
+        <!-- <li>The purpose of the subscription is to provide access to professional care plan content.</li> -->
+        <li>The price for one month of the subscription is shown below.</li>
+        <li>When you confirm your purchase, payment will be charged to your iTunes Account.</li>
+        <li>The subscription renews automatically month-to-month, unless you cancel it.</li>
+        <li>You cancel by turning off auto-renew in your iTunes "Manage Your Subscriptions." (In Settings, iTunes & App
+          Store.)</li>
+        <li>You'll have to cancel at least 24 hours before the end of the current period.</li>
+        <li>Payment for each month's automatic renewal is also charged to your iTunes Account.</li>
+        <li>The price of renewal each month is the same as the initial month.</li>
+        <li>If at any time a free trial period is offered, any unused portion of the free trial period is forfeited if/when you purchase a subscription.</li>
+      </ul>
+      <p>You may see the end-user license agreement <span class="hilite" (click)="seeTerms()">here</span> within the application, or <a href="https://marrelli.com/cpeula/apple">here</a> on the web.</p>
+      <p>You may see our privacy policy <a href="https://marrelli.com/privacy-policy/">here</a> on the web.</p>
+    </div>
   </ion-item>
   <br>
   <ion-item no-lines>

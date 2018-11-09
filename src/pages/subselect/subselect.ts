@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, LoadingController, AlertController
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { InAppPurchase } from '@ionic-native/in-app-purchase';
 import { SubscribePage } from '../subscribe/subscribe';
+import { TermsPage } from '../terms/terms';
 
 @IonicPage()
 @Component({
@@ -107,5 +108,8 @@ export class SubselectPage {
   
   test() {
     this.navCtrl.push(SubscribePage);
+  }
+  seeTerms() {
+    this.navCtrl.push(TermsPage);
   }
 }

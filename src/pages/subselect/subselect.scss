@@ -1,4 +1,9 @@
 page-subselect {
+    h1 {
+        color: color($colors, primary);
+        word-break: normal;
+        white-space: normal;
+    }
     div {
         word-break: normal;
         white-space: normal;
