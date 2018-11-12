@@ -23,7 +23,11 @@ x		no, put in text below banner, above search
 
 _ change color of loading spinner on splashscreen--don't seem to be able to
 
-build some kind of undo?
+_ build some kind of undo?
+
+x change splash screen color for contrast
+  replace splash screen with tina's picture
+  
 
 re-use their content, including merge in old plans
 when reusing your own content, be able to merge in condition plans i've previously created, ie merge from any of mine
