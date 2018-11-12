@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 
 import CryptoJS from 'crypto-js';
 
-const STORAGE_KEY = 'cp_session' // note CacheProvider ignores this key on clearCache
+const STORAGE_KEY = 'cp_session' // note CacheProvider does not clear this key on clearCache
 const ENCRYPT_KEY = 'A little life with dried tubers'  // ts eliot the waste land, line 7
  
 @Injectable()
