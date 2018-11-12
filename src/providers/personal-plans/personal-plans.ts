@@ -3,7 +3,7 @@ import { CPAPI } from '../cpapi/cpapi';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LocalStoreProvider } from '../local-store/local-store';
-import { Platform } from 'ionic-angular';
+// import { Platform } from 'ionic-angular';
 
 import CryptoJS from 'crypto-js';
 import { MasterPlansProvider } from '../master-plans/master-plans';
