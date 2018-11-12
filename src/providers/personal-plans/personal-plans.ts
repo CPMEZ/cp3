@@ -19,9 +19,9 @@ export class PersonalPlansProvider {
 
   constructor(private http: HttpClient,
     private LSP: LocalStoreProvider,
-    private auth: AuthenticationProvider,
+    public auth: AuthenticationProvider,
     private cpapi: CPAPI,
-    private pltfrm: Platform,
+    // private pltfrm: Platform,
     public MPP: MasterPlansProvider) {
     console.log('Constructor PersonalPlansProvider Provider');
     this.secret = auth.userKey;
@@ -32,7 +32,7 @@ export class PersonalPlansProvider {
   readLocal: boolean = false;
   localReadComplete: boolean = false;
   web: {};
-  readWeb: boolean = false; 
+  readWeb: boolean = false;
   webReadComplete: boolean = false;
 
   // .userValidSubscription and .userLoggedIn determines if user can search from master
@@ -41,7 +41,7 @@ export class PersonalPlansProvider {
     // console.log('check logged in--should be after authenticate Then');
     // always get the local copy
     this.loadPlansLocal();
-    if (this.auth.userLoggedIn) { 
+    if (this.auth.userLoggedIn) {
       // if we can, also get the web copy
       this.loadPlansWeb();
       this.checkRecent();  // use the most recent if we've read both web & local
@@ -124,6 +124,9 @@ export class PersonalPlansProvider {
         this.local = JSON.parse(data);
         this.readLocal = true;
         this.localReadComplete = true;
+        if (typeof this.local !== "object") {
+          this.local = { plans: [] };
+        }
         this.checkRecent();
       })
       .catch((error: any) => {
@@ -132,7 +135,7 @@ export class PersonalPlansProvider {
         this.checkRecent();
       });
   }
-  
+
   loadPlansWeb() {
     // can't see why i was doing this here instead of only in loadPlansLocal
     // if (this.pltfrm.is('mobile')) {
@@ -159,13 +162,13 @@ export class PersonalPlansProvider {
         this.checkRecent();
       })
       .catch((error: any) => {
-        console.log('loadplansweb',error);
+        console.log('loadplansweb', error);
         this.readWeb = false;  // didn't get one
         this.webReadComplete = true;  // but the getting is done
         this.checkRecent();
       });
   }
-  
+
   checkRecent() {
     // this pretty hacky
     // expect this to be called (at least) twice, 
@@ -201,13 +204,13 @@ export class PersonalPlansProvider {
   write() {
     console.log('writing');
     // if (this.pltfrm.is('mobile')) {
-      this.saveToLocal();
+    this.saveToLocal();
     // }
     if (this.auth.userLoggedIn) {
       this.saveToWeb();  // always also save to web, if connected
     }
   }
-  
+
   saveToLocal(): void {
     // console.log("saveToLocal");
     let p = this.packagePlans();
@@ -216,23 +219,23 @@ export class PersonalPlansProvider {
       .then(result => console.log("saved local"))
       .catch(e => console.log("error: " + e));
   }
-  
+
   readFromLocal(): Promise<object> {
     return new Promise(resolve => {
       this.LSP.get(STORAGE_KEY)
-      .then((data) => {
-        console.log('read from local');
-        // console.log(data);
-        if (data) {
-          resolve(this.decrypt(data, this.secret))
-        } else { 
-          resolve({ plans: [] }) 
-        }
-      });
+        .then((data) => {
+          console.log('read from local');
+          // console.log(data);
+          if (data) {
+            resolve(this.decrypt(data, this.secret))
+          } else {
+            resolve({ plans: [] })
+          }
+        });
       // .catch(e => reject => console.log("error: " + e));
     })
   }
-  
+
   saveToWeb() {
     // console.log("saveToWeb");
     let e = this.packagePlans();
@@ -240,25 +243,25 @@ export class PersonalPlansProvider {
     const p: {} = { plans: e };
     var api: string = this.cpapi.apiURL + "data/" + this.auth.userId;
     this.http.post(api, p)
-    .subscribe(data => { console.log("saved to web"); },
-    error => {
-      alert("not saved to web");  // remove for production
-      //  if no web connection?
-      console.log(error);
-    });
+      .subscribe(data => { console.log("saved to web"); },
+        error => {
+          alert("not saved to web");  // remove for production
+          //  if no web connection?
+          console.log(error);
+        });
   }
-  
+
   readFromWeb(): Promise<object> {
     return new Promise(resolve => {
       var api: string = this.cpapi.apiURL + "data/" + this.auth.userId;
       this.http.get(api)
-      .subscribe((data) => {
-        console.log('read from web');
-        if (data) {
-          resolve(this.decrypt(data["plans"] as string, this.secret));
-        } else {
-          resolve( { plans: [] });
-        }
+        .subscribe((data) => {
+          console.log('read from web');
+          if (data) {
+            resolve(this.decrypt(data["plans"] as string, this.secret));
+          } else {
+            resolve({ plans: [] });
+          }
         });
     });
   }
@@ -287,7 +290,7 @@ export class PersonalPlansProvider {
     // see if the name's already in use
     var canUseName: boolean = true;
     this.plans.forEach(p => {
-      if (p["name"]==name) {
+      if (p["name"] == name) {
         canUseName = false;
       }
     });

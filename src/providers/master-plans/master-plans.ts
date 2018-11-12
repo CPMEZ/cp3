@@ -19,7 +19,7 @@ export class MasterPlansProvider {
   }
 
   constructor(private cpapi: CPAPI,
-    private auth: AuthenticationProvider,
+    public auth: AuthenticationProvider,
     private cache: CacheProvider) {
     console.log('Constructor MasterPlansProvider Provider');
   }

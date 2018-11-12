@@ -11,7 +11,7 @@ export class CacheProvider {
 
   constructor(
     private LSP: LocalStoreProvider,
-    private auth: AuthenticationProvider) {
+    public auth: AuthenticationProvider) {
     console.log('Constructor Cache Provider');
     this.secret = auth.userKey;
     this.storeKey = auth.encryptKey;

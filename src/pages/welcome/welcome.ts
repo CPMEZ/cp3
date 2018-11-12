@@ -17,7 +17,7 @@ export class WelcomePage {
 
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
-    private auth: AuthenticationProvider,
+    public auth: AuthenticationProvider,
     public conn:  ConnectionProvider) {
       conn.checkConnection();
       if (this.auth.alreadyLoggedIn()) {
