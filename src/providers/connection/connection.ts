@@ -9,6 +9,10 @@ export class ConnectionProvider {
   connected = false;
   internet = false;
 
+
+  connectSubscription: any;
+  disconnectSubscription: any;
+
   constructor(public http: HttpClient,
   private network: Network,
   private cpapi: CPAPI) {
@@ -36,7 +40,7 @@ export class ConnectionProvider {
   // watch network for a connection
   connectionSubscribe() {
     console.log('in connectionSubscribe');
-    let connectSubscription = this.network.onConnect().subscribe(() => {
+    this.connectSubscription = this.network.onConnect().subscribe(() => {
       console.log('network connected!');
       // need to wait briefly before checking the connection type. 
       // assume need to wait prior to doing any api requests as well.
@@ -62,14 +66,17 @@ export class ConnectionProvider {
     
     // watch network for a disconnect
   disConnectionSubscribe() {
-    let disconnectSubscription = this.network.onDisconnect().subscribe(() => {
+    this.disconnectSubscription = this.network.onDisconnect().subscribe(() => {
       this.connected= false;
       this.internet = false;
       console.log('network was disconnected');
     });
-    
-  // stop disconnect watch
-  // disconnectSubscription.unsubscribe();
-
   }
+    
+  // stop disconnect watch, not called, just making ts happy
+  unSubscribe() {
+    this.connectSubscription.unsubscribe();
+    this.disconnectSubscription.unsubscribe();
+  }
+
 }

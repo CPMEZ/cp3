@@ -17,7 +17,8 @@ export class CPAPI {
     MASTER_KEY = "Half a league, half a league, Half a league onward,"
     // first 2 lines of charge of the light brigade
 
-    getData(type: string, filter?: string): Promise<string> {
+    // getData(type: string, filter?: string): Promise<string> {
+    getData(type: string): Promise<string> {
         console.log('getData', type);
         return new Promise((resolve, reject) => {
             this.http.get(type)
