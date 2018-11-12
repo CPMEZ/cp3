@@ -7,6 +7,7 @@ export class CPAPI {
         console.log('Constructor CPAPI Provider');
     }
 
+    // apiURL = 'http://api.cpmez.com:22000/CarePlan/';
     apiURL = 'http://ec2-34-195-4-230.compute-1.amazonaws.com:22000/CarePlan/';
     
     // apiURL = 'http://127.0.0.1:22000/CarePlan/';
