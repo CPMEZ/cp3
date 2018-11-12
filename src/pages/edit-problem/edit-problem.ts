@@ -13,6 +13,7 @@ export class EditProblemPage {
   plan: any;
   problem: any;
   saveProblem: { text: "" } = { text: "" };
+  
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
     private alertCtrl: AlertController,

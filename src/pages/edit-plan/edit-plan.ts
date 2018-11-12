@@ -12,6 +12,7 @@ import { AuthenticationProvider } from '../../providers/authentication/authentic
 export class EditPlanPage {
   plan: any;
   savePlan: { name: string, text: string, updated: string } = { name: "", text: "", updated: "" };
+  
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
     private alertCtrl: AlertController,    
