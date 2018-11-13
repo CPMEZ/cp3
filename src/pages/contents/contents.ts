@@ -287,11 +287,11 @@ export class ContentsPage {
     });
   }
 
-  copyPlan() {
-    this.navCtrl.push(CopyPage, {
-      plan: this.plan
-    });
-  }
+  // copyPlan() {
+  //   this.navCtrl.push(CopyPage, {
+  //     plan: this.plan
+  //   });
+  // }
 
   deletePlan() {
     // confirm before delete
