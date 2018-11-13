@@ -110,9 +110,9 @@ export class AddConditionPage {
             p["icon"] = "arrow-dropdown";
             p["expanded"] = true;
             // add all the goals and interventions to the existing problem
-            console.log("goals");
+            // console.log("goals");
             this.addNewItems(p["goals"], "text", this.plan.problems[i].goals);
-            console.log("interventions");
+            // console.log("interventions");
             this.addNewItems(p["interventions"], "text", this.plan.problems[i].interventions);
             break;  // no need to look further
           }
