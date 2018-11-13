@@ -8,7 +8,6 @@ import { LookupPage } from '../lookup/lookup';
 import { HelpPage } from '../help/help';
 import { LoginPage } from '../login/login';
 import { PreviewPage } from '../preview/preview';
-// import { ArrayType } from '@angular/compiler/src/output/output_ast';
 
 @IonicPage()
 @Component({
