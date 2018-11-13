@@ -209,6 +209,7 @@ export class PersonalPlansProvider {
       .catch((error: any) => {
         this.readLocal = false;  // didn't get one
         this.localReadComplete = true;  // but the reading is done
+        this.local = { plans: [] };  // create an empty
         this.checkRecent();
       });
   }
@@ -237,9 +238,14 @@ export class PersonalPlansProvider {
     // can't check currency until both read attempts are completed,
     // but web read might not be completed at all (if subscrptn expired, eg)
     // so set local, then override with web if web is newer
-    if (this.localReadComplete) {
-      this.plans = this.local["plans"];
-    }
+    // if (this.localReadComplete) {
+    //   console.log('this.local.plans 1')
+    //   if (this.local["plans"]) {
+    //     this.plans = this.local["plans"];
+    //   } else {
+    //     this.initPlans();
+    //   }
+    // }
     if (this.localReadComplete && this.webReadComplete) {
       if (this.readLocal && this.readWeb) {
         // got both, compare dates
@@ -251,13 +257,14 @@ export class PersonalPlansProvider {
         }
       } else if (this.readLocal) {
         // only got a local, use it
+        console.log('this.local.plans 2')
         this.plans = this.local["plans"];
       } else if (this.readWeb) {
         // only got a web, use it
         this.plans = this.web["plans"];
       } else {
         // none, init
-        this.initPlans()
+        this.initPlans();
       }
     } // no "else" might be a problem
   }
