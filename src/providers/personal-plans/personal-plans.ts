@@ -3,7 +3,6 @@ import { CPAPI } from '../cpapi/cpapi';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LocalStoreProvider } from '../local-store/local-store';
-// import { Platform } from 'ionic-angular';
 
 import CryptoJS from 'crypto-js';
 import { MasterPlansProvider } from '../master-plans/master-plans';
@@ -73,18 +72,18 @@ export class PersonalPlansProvider {
     this.MPP.getMaster(condition["file"])
       .then(data => {
         const cond: {} = JSON.parse(data);
-        this.addProblems(newPlan, cond);
+        this.addProblemsFromCondition(newPlan, cond);
         this.plans.push(newPlan);
         console.log(this.plans);
         this.write();
       });
   }
 
-  addProblems(np, cond) {
+  addProblemsFromCondition(target, cond) {
     cond["condition"]["problems"].forEach(p => {
       p["icon"] = "arrow-dropdown";
       p["expanded"] = true;
-      np["problems"].push(p);
+      target["problems"].push(p);
     });
   }
 
@@ -104,6 +103,76 @@ export class PersonalPlansProvider {
     this.plans.push(newPlan);
     // console.log(this.plans);
     this.write();
+  }
+
+  mergePlan(targetPlan, sourcePlan) {
+    // copy all the components from selected plan to the new plan,
+    // (have to copy contents individual, so not by reference)
+    // and exclude any item from the selected already present in the target
+    const d: Date = new Date();
+    targetPlan.updated = d.toLocaleDateString();
+    this.mergeProblemsFromPlan(targetPlan, sourcePlan);
+    // console.log(targetPlan);
+    this.write();
+  }
+
+  mergeProblemsFromPlan(targetPlan, sourcePlan) {
+    console.log('mergeProblemsFromPlan');
+    // if (targetPlan.problems.length > 0) {
+      // if the plan is not currently empty, 
+      // merge into existing problems
+      sourcePlan["problems"].forEach(p => {
+        let found = false;
+        for (var i = 0; i < targetPlan.problems.length; i++) {
+          // problem in newly-added condition already in the plan?
+          if (targetPlan.problems[i].text === p["text"]) {
+            found = true;
+            // these lines will cause problem to which we've added to be expanded
+            p["icon"] = "arrow-dropdown";
+            p["expanded"] = true;
+            // add all the goals and interventions to the existing problem
+            console.log("goals");
+            this.addNewItems(p["goals"], "text", targetPlan.problems[i].goals);
+            console.log("interventions");
+            this.addNewItems(p["interventions"], "text", targetPlan.problems[i].interventions);
+            break;  // no need to look further
+          }
+        }
+        if (!found) {  // never found it, add the whole problem
+          console.log('not found, whole problem');
+          p["icon"] = "arrow-dropdown";
+          p["expanded"] = true;
+          var t = deepCopy(p);
+          console.log(t);
+          targetPlan.problems.push(t);
+        }
+      })
+    // }
+  }
+
+  addNewItems(source: Array<object>, element: string, arr: Array<object>) {
+    console.log('addNewItems');
+    // only insert items not already found
+    var work = source;
+    var found;
+    for (var i = 0; i < arr.length; i++) {
+      found = undefined;
+      for (var j = 0; j < work.length; j++) {
+        if (work[j][element] == arr[i][element]) {
+          found = j;
+        }
+      }
+      if (found < work.length) {
+        // remove from working array
+        work.splice(found, 1);
+      }
+    };
+    // now add the remaining
+    if (work.length > 0) {
+      for (var k = 0; k < work.length; k++) {
+        arr.push(deepCopy(work[k]));
+      }
+    }
   }
 
   deletePlan(plan) {
