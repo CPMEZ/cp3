@@ -7,6 +7,7 @@ import { LoginPage } from '../login/login';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { LookupPage } from '../lookup/lookup';
 import { MasterPlansProvider } from '../../providers/master-plans/master-plans';
+import { MergePage } from '../merge/merge';
 
 @IonicPage()
 @Component({
@@ -17,6 +18,7 @@ export class AddPlanPage {
   condition: {};
   newPlan: { name: string, text: string, created: string, updated: string } = { name: "", text: "", created: "", updated: "" };
   canUseName: boolean;
+  planToMerge: any;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -39,15 +41,52 @@ export class AddPlanPage {
     if (this.MPP.listSelection) {
       this.finishAddStandard();
     } // else entered initially vs returned
+    if (this.PPP.listSelection) {
+      this.finishCopyPlan();
+    } // else entered initially vs returned
+  }
+
+  private finishCopyPlan() {
+    // complete adding a copied care plan
+    // after re-entry from merge
+    console.log('finishCopyPlan');
+    this.planToMerge = this.PPP.listSelection;
+    // clear it immediately after used
+    this.PPP.listSelection = "";
+    // confirm before copy
+    let prompt = this.alertCtrl.create({
+      title: 'Confirm Add ' + this.planToMerge["name"],
+      buttons: [
+        {
+          text: "No, don't add",
+          role: 'cancel',
+          handler: () => {
+            this.navCtrl.pop();
+          }
+        },
+        {
+          text: 'Yes, please',
+          handler: () => {
+            this.PPP.copyPlan(this.planToMerge, this.newPlan);
+            if (this.plt.is('mobile')) {
+              this.toast.show('Added ' + this.newPlan['name'], '1500', 'center').subscribe(t => { });
+            }
+            this.navCtrl.pop();
+          }
+        }
+      ]
+    });
+    prompt.present();
   }
 
   private finishAddStandard() {
     // complete adding a standard care plan
     // after re-entry from lookup
+    console.log('finishAddStandard');
     this.condition = this.MPP.listSelection;
     // clear it immediately after used
     this.MPP.listSelection = "";
-    // confirm before logout
+    // confirm before copy
     let prompt = this.alertCtrl.create({
       title: 'Confirm Add ' + this.condition["text"],
       buttons: [
@@ -89,7 +128,7 @@ export class AddPlanPage {
     this.navCtrl.pop();
   }
 
-  choosePlan() {
+  stdPlan() {
     // newPlan should have name & text from the page
     this.navCtrl.push(LookupPage, {
       types: "conditions",
@@ -101,6 +140,19 @@ export class AddPlanPage {
     // process continues when return from selection
   }
 
+  // mergePlan() {
+  //   this.navCtrl.push(MergePage, {
+  //     planName: this.newPlan['name'],
+  //     planText: this.newPlan['text']
+  //   })
+  // }
+
+  copyPlan() {
+    this.navCtrl.push(MergePage, {
+      planName: this.newPlan['name'],
+      planText: this.newPlan['text']
+    })
+  }
   cancelEdit() {
     this.navCtrl.pop();
   }

@@ -46,6 +46,7 @@ import { TextPlanPage } from '../pages/text-plan/text-plan';
 import { SubselectPage } from '../pages/subselect/subselect';
 import { AddDisciplinePage } from '../pages/add-discipline/add-discipline';
 import { PreviewPage } from '../pages/preview/preview';
+import { MergePage } from '../pages/merge/merge';
 
 
 @NgModule({
@@ -72,7 +73,8 @@ import { PreviewPage } from '../pages/preview/preview';
     TermsPage,
     SubscribePage,
     SubselectPage,
-    PreviewPage
+    PreviewPage,
+    MergePage
   ],
   imports: [
     BrowserModule,
@@ -108,7 +110,8 @@ import { PreviewPage } from '../pages/preview/preview';
     TermsPage,
     SubscribePage,
     SubselectPage,
-    PreviewPage
+    PreviewPage,
+    MergePage
   ],
   providers: [
     AuthenticationProvider,

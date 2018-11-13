@@ -16,6 +16,7 @@ export class PersonalPlansProvider {
   plans: {}[] = [];
   secret: string;
   storeKey: string;
+  listSelection: any;  // used by merge, add-plan pages
 
   constructor(private http: HttpClient,
     private LSP: LocalStoreProvider,
@@ -90,13 +91,16 @@ export class PersonalPlansProvider {
   copyPlan(op, np) {
     // create a new plan, 
     // copy all the components from the old one,
+    // (have to copy contents individual, so not by reference)
     // add to (personal) plans array
-    const newPlan = { ...op };
+    // let newPlan = Object.assign({},  ...op);
+    let newPlan = deepCopy(op);
     newPlan.name = np.name;
     newPlan.text = np.text;
     const d: Date = new Date();
     newPlan.created = d.toLocaleDateString();
     newPlan.updated = d.toLocaleDateString();
+    console.log(newPlan);
     this.plans.push(newPlan);
     // console.log(this.plans);
     this.write();
@@ -115,6 +119,10 @@ export class PersonalPlansProvider {
   initPlans(): void {
     // create an empty plans array
     this.plans = [];
+  }
+
+  listPlans(): any {
+    return this.plans;
   }
 
   loadPlansLocal() {
@@ -137,22 +145,6 @@ export class PersonalPlansProvider {
   }
 
   loadPlansWeb() {
-    // can't see why i was doing this here instead of only in loadPlansLocal
-    // if (this.pltfrm.is('mobile')) {
-    //   this.readFromLocal()
-    //     .then((data: any) => {
-    //       console.log(data);
-    //       this.local = JSON.parse(data);
-    //       this.readLocal = true;
-    //       this.localReadComplete = true;
-    //       this.checkRecent();
-    //     })
-    //     .catch((error: any) => {
-    //       this.readLocal = false;  // didn't get one
-    //       this.localReadComplete = true;  // but the reading is done
-    //       this.checkRecent();
-    //     });
-    // }
     this.readFromWeb()
       .then((data: any) => {
         // console.log(data);
@@ -298,6 +290,51 @@ export class PersonalPlansProvider {
   }
 }
 
+// helper
+
+function deepCopy(obj) {
+  var copy;
+
+  // Handle the 3 simple types, and null or undefined
+  if (null == obj || "object" != typeof obj) return obj;
+
+  // Handle Date
+  if (obj instanceof Date) {
+    copy = new Date();
+    copy.setTime(obj.getTime());
+    return copy;
+  }
+
+  // Handle Array
+  if (obj instanceof Array) {
+    copy = [];
+    for (var i = 0, len = obj.length; i < len; i++) {
+      copy[i] = deepCopy(obj[i]);
+    }
+    return copy;
+  }
+
+  // Handle Object
+  if (obj instanceof Object) {
+    copy = {};
+    for (var attr in obj) {
+      if (obj.hasOwnProperty(attr)) copy[attr] = deepCopy(obj[attr]);
+    }
+    return copy;
+  }
+
+  throw new Error("Unable to copy obj! Its type isn't supported.");
+}
+
+// var clone = <Customer>deepCopy(customer);
+
+// alert(clone.name + ' ' + clone.example.type); // David DavidType
+// // alert(clone.greet()); // Not OK - not really a customer
+
+// clone.name = 'Steve';
+// clone.example.type = 'SteveType';
+
+// alert(customer.name + ' ' + customer.example.type); // David DavidType
 
   // changeSecret(newsecret) {
   //   this.secret = newsecret;

@@ -1,0 +1,29 @@
+<ion-header>
+
+  <ion-navbar class="navbarStyle" color="primary">
+    <ion-title>Select to Merge</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="help()">
+        <ion-icon name="help"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <p class="helpful">Merging My Content into {{planName}}
+  </p>
+  <br>
+  <!-- <ion-toolbar color=primary>
+    <ion-searchbar class="search" [(ngModel)]="searchTerm" debounce=750 placeholder="Search" (ionInput)="getList()">
+    </ion-searchbar>
+  </ion-toolbar> -->
+  <div *ngIf="itemsList">
+    <ion-list>
+      <div ion-item no-lines *ngFor="let z of itemsList">
+        <p (click)="choose(z)">{{z.name}}</p>
+      </div>
+    </ion-list>
+  </div>
+</ion-content>

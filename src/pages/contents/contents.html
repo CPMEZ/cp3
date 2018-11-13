@@ -23,8 +23,12 @@
         <ion-icon name="fastforward"></ion-icon>
         <ion-icon name="add"></ion-icon>
       </button>
-      <button class="tool" (click)="disciplineAdd()">
+      <button class="tool" *ngIf="auth.userLoggedIn" (click)="disciplineAdd()">
         <ion-icon name="medical"></ion-icon>
+        <ion-icon name="add"></ion-icon>
+      </button>
+      <button class="tool" (click)="mergeIn()">
+        <ion-icon name="shuffle"></ion-icon>
         <ion-icon name="add"></ion-icon>
       </button>
       <button class="tool" (click)="problemAdd()">

@@ -17,6 +17,7 @@ import { LoginPage } from '../login/login';
 import { TextPlanPage } from '../text-plan/text-plan';
 import { DragulaService } from 'ng2-dragula';
 import { Subscription } from 'rxjs';
+import { MergePage } from '../merge/merge';
 
 @IonicPage()
 @Component({
@@ -150,6 +151,11 @@ export class ContentsPage {
     });
   }
 
+  mergeIn() {
+    this.navCtrl.push(MergePage, {
+      plan: this.plan
+    });
+  }
   problemAdd() {
     this.navCtrl.push(AddProblemPage, {
       plan: this.plan

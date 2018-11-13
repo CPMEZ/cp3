@@ -2,5 +2,21 @@ page-add-plan {
     p {
         word-break: normal;
         white-space: normal;
+        margin: 0 0 2px;
+        overflow: inherit;
+        font-size: 1.4rem;
+        line-height: normal;
+        text-overflow: inherit;
+        color:black !important;        
+    }
+    li {
+        word-break: normal;
+        white-space: normal;
+        margin: 0 0 2px;
+        overflow: inherit;
+        font-size: 1.4rem;
+        line-height: normal;
+        text-overflow: inherit;
+        color: black;             
     }
 }
