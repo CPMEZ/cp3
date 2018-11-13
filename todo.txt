@@ -28,9 +28,16 @@ _ build some kind of undo?
 x change splash screen color for contrast
 x  replace splash screen with tina's picture
 
+x  re-use their content, including merge in old plans
+x when reusing your own content, be able to merge in condition plans i've previously created, ie merge from any of mine
 
-__ re-use their content, including merge in old plans
-when reusing your own content, be able to merge in condition plans i've previously created, ie merge from any of mine
+_ procedural assist..guide thru developing a plan
+		copy template
+		merge other templates
+		edit to remove, occasionally add content
+		fill in the blanks
+
+_ import someone else's plans?
 
 cut and paste to rearrange
 drag and drop scroll beyond limits --try ionic reorder
