@@ -74,7 +74,7 @@ export class PersonalPlansProvider {
         const cond: {} = JSON.parse(data);
         this.addProblemsFromCondition(newPlan, cond);
         this.plans.push(newPlan);
-        console.log(this.plans);
+        // console.log(this.plans);
         this.write();
       });
   }
@@ -99,7 +99,7 @@ export class PersonalPlansProvider {
     const d: Date = new Date();
     newPlan.created = d.toLocaleDateString();
     newPlan.updated = d.toLocaleDateString();
-    console.log(newPlan);
+    // console.log(newPlan);
     this.plans.push(newPlan);
     // console.log(this.plans);
     this.write();
@@ -117,7 +117,7 @@ export class PersonalPlansProvider {
   }
 
   mergeProblemsFromPlan(targetPlan, sourcePlan) {
-    console.log('mergeProblemsFromPlan');
+    // console.log('mergeProblemsFromPlan');
     // if (targetPlan.problems.length > 0) {
       // if the plan is not currently empty, 
       // merge into existing problems
@@ -131,19 +131,19 @@ export class PersonalPlansProvider {
             p["icon"] = "arrow-dropdown";
             p["expanded"] = true;
             // add all the goals and interventions to the existing problem
-            console.log("goals");
+            // console.log("goals");
             this.addNewItems(p["goals"], "text", targetPlan.problems[i].goals);
-            console.log("interventions");
+            // console.log("interventions");
             this.addNewItems(p["interventions"], "text", targetPlan.problems[i].interventions);
             break;  // no need to look further
           }
         }
         if (!found) {  // never found it, add the whole problem
-          console.log('not found, whole problem');
+          // console.log('not found, whole problem');
           p["icon"] = "arrow-dropdown";
           p["expanded"] = true;
           var t = deepCopy(p);
-          console.log(t);
+          // console.log(t);
           targetPlan.problems.push(t);
         }
       })
@@ -151,7 +151,7 @@ export class PersonalPlansProvider {
   }
 
   addNewItems(source: Array<object>, element: string, arr: Array<object>) {
-    console.log('addNewItems');
+    // console.log('addNewItems');
     // only insert items not already found
     var work = source;
     var found;

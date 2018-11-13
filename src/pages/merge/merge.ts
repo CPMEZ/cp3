@@ -38,7 +38,7 @@ export class MergePage {
   }
 
   choose(which) {
-    console.log('selected', which);
+    // console.log('selected', which);
     this.PPP.listSelection = which;
     this.navCtrl.pop();
   }
