@@ -44,11 +44,6 @@ export class ContentsPage {
         e.preventDefault();
       }
     }, { passive: false });
-    // document.addEventListener('touchend', (e) => {
-    //   if (this.nowDragging) {
-    //     e.preventDefault();
-    //   }
-    // }, { passive: false });
     document.addEventListener('touchmove', (e) => {
       // console.log('touchmove event', this.nowDragging);
       if (this.nowDragging) {
@@ -92,6 +87,11 @@ export class ContentsPage {
 
   ionViewDidEnter() {
     console.log('ionViewDidEnter ContentsPage');
+    let v = this.navCtrl.last();
+    if ((v.component === MergePage) && (this.PPP.listSelection > "")) {
+      // do the merge
+      this.PPP.mergePlan(this.plan, this.PPP.listSelection);
+    }
   }
 
   ionViewWillLeave() {
@@ -153,7 +153,7 @@ export class ContentsPage {
 
   mergeIn() {
     this.navCtrl.push(MergePage, {
-      plan: this.plan
+      plan: this.plan 
     });
   }
   problemAdd() {
