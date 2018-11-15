@@ -31,8 +31,6 @@ x  replace splash screen with tina's picture
 x  re-use their content, including merge in old plans
 x when reusing your own content, be able to merge in condition plans i've previously created, ie merge from any of mine
 
-x put disclaimer on login page, "by your login you accept..." + t&c button
-
 _ procedural assist..guide thru developing a plan
 		copy template
 		merge other templates

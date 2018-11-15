@@ -6,7 +6,7 @@ import { Storage } from '@ionic/storage';
 export class LocalStoreProvider {
 
   constructor(private storage: Storage) {
-    console.log('Constructor LocalStoreProvider Provider');
+    console.log('LocalStoreProvider Constructor');
   }
 
   set(key: string, value): Promise<any> {

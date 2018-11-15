@@ -10,7 +10,7 @@ import { AddGoalPage } from '../add-goal/add-goal';
 import { AddInterventionPage } from '../add-intervention/add-intervention';
 import { AddConditionPage } from '../add-condition/add-condition';
 import { AddDisciplinePage } from '../add-discipline/add-discipline';
-// import { CopyPage } from '../copy/copy';
+import { CopyPage } from '../copy/copy';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { HelpPage } from '../help/help';
 import { LoginPage } from '../login/login';
