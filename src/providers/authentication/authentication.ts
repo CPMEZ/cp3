@@ -123,10 +123,9 @@ export class AuthenticationProvider {
         return new Promise(resolve => {
             this.LSP.get(STORAGE_KEY)
                 .then((data) => {
-                    console.log('read session');
                     if (data) {
                         const state = this.decrypt(data, this.encryptKey);
-                        console.log('state', state);
+                        console.log('got state', state);
                         this.userLoggedIn = state["userLoggedIn"];
                         this.userId = state["userId"];
                         this.pwd = state["pwd"];
