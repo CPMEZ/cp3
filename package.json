@@ -29,6 +29,7 @@
     "@ionic-native/in-app-purchase": "^4.15.0",
     "@ionic-native/network": "^4.12.2",
     "@ionic-native/printer": "^4.16.0",
+    "@ionic-native/splash-screen": "^4.17.0",
     "@ionic-native/status-bar": "^4.12.2",
     "@ionic-native/toast": "^4.12.2",
     "@ionic/pro": "2.0.3",
@@ -88,7 +89,8 @@
       "cordova-clipboard": {},
       "cordova-plugin-statusbar": {},
       "cordova-plugin-inapppurchase": {},
-      "cordova-plugin-printer": {}
+      "cordova-plugin-printer": {},
+      "cordova-plugin-splashscreen": {}
     },
     "platforms": [
       "ios"
