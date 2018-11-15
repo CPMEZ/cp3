@@ -16,7 +16,7 @@ export class ConnectionProvider {
   constructor(public http: HttpClient,
   private network: Network,
   private cpapi: CPAPI) {
-    console.log('ConnectionProvider Provider');
+    console.log('Constructor ConnectionProvider Provider');
   }
 
   checkConnection() {
