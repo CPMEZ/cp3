@@ -12,6 +12,7 @@ import { Clipboard } from '@ionic-native/clipboard';
 import { InAppPurchase } from '@ionic-native/in-app-purchase';
 import { Network } from '@ionic-native/network';
 import { Printer } from '@ionic-native/printer';
+import { SplashScreen } from '@ionic-native/splash-screen';
 import { DragulaModule } from 'ng2-dragula';
 
 import { MyApp } from './app.component';
@@ -130,8 +131,8 @@ import { MergePage } from '../pages/merge/merge';
     Clipboard,
     InAppPurchase,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    Printer
-    // SplashScreen,
+    Printer,
+    SplashScreen
     // Storage,
   ]
 })
