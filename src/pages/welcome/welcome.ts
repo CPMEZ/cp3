@@ -46,5 +46,5 @@ export class WelcomePage {
   showTerms() {
     this.navCtrl.push(TermsPage);
   }
-
+ 
 }

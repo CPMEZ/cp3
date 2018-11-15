@@ -26,7 +26,7 @@ export class MyApp {
         console.log('setting rootPage');
         this.rootPage = WelcomePage;
       }, 2000);
-    });
+    }); 
   }
 }
 
