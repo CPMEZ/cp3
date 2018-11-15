@@ -4,6 +4,7 @@ import { AuthenticationProvider } from '../../providers/authentication/authentic
 import { LoginPage } from '../login/login';
 import { CarePlanPage } from '../careplan/careplan';
 import { ConnectionProvider } from '../../providers/connection/connection';
+import { TermsPage } from '../terms/terms';
 
 @IonicPage()
 @Component({
@@ -19,6 +20,7 @@ export class WelcomePage {
     public navParams: NavParams,
     public auth: AuthenticationProvider,
     public conn:  ConnectionProvider) {
+      console.log('Constructor Welcome');
       conn.checkConnection();
       if (this.auth.alreadyLoggedIn()) {
         this.auth.checkSubscription();
@@ -39,6 +41,10 @@ export class WelcomePage {
   
   workOffline() {
     this.navCtrl.setRoot(CarePlanPage);
+  }
+
+  showTerms() {
+    this.navCtrl.push(TermsPage);
   }
 
 }

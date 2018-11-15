@@ -62,13 +62,19 @@ $screen-xl-min: 1200px;
         }
     }
     h2{
-        color: color($colors, dark);
+        // color: color($colors, dark);
+        color: color($colors, light);
         font-size: 1.8rem;
     }
     h3{
         color: color($colors, light);
         background-color:  color($colors, primary);
         font-size: 1rem;
+    }
+    h4{
+        color: color($colors, light);
+        background-color:  color($colors, primary);
+        font-size: 1.2rem;
     }
     .marginTop{
         margin-top:100px;
@@ -94,6 +100,9 @@ $screen-xl-min: 1200px;
     .button{
         background-color: color($colors, light);
         color: color($colors, primary);
+    }
+    .underline {
+        text-decoration: underline; 
     }
 }
 };

@@ -4,39 +4,31 @@
     <ion-title><em>welcome to</em></ion-title>
   </ion-navbar>
 </ion-header>
- 
+
 <ion-content padding id="welcome">
-  <ion-grid>
-    <ion-row>
-      <ion-col center text-center>
-        <h2><em>Tina Marrelli's</em></h2>
-        <img src="assets/imgs/TMFun600.png" class="logo" />
-        <h1>Red Book Hospice Care Planning</h1>
-      </ion-col>
-    </ion-row>
-    <ion-row></ion-row>
-    <ion-row></ion-row>
-    <ion-row>
-      <ion-col center text-center>
-        <h2 *ngIf="conn.internet && auth.userLoggedIn">Welcome Back! You're logged in as {{auth.userId}}.</h2>
-        <button *ngIf="conn.internet && auth.userLoggedIn" ion-button icon-right (click)="alreadyLoggedIn()">
-          CONTINUE
-        </button>
-        <button *ngIf="conn.internet && !auth.userLoggedIn" ion-button icon-right (click)="login()">
-          LOG IN
-        </button>
-        <br>
-        <button ion-button icon-right (click)="workOffline()">
-          WORK OFFLINE
-        </button>
-      </ion-col>
-      <ion-row></ion-row>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-          <!-- <ion-item *ngIf="!conn.internet"> -->
-            <h3 *ngIf="!conn.internet">No internet connection? Could not connect to Red Book cloud.</h3>
-        </ion-col>
-      </ion-row>
-  </ion-grid>
+
+  <div text-center>
+    <h2><em>Tina Marrelli's</em></h2>
+    <img src="assets/imgs/TMFun600.png" class="logo" />
+    <h1>Red Book Hospice Care Planning</h1>
+  </div>
+
+  <br>
+
+  <div text-center>
+    <h2 *ngIf="conn.internet && auth.userLoggedIn">Welcome Back! You're logged in as {{auth.userId}}.</h2>
+  </div>
+  <div text-center>
+    <button ion-button icon-right *ngIf="conn.internet && auth.userLoggedIn" (click)="alreadyLoggedIn()">
+      CONTINUE
+    </button>
+    <button ion-button icon-right *ngIf="conn.internet && !auth.userLoggedIn" (click)="login()">
+      LOG IN
+    </button>
+    <h3 *ngIf="!conn.internet">No internet connection? Could not connect to Red Book cloud.</h3>
+    <button ion-button icon-right (click)="workOffline()">
+      WORK OFFLINE
+    </button>
+    <h4 (click)="showTerms()">Using the app indicates you accept the <span class="underline">License Agreement.</span></h4>
+  </div>
 </ion-content>
