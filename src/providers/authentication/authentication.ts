@@ -78,6 +78,7 @@ export class AuthenticationProvider {
     checkSubscription(): boolean {
         // TODO: may need to rework this to use store validateReceipt
         // exit if no renewal value
+        console.log('checkSubscription');
         if (!this.renewal) return false;
         // use credentials to check last renewal date
         // let userValidSubscription: boolean = false;
@@ -118,6 +119,7 @@ export class AuthenticationProvider {
     }
 
     readAuthState(): Promise<boolean> {
+        console.log('readAuthState');
         return new Promise(resolve => {
             this.LSP.get(STORAGE_KEY)
                 .then((data) => {

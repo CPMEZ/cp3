@@ -10,14 +10,12 @@ export class CPAPI {
     apiURL = 'http://api.cpmez.com:22000/CarePlan/';
     // local apiURL = 'http://127.0.0.1:22000/CarePlan/';
     // elastice ip apiURL = 'http://ec2-34-195-4-230.compute-1.amazonaws.com:22000/CarePlan/';
-    
     // no longer valid ip apiURL = 'http://34.229.7.109:22000/CarePlan/';
     // old instance apiURL = 'http://ec2-34-229-7-109.compute-1.amazonaws.com:22000/CarePlan/';
 
     MASTER_KEY = "Half a league, half a league, Half a league onward,"
     // first 2 lines of charge of the light brigade
 
-    // getData(type: string, filter?: string): Promise<string> {
     getData(type: string): Promise<string> {
         console.log('getData', type);
         return new Promise((resolve, reject) => {
