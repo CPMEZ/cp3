@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { WelcomePage } from '../pages/welcome/welcome';
-// import { StatusBar } from '@ionic-native/status-bar';
-// import { ConnectionProvider } from '../providers/connection/connection';
 
 @Component({
   templateUrl: 'app.html'
@@ -15,16 +13,19 @@ export class MyApp {
   constructor(platform: Platform
     , splashScreen: SplashScreen) {
     // ){
-    // , statusBar: StatusBar) {
-    // conn:  ConnectionProvider) {
+
     platform.ready().then(() => {
-      this.rootPage = WelcomePage;
-      // for ios quirks
-      if (platform.is('cordova')) {
-        this.timer = setTimeout(() => {
+      console.log('platform ready')
+      if (platform.is('cordova')) { console.log('cordova');}
+      this.timer = setTimeout(() => {
+        if (platform.is('cordova')) {
+          // for ios quirks
+          console.log('splashscreen hide');
           splashScreen.hide();
-        }, 2000);
-      }
+        }
+        console.log('setting rootPage');
+        this.rootPage = WelcomePage;
+      }, 2000);
     });
   }
 }
