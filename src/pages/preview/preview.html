@@ -18,7 +18,7 @@
       </div>
       <div *ngFor="let n of p.interventions">
         <p class="ptext int"><em>Int:</em> {{n.text}}</p>
-        <p class="ptext dsc"><em>Disciplines:</em> {{discList(n)}}</p>
+        <p class="ptext dsc" *ngIf="discList(n)"><em>Disciplines:</em> {{discList(n)}}</p>
       </div>
     </div>
   </div>
