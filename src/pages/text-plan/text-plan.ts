@@ -128,8 +128,8 @@ export class TextPlanPage {
           for (let j = 0; j < this.plan.problems[i].goals.length; j++) {
             docDefinition.content.push({
               text: // this.plan.problems[i].goals[j].term +
-              "         " +
-              this.plan.problems[i].goals[j].text, style: "goalText"
+                "         " +
+                this.plan.problems[i].goals[j].text, style: "goalText"
             });
           }
         }
@@ -141,10 +141,12 @@ export class TextPlanPage {
                 this.plan.problems[i].interventions[k].text,
               style: "intText"
             });
-            docDefinition.content.push({
-              text: "(" + this.discList(this.plan.problems[i].interventions[k]) + ")",
-              style: "discText"
-            });
+            if (this.plan.problems[i].interventions.length > 0) {
+              docDefinition.content.push({
+                text: "(" + this.discList(this.plan.problems[i].interventions[k]) + ")",
+                style: "discText"
+              });
+            }
           }
         }
       }
@@ -237,7 +239,7 @@ export class TextPlanPage {
         text += this.plan.problems[i].text + "\r\n";
         if (this.plan.problems[i].goals) {
           // console.log('# goals:',this.plan.problems[i].goals.length);
-          text+="   Outcomes";
+          text += "   Outcomes";
           for (let j = 0; j < this.plan.problems[i].goals.length; j++) {
             text += "    ";
             if (this.plan.problems[i].goals[j].term) { text += this.plan.problems[i].goals[j].term; }
