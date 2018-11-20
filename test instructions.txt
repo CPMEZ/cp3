@@ -1,0 +1,11 @@
+please test all functions.  
+create a new care plan with each option:  empty, from red book standard, and from a copy of your own (latter after creating one, of course).  
+Add topics, manually/your own, and from red book.  
+merge in conditions, disciplines, and your own partial plans.  preview conditions and disciplines before adding.  
+add outcomes and interventions to topics, from red book and your own.  search  when adding from red book. 
+edit name/text/description of plans, topics, outcomes, interventions.  fill in blanks in standard/red book interventions.
+delete/remove interventions, outcomes, topics, plans.
+use "share" and review plan text.  copy to clipboard, and paste elsewhere (notes is convenient).  email a plan.  create and print or copy a pdf.
+log in and log out.  leave app and ensure app recognizes your logged in/out state when you reopen, and that your saved plans are present and accurate.
+use upload to cloud/download from cloud buttons.  test on additional devices as you're able (ios only.)
+review help.
