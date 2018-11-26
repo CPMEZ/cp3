@@ -16,15 +16,18 @@ export class WelcomePage {
   acceptedTerms = false;
   onLine = false;
 
-  constructor(public navCtrl: NavController, 
+  constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public auth: AuthenticationProvider,
-    public conn:  ConnectionProvider) {
-      console.log('Constructor Welcome');
-      conn.checkConnection();
-      if (this.auth.alreadyLoggedIn()) {
+    public conn: ConnectionProvider) {
+    console.log('Constructor Welcome');
+    conn.checkConnection();
+    this.auth.alreadyLoggedIn()
+    .then((r) => {
+      if (this.auth.userLoggedIn) {
         this.auth.checkSubscription();
       }
+    });
   }
 
   ionViewDidLoad() {
@@ -38,7 +41,7 @@ export class WelcomePage {
   login() {
     this.navCtrl.setRoot(LoginPage);
   }
-  
+
   workOffline() {
     this.navCtrl.setRoot(CarePlanPage);
   }
@@ -46,5 +49,5 @@ export class WelcomePage {
   showTerms() {
     this.navCtrl.push(TermsPage);
   }
- 
+
 }
