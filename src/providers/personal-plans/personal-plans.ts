@@ -13,8 +13,6 @@ const STORAGE_KEY = 'plans';  // note CacheProvider ignores this key on clearCac
 export class PersonalPlansProvider {
   lastWrite: string;
   plans: {}[] = [];
-  secret: string;
-  storeKey: string;
   listSelection: any;  // used by merge, add-plan pages
 
   constructor(private http: HttpClient,
@@ -24,8 +22,6 @@ export class PersonalPlansProvider {
     // private pltfrm: Platform,
     public MPP: MasterPlansProvider) {
     console.log('Constructor PersonalPlansProvider Provider');
-    this.secret = auth.userKey;
-    this.storeKey = auth.encryptKey;
   }
 
   local: {};
@@ -48,6 +44,7 @@ export class PersonalPlansProvider {
     }
   }
 
+  // add empty plan
   addPlan(np) {
     // initialize the plan structure for a new one
     let newPlan: any;
@@ -61,6 +58,7 @@ export class PersonalPlansProvider {
     this.write();
   }
 
+  // add standard plan section
   standardPlan(np, condition) {
     // add a standard plan
     let newPlan: any;
@@ -86,8 +84,10 @@ export class PersonalPlansProvider {
       target["problems"].push(p);
     });
   }
+  // END add standard plan section
 
-  copyPlan(op, np) {
+  // copy your own plan section
+    copyPlan(op, np) {
     // create a new plan, 
     // copy all the components from the old one,
     // (have to copy contents individual, so not by reference)
@@ -150,7 +150,9 @@ export class PersonalPlansProvider {
       })
     // }
   }
+  // END copy your own plan section
 
+  // helper for add standard and copy your own
   addNewItems(source: Array<object>, element: string, arr: Array<object>) {
     // console.log('addNewItems');
     // only insert items not already found
@@ -175,7 +177,7 @@ export class PersonalPlansProvider {
       }
     }
   }
-
+ 
   deletePlan(plan) {
     // remove the designated plan from plans
     var index: number = this.plans.indexOf(plan, 0);
@@ -195,6 +197,8 @@ export class PersonalPlansProvider {
     return this.plans;
   }
 
+
+  // reading/writing plans section  ===================
   loadPlansLocal() {
     this.readFromLocal()
       .then((data: any) => {
@@ -283,20 +287,22 @@ export class PersonalPlansProvider {
   saveToLocal(): void {
     // console.log("saveToLocal");
     let p = this.packagePlans();
-    p = this.encrypt(p, this.secret);
-    this.LSP.set(STORAGE_KEY, p)
-      .then(result => console.log("saved local"))
-      .catch(e => console.log("error: " + e));
+    p = this.encrypt(p, this.auth.userKey);
+    const userStorageKey = STORAGE_KEY + '_' + this.auth.userId
+    this.LSP.set(userStorageKey, p)
+    .then(result => console.log("saved local"))
+    .catch(e => console.log("error: " + e));
   }
-
+  
   readFromLocal(): Promise<object> {
     return new Promise(resolve => {
-      this.LSP.get(STORAGE_KEY)
+      const userStorageKey = STORAGE_KEY + '_' + this.auth.userId
+      this.LSP.get(userStorageKey)
         .then((data) => {
           console.log('read from local');
           // console.log(data);
           if (data) {
-            resolve(this.decrypt(data, this.secret))
+            resolve(this.decrypt(data, this.auth.userKey))
           } else {
             resolve({ plans: [] })
           }
@@ -308,7 +314,7 @@ export class PersonalPlansProvider {
   saveToWeb() {
     // console.log("saveToWeb");
     let e = this.packagePlans();
-    e = this.encrypt(e, this.secret);
+    e = this.encrypt(e, this.auth.userKey);
     const p: {} = { plans: e };
     var api: string = this.cpapi.apiURL + "data/" + this.auth.userId;
     this.http.post(api, p)
@@ -327,7 +333,7 @@ export class PersonalPlansProvider {
         .subscribe((data) => {
           console.log('read from web');
           if (data) {
-            resolve(this.decrypt(data["plans"] as string, this.secret));
+            resolve(this.decrypt(data["plans"] as string, this.auth.userKey));
           } else {
             resolve({ plans: [] });
           }
@@ -402,22 +408,3 @@ function deepCopy(obj) {
 
   throw new Error("Unable to copy obj! Its type isn't supported.");
 }
-
-// var clone = <Customer>deepCopy(customer);
-
-// alert(clone.name + ' ' + clone.example.type); // David DavidType
-// // alert(clone.greet()); // Not OK - not really a customer
-
-// clone.name = 'Steve';
-// clone.example.type = 'SteveType';
-
-// alert(customer.name + ' ' + customer.example.type); // David DavidType
-
-  // changeSecret(newsecret) {
-  //   this.secret = newsecret;
-  //   return this.LSP.ready()
-  //     .then(() => {
-  //       return this.LSP.set(this.storekey,
-  //         this.encrypt(this.localData ? this.localData : '', this.secret));
-  //     })
-  // }

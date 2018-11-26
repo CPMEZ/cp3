@@ -58,6 +58,8 @@ _ immediate write after login?  w newly installed app
 
 x remove delete confirmation from outcome and intervention
 
+_ change local storage key to user-specific for plan data
+
 _ write when device re-activated from sleep--fix that
 
 _ update EULA
