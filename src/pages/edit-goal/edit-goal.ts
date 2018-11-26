@@ -3,6 +3,7 @@ import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angu
 import { HelpPage } from '../help/help';
 import { LoginPage } from '../login/login';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
+import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 
 @IonicPage()
 @Component({
@@ -17,7 +18,8 @@ export class EditGoalPage {
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
     private alertCtrl: AlertController,    
-    public auth: AuthenticationProvider) {
+    public auth: AuthenticationProvider,
+    public PPP: PersonalPlansProvider) {
     this.plan = navParams.get('plan');
     this.goal = navParams.get('goal');
     this.saveGoal.text = this.goal.text;
@@ -29,6 +31,7 @@ export class EditGoalPage {
   editDone() {
     const d: Date = new Date();
     this.plan.updated = d.toLocaleDateString();
+    this.PPP.write();
     this.navCtrl.pop();
   }
   cancelEdit() {

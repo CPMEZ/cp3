@@ -3,6 +3,7 @@ import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angu
 import { HelpPage } from '../help/help';
 import { LoginPage } from '../login/login';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
+import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 
 
 @IonicPage()
@@ -18,7 +19,8 @@ export class EditInterventionPage {
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
     private alertCtrl: AlertController,    
-    public auth: AuthenticationProvider) {
+    public auth: AuthenticationProvider,
+    public PPP: PersonalPlansProvider) {
     this.plan = navParams.get('plan');
     this.intervention = navParams.get('intervention');
     this.saveIntervention.text = this.intervention.text;
@@ -29,7 +31,8 @@ export class EditInterventionPage {
   }
   editDone() {
     const d: Date = new Date();
-    this.plan.updated = d.toLocaleDateString();    
+    this.plan.updated = d.toLocaleDateString();
+    this.PPP.write();
     this.navCtrl.pop();
   }
   cancelEdit() {

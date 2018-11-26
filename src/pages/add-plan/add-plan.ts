@@ -40,9 +40,11 @@ export class AddPlanPage {
     // if so, continue with processing the add
     if (this.MPP.listSelection) {
       this.finishAddStandard();
+      this.MPP.listSelection = "";
     } // else entered initially vs returned
     if (this.PPP.listSelection) {
       this.finishCopyPlan();
+      this.PPP.listSelection = "";
     } // else entered initially vs returned
   }
 
@@ -129,7 +131,7 @@ export class AddPlanPage {
   }
 
   stdPlan() {
-    // newPlan should have name & text from the page
+    // newPlan should have name & text from this page
     this.navCtrl.push(LookupPage, {
       types: "conditions",
       type: "condition",

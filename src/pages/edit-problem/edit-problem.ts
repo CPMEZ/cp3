@@ -3,6 +3,7 @@ import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angu
 import { HelpPage } from '../help/help';
 import { LoginPage } from '../login/login';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
+import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 
 @IonicPage()
 @Component({
@@ -17,7 +18,8 @@ export class EditProblemPage {
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
     private alertCtrl: AlertController,
-    public auth: AuthenticationProvider) {
+    public auth: AuthenticationProvider,
+    public PPP: PersonalPlansProvider) {
     this.plan = navParams.get('plan');
     this.problem = navParams.get('problem');
     this.saveProblem.text = this.problem.text;
@@ -28,7 +30,8 @@ export class EditProblemPage {
   }
   editDone() {
     const d: Date = new Date();
-    this.plan.updated = d.toLocaleDateString();    
+    this.plan.updated = d.toLocaleDateString();
+    this.PPP.write();
     this.navCtrl.pop();
   }
   cancelEdit() {

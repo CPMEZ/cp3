@@ -89,8 +89,33 @@ export class ContentsPage {
     let v = this.navCtrl.last();
     if ((v.component === MergePage) && (this.PPP.listSelection > "")) {
       // do the merge
-      this.PPP.mergePlan(this.plan, this.PPP.listSelection);
+      this.finishMerge();
     }
+  }
+  
+  private finishMerge() {
+    // confirm before copy
+    let prompt = this.alertCtrl.create({
+      title: 'Confirm Add ' + this.PPP.listSelection["name"],
+      buttons: [
+        {
+          text: "No, don't add",
+          role: 'cancel',
+          handler: () => {
+            this.navCtrl.pop();
+          }
+        },
+        {
+          text: 'Yes, please',
+          handler: () => {
+            console.log(this.PPP.listSelection);
+            this.PPP.mergePlan(this.plan, this.PPP.listSelection);
+            this.PPP.listSelection = "";  // clear after use
+          }
+        }
+      ]
+    });
+    prompt.present();
   }
 
   ionViewWillLeave() {
@@ -98,28 +123,11 @@ export class ContentsPage {
     this.subs.unsubscribe();
     document.removeEventListener('touchmove', () => { });
     document.removeEventListener('touchend', () => { });
-    if (this.ddChanges) this.PPP.write();
-    // console.log(this.subs);
-  }
-
-  ionViewCanEnter(): boolean {
-    console.log('ionViewCanEnter ContentsPage');
-    // save if returning from add or edit page, problem, goal, or intervention
-    // else ignore
-    let v = this.navCtrl.last();
-    if ((v.component === AddConditionPage)
-      || (v.component === AddDisciplinePage)
-      || (v.component === AddProblemPage)
-      || (v.component === AddGoalPage)
-      || (v.component === AddInterventionPage)
-      || (v.component === EditPlanPage)
-      || (v.component === EditProblemPage)
-      || (v.component === EditGoalPage)
-      || (v.component === EditInterventionPage)) {
-      // console.log(this.plan);
+    if (this.ddChanges)  {
       this.PPP.write();
-      return true;
+      this.ddChanges = false;  // reset after save
     }
+    // console.log(this.subs);
   }
 
   editPlan() {
@@ -217,35 +225,9 @@ export class ContentsPage {
         this.plan.problems[p].goals.splice(g, 1);
       }
     }
-    // const d: Date = new Date();
-    // this.plan.updated = d.toLocaleDateString();
-    // this.PPP.write();
-    // // confirm before delete
-    // let prompt = this.alertCtrl.create({
-    //   title: 'Confirm Delete',
-    //   buttons: [
-    //     {
-    //       text: "No, don't delete",
-    //       role: 'cancel'
-    //     },
-    //     {
-    //       text: 'Yes, delete',
-    //       handler: () => {
-    //         var p: number = this.plan.problems.indexOf(problem, 0)
-    //         if (p > -1) {
-    //           var g: number = this.plan.problems[p].goals.indexOf(goal, 0)
-    //           if (g > -1) {
-    //             this.plan.problems[p].goals.splice(g, 1);
-    //           }
-    //         }
-    //         const d: Date = new Date();
-    //         this.plan.updated = d.toLocaleDateString();
-    //         this.PPP.write();
-    //       }
-    //     }
-    //   ]
-    // });
-    // prompt.present();
+    const d: Date = new Date();
+    this.plan.updated = d.toLocaleDateString();
+    this.PPP.write();
   }
 
   interventionAdd(problem) {

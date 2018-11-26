@@ -56,7 +56,7 @@ _ investigate large pdf generation
 
 _ immediate write after login?  w newly installed app
 
-_ remove delete confirmation from outcome and intervention
+x remove delete confirmation from outcome and intervention
 
 _ write when device re-activated from sleep--fix that
 

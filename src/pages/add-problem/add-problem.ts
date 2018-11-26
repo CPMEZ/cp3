@@ -67,6 +67,7 @@ export class AddProblemPage {
     const d: Date = new Date();
     this.plan.updated = d.toLocaleDateString();
     this.plan.problems.push(this.problem);
+    this.PPP.write();    
     if (this.plt.is('mobile')) {
       this.toast.show('Topic Added', '1500', 'center').subscribe(t => { });
     }

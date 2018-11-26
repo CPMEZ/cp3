@@ -62,6 +62,7 @@ export class AddGoalPage {
     const d: Date = new Date();
     this.plan.updated = d.toLocaleDateString();
     this.problem.goals.push(this.goal);
+    this.PPP.write();
     if (this.plt.is('mobile')) {
       this.toast.show('Outcome Added', '1500', 'center').subscribe(t => { });
     }

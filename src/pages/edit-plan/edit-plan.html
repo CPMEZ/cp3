@@ -23,14 +23,14 @@
   </p>
   <br>
   <ion-item text-wrap>
-    <ion-textarea type="text" rows=2 placeholder="Name the plan" [(ngModel)]="plan.name">
+    <ion-textarea type="text" rows=2 placeholder="Name the plan" [(ngModel)]="plan.name" (ngModelChange)="nameChange()">
     </ion-textarea>
   </ion-item>
   <ion-item text-wrap>
     <ion-textarea type="text" rows=4 placeholder="Describe the plan" [(ngModel)]="plan.text">
     </ion-textarea>
   </ion-item>
-  <button ion-button [disabled]="(!canUseName || !newPlan.name)" (click)="editDone()">Save</button>
+  <button ion-button [disabled]="(!canUseName || !plan.name)" (click)="editDone()">Save</button>
   <!-- <button ion-button [disabled]="!plan.name" (click)="editDone()">Save</button> -->
   <button ion-button (click)="cancelEdit()">Cancel</button>
 </ion-content>

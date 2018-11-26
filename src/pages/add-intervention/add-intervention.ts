@@ -77,6 +77,7 @@ export class AddInterventionPage {
     const d: Date = new Date();
     this.plan.updated = d.toLocaleDateString();
     this.problem.interventions.push(this.intervention);
+    this.PPP.write();    
     if (this.plt.is('mobile')) {
       this.toast.show('Intervention Added', '1500', 'center').subscribe(t => { });
     }

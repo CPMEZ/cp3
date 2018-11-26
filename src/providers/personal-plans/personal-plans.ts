@@ -121,6 +121,7 @@ export class PersonalPlansProvider {
     // if (targetPlan.problems.length > 0) {
       // if the plan is not currently empty, 
       // merge into existing problems
+      console.log('source', sourcePlan["problems"]);
       sourcePlan["problems"].forEach(p => {
         let found = false;
         for (var i = 0; i < targetPlan.problems.length; i++) {
