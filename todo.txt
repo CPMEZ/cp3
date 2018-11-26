@@ -41,6 +41,30 @@ _ procedural assist..guide thru developing a plan
 
 _ import someone else's plans?
 
+x if reading plans returns 304, have to use local copy
+	(what's it doing now, btw?)
+	[made api never return 304 via expires and cache: no-cache]
+
+x verify unduplicated plan name in edit-plan
+
+_ put wait cursors in loading plans cause once they get big
+_ have to use ngmodel on screen list or similar, because async read finishes after page loads,
+	so can't use static plans list
+_ or load in either welcome or log in? 
+
+_ investigate large pdf generation
+
+_ immediate write after login?  w newly installed app
+
+_ remove delete confirmation from outcome and intervention
+
+_ write when device re-activated from sleep--fix that
+
+_ update EULA
+	_ insert click thru
+	_ update terms page
+	_ update URL w apple store connect
+
 cut and paste to rearrange
 drag and drop scroll beyond limits --try ionic reorder
 

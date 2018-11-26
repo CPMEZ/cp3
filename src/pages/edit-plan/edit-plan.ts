@@ -3,6 +3,7 @@ import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angu
 import { HelpPage } from '../help/help';
 import { LoginPage } from '../login/login';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
+import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 
 @IonicPage()
 @Component({
@@ -12,11 +13,13 @@ import { AuthenticationProvider } from '../../providers/authentication/authentic
 export class EditPlanPage {
   plan: any;
   savePlan: { name: string, text: string, updated: string } = { name: "", text: "", updated: "" };
+  canUseName: boolean;
   
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
     private alertCtrl: AlertController,    
-    public auth: AuthenticationProvider) {
+    public auth: AuthenticationProvider,
+    public PPP: PersonalPlansProvider) {
     this.plan = navParams.get('plan');
     this.savePlan.name = this.plan.name;
     this.savePlan.text = this.plan.text;
@@ -26,6 +29,13 @@ export class EditPlanPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad EditPlanPage');
   }
+
+  nameChange() {
+    // console.log('checking');
+    this.canUseName = this.PPP.checkPlanName(this.plan['name'].trim());
+    // console.log('checking=', this.canUseName);
+  }
+
   editDone() {
     const d: Date = new Date();
     this.plan.updated = d.toLocaleDateString();
