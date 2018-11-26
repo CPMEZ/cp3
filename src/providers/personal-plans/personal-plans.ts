@@ -35,7 +35,17 @@ export class PersonalPlansProvider {
 
   loadPlans() {
     // console.log('check logged in--should be after authenticate Then');
-    // always get the local copy
+    // always get the local copy regardless of internet
+
+    // clear out plans before reading,
+    //    in case new user has signed in
+    this.initPlans();
+    // reset flags
+    this.readLocal = false;
+    this.localReadComplete = false;
+    this.readWeb = false;
+    this.webReadComplete = false;
+
     this.loadPlansLocal();
     if (this.auth.userLoggedIn) {
       // if we can, also get the web copy
@@ -197,7 +207,6 @@ export class PersonalPlansProvider {
     return this.plans;
   }
 
-
   // reading/writing plans section  ===================
   loadPlansLocal() {
     this.readFromLocal()
@@ -297,6 +306,7 @@ export class PersonalPlansProvider {
   readFromLocal(): Promise<object> {
     return new Promise(resolve => {
       const userStorageKey = STORAGE_KEY + '_' + this.auth.userId
+      console.log('reading local with ', userStorageKey);
       this.LSP.get(userStorageKey)
         .then((data) => {
           console.log('read from local');
@@ -304,6 +314,7 @@ export class PersonalPlansProvider {
           if (data) {
             resolve(this.decrypt(data, this.auth.userKey))
           } else {
+            console.log('read nothing local, resolving empty plans');
             resolve({ plans: [] })
           }
         });
