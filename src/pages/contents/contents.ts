@@ -209,32 +209,43 @@ export class ContentsPage {
   }
 
   goalDelete(problem, goal) {
-    // confirm before delete
-    let prompt = this.alertCtrl.create({
-      title: 'Confirm Delete',
-      buttons: [
-        {
-          text: "No, don't delete",
-          role: 'cancel'
-        },
-        {
-          text: 'Yes, delete',
-          handler: () => {
-            var p: number = this.plan.problems.indexOf(problem, 0)
-            if (p > -1) {
-              var g: number = this.plan.problems[p].goals.indexOf(goal, 0)
-              if (g > -1) {
-                this.plan.problems[p].goals.splice(g, 1);
-              }
-            }
-            const d: Date = new Date();
-            this.plan.updated = d.toLocaleDateString();
-            this.PPP.write();
-          }
-        }
-      ]
-    });
-    prompt.present();
+    // no confirmation
+    var p: number = this.plan.problems.indexOf(problem, 0)
+    if (p > -1) {
+      var g: number = this.plan.problems[p].goals.indexOf(goal, 0)
+      if (g > -1) {
+        this.plan.problems[p].goals.splice(g, 1);
+      }
+    }
+    // const d: Date = new Date();
+    // this.plan.updated = d.toLocaleDateString();
+    // this.PPP.write();
+    // // confirm before delete
+    // let prompt = this.alertCtrl.create({
+    //   title: 'Confirm Delete',
+    //   buttons: [
+    //     {
+    //       text: "No, don't delete",
+    //       role: 'cancel'
+    //     },
+    //     {
+    //       text: 'Yes, delete',
+    //       handler: () => {
+    //         var p: number = this.plan.problems.indexOf(problem, 0)
+    //         if (p > -1) {
+    //           var g: number = this.plan.problems[p].goals.indexOf(goal, 0)
+    //           if (g > -1) {
+    //             this.plan.problems[p].goals.splice(g, 1);
+    //           }
+    //         }
+    //         const d: Date = new Date();
+    //         this.plan.updated = d.toLocaleDateString();
+    //         this.PPP.write();
+    //       }
+    //     }
+    //   ]
+    // });
+    // prompt.present();
   }
 
   interventionAdd(problem) {
@@ -252,32 +263,17 @@ export class ContentsPage {
   }
 
   interventionDelete(problem, intervention) {
-    // confirm before delete
-    let prompt = this.alertCtrl.create({
-      title: 'Confirm Delete',
-      buttons: [
-        {
-          text: "No, don't delete",
-          role: 'cancel'
-        },
-        {
-          text: 'Yes, delete',
-          handler: () => {
-            var p: number = this.plan.problems.indexOf(problem, 0)
-            if (p > -1) {
-              var n: number = this.plan.problems[p].interventions.indexOf(intervention, 0)
-              if (n > -1) {
-                this.plan.problems[p].interventions.splice(n, 1);
-              }
-            }
-            const d: Date = new Date();
-            this.plan.updated = d.toLocaleDateString();
-            this.PPP.write();
-          }
-        }
-      ]
-    });
-    prompt.present();
+    // no confirmation
+    var p: number = this.plan.problems.indexOf(problem, 0)
+    if (p > -1) {
+      var n: number = this.plan.problems[p].interventions.indexOf(intervention, 0)
+      if (n > -1) {
+        this.plan.problems[p].interventions.splice(n, 1);
+      }
+    }
+    const d: Date = new Date();
+    this.plan.updated = d.toLocaleDateString();
+    this.PPP.write();
   }
 
   showPrint() {
