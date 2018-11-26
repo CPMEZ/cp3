@@ -58,7 +58,10 @@ export class EditInterventionPage {
         },
         {
           text: 'Yes, log out',
-          handler: () => { this.auth.logout(); }
+          handler: () => {
+            this.PPP.write();
+            this.auth.logout();
+          }
         }
       ]
     });

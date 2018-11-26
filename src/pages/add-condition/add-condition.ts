@@ -83,8 +83,8 @@ export class AddConditionPage {
         this.navCtrl.push(PreviewPage, {
           plan: this.planPreview.condition,
           type: "Condition"
-        });    
-      });    
+        });
+      });
 
   }
 
@@ -182,7 +182,10 @@ export class AddConditionPage {
         },
         {
           text: 'Yes, log out',
-          handler: () => { this.auth.logout(); }
+          handler: () => {
+            this.PPP.write();
+            this.auth.logout();
+          }
         }
       ]
     });

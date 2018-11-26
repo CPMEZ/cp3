@@ -106,7 +106,10 @@ export class AddInterventionPage {
         },
         {
           text: 'Yes, log out',
-          handler: () => { this.auth.logout(); }
+          handler: () => {
+            this.PPP.write();
+            this.auth.logout();
+          }
         }
       ]
     });
