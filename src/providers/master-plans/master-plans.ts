@@ -35,7 +35,7 @@ export class MasterPlansProvider {
     if (this.auth.userLoggedIn) {
       return new Promise(resolve => {
         // check cache first
-        this.cache.read(type, filter)
+        this.cache.read(type, this.auth.encryptKey, filter)
           .then((data) => resolve(data))
           .catch(() => {
             // not in cache, read from cpi
@@ -43,7 +43,7 @@ export class MasterPlansProvider {
             if (filter) { path = path + "?f=" + filter; }
             this.cpapi.getData(path)
               .then((data) => {
-                this.cache.write(type, data);
+                this.cache.write(type, this.auth.encryptKey, data);
                 resolve(data)
               });
           });

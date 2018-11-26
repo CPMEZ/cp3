@@ -46,23 +46,23 @@ export class CacheProvider {
       });
   }
 
-  write(type: string, input: string) {
+  write(type: string, eKey: string, input: string ) {
     console.log('caching ' + type);
-    let p = this.encrypt(this.package(type, input), this.auth.userKey);
+    let p = this.encrypt(this.package(type, input), eKey);
     this.LSP.set(type, p)
       .then(result => console.log("saved to cache"))
       .catch(e => console.log("error: " + e));
   }
 
 
-  read(type: string, filter?: string): Promise<string> {
+  read(type: string, eKey: string, filter?: string): Promise<string> {
     console.log('reading cache for ' + type);
     return new Promise((resolve, reject) => {
       this.LSP.get(type)
         .then((data) => {
           if (data) {
             console.log('got cache');
-            const r = this.unPackage(type, this.decrypt(data, this.auth.userKey));
+            const r = this.unPackage(type, this.decrypt(data, eKey));
             // checkRecent--refresh
             if (filter) {
               const t = this.filterData(r, type, filter);
