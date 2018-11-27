@@ -54,7 +54,7 @@ export class CarePlanPage {
     // drag/drop events
     this.subs.add(this.ds.dropModel()
       .subscribe(({ name, el, targetModel }) => {
-        this.nowDragging = true;
+        this.nowDragging = false;
         // reassignment to this.plans.problems[] fails if not explicit,
         //    this works on both source and target when dragging from one problem to another, 
         //      without assigning source explicitly.
