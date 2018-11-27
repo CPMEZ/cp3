@@ -4,7 +4,7 @@ import { HelpPage } from '../help/help';
 import { LoginPage } from '../login/login';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
-import { ThrowStmt } from '@angular/compiler';
+// import { ThrowStmt } from '@angular/compiler';
 
 @IonicPage()
 @Component({
