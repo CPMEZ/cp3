@@ -123,6 +123,7 @@ export class TextPlanPage {
           text: this.plan.problems[i].text,
           style: "probText"
         });
+        if (!this.plan.problems[i].goals) { this.plan.problems[i].goals = [] }
         if (this.plan.problems[i].goals.length > 0) {
           docDefinition.content.push({ text: "Outcomes", style: "typeHeader" });
           for (let j = 0; j < this.plan.problems[i].goals.length; j++) {
@@ -133,6 +134,7 @@ export class TextPlanPage {
             });
           }
         }
+        if (!this.plan.problems[i].interventions) { this.plan.problems[i].interventions = [] }
         if (this.plan.problems[i].interventions.length > 0) {
           docDefinition.content.push({ text: "Interventions", style: "typeHeader" });
           for (let k = 0; k < this.plan.problems[i].interventions.length; k++) {
@@ -141,9 +143,10 @@ export class TextPlanPage {
                 this.plan.problems[i].interventions[k].text,
               style: "intText"
             });
-            if (this.plan.problems[i].interventions.length > 0) {
+            let dl = this.discList(this.plan.problems[i].interventions[k]);
+            if (dl.length > 0) {
               docDefinition.content.push({
-                text: "(" + this.discList(this.plan.problems[i].interventions[k]) + ")",
+                text: "(" + dl + ")",
                 style: "discText"
               });
             }
