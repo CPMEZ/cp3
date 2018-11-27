@@ -264,12 +264,6 @@ export class ContentsPage {
     });
   }
 
-  // copyPlan() {
-  //   this.navCtrl.push(CopyPage, {
-  //     plan: this.plan
-  //   });
-  // }
-
   deletePlan() {
     // confirm before delete
     let prompt = this.alertCtrl.create({

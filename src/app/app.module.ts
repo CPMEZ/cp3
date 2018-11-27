@@ -39,7 +39,6 @@ import { EditProblemPage } from '../pages/edit-problem/edit-problem';
 import { EditGoalPage } from '../pages/edit-goal/edit-goal';
 import { EditInterventionPage } from '../pages/edit-intervention/edit-intervention';
 import { HelpPage } from '../pages/help/help';
-import { CopyPage } from '../pages/copy/copy';
 import { TermsPage } from '../pages/terms/terms';
 import { LookupPage } from '../pages/lookup/lookup';
 import { SubscribePage } from '../pages/subscribe/subscribe';
@@ -68,7 +67,6 @@ import { MergePage } from '../pages/merge/merge';
     EditProblemPage,
     EditGoalPage,
     EditInterventionPage,
-    CopyPage,
     TextPlanPage,
     HelpPage,
     TermsPage,
@@ -105,7 +103,6 @@ import { MergePage } from '../pages/merge/merge';
     EditProblemPage,
     EditGoalPage,
     EditInterventionPage,
-    CopyPage,
     TextPlanPage,
     HelpPage,
     TermsPage,
