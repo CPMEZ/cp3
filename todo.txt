@@ -47,12 +47,17 @@ x if reading plans returns 304, have to use local copy
 
 x verify unduplicated plan name in edit-plan
 
-_ put wait cursors in loading plans cause once they get big
-_ have to use ngmodel on screen list or similar, because async read finishes after page loads,
-	so can't use static plans list
-_ or load in either welcome or log in? 
+
+x test dragula in care plans page, for modeling large lists
+	working for now; doesn't save drag
+x make it save drag
+	0 put wait cursors in loading plans cause once they get big
+	0 have to use ngmodel on screen list or similar, because async read finishes after page loads,
+		so can't use static plans list
+	0 or load in either welcome or log in? 
 
 _ investigate large pdf generation
+	x fixed bug w missing goals--could be it, test on device
 
 _ immediate write after login?  w newly installed app
 

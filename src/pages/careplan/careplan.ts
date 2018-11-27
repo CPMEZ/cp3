@@ -9,6 +9,9 @@ import { HelpPage } from '../help/help';
 import { LoginPage } from '../login/login';
 import { CacheProvider } from '../../providers/cache/cache';
 
+import { DragulaService } from 'ng2-dragula';
+import { Subscription } from 'rxjs';
+
 @IonicPage()
 @Component({
   selector: 'page-careplan',
@@ -16,23 +19,63 @@ import { CacheProvider } from '../../providers/cache/cache';
 })
 export class CarePlanPage {
 
+  ddChanges: boolean = false;
+  nowDragging: boolean = false;
+  subs = new Subscription();
+
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private plt: Platform,
     private alertCtrl: AlertController,
     private loadCtrl: LoadingController,
     private toast: Toast,
+    private ds: DragulaService,
     public auth: AuthenticationProvider,
     private cache: CacheProvider,
     public PPP: PersonalPlansProvider) {
+    // save if swapped out
     this.plt.pause.subscribe(() => {
       this.PPP.write();
     });
+
+    // dragging stuff
+    // disable scroll when dragging
+    document.addEventListener('touchstart', (e) => {
+      if (this.nowDragging) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+    document.addEventListener('touchmove', (e) => {
+      // console.log('touchmove event', this.nowDragging);
+      if (this.nowDragging) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+    // drag/drop events
+    this.subs.add(this.ds.dropModel()
+      .subscribe(({ name, el, targetModel }) => {
+        this.nowDragging = true;
+        // reassignment to this.plans.problems[] fails if not explicit,
+        //    this works on both source and target when dragging from one problem to another, 
+        //      without assigning source explicitly.
+        //      i don't understand it but it works. (so leave it alone)
+        const t = el.getElementsByClassName('planId');
+        const c = parseInt(t[0].innerHTML);
+        // console.log(t[0].innerHTML);
+        // console.log('plan index', c);
+        if (name === "plan-list") {
+          this.PPP.plans[c] = targetModel;
+          this.ddChanges = true;
+        } 
+      })
+    );
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CareplanPage');
     console.log('loading plans');
+    this.ds.find('none');  // to prevent the lint error on ds not used
+    this.ddChanges = false;  // in/re-init on load
     // wait indicator
     let loading = this.loadCtrl.create({
       content: 'Getting the list...'
@@ -42,7 +85,20 @@ export class CarePlanPage {
     // cause we don't have async on loadPlans,
     setTimeout(() => {
       loading.dismiss();
-    }, 1000);
+    }, 1500);
+  }
+
+  ionViewWillLeave() {
+    console.log('ionViewWillLeave CareplanPage');
+    // this.subs.unsubscribe();
+    // document.removeEventListener('touchmove', () => { });
+    // document.removeEventListener('touchend', () => { });
+    console.log('ddchanges', this.ddChanges);
+    if (this.ddChanges) {
+      this.PPP.write();
+      this.ddChanges = false;  // reset after save
+    }
+    // console.log(this.subs);
   }
 
   contents(plan) {

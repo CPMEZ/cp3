@@ -33,18 +33,23 @@
 <ion-content padding>
   <!-- <div class="helptext">touch the name or the icon <ion-icon name="create" class="tool"></ion-icon>to work with the contents of a plan</div>
     <br> -->
-    <div align="right">
-  <button ion-button icon-left (click)="addPlan()">
-    <ion-icon name="add"></ion-icon>
-    Create a New Plan
-  </button>
+  <div align="right">
+    <button ion-button icon-left (click)="addPlan()">
+      <ion-icon name="add"></ion-icon>
+      Create a New Plan
+    </button>
   </div>
   <p class="helpful">Care plans I've created.</p>
-    <ion-list>
-      <div ion-item text-wrap no-lines *ngFor="let p of PPP.plans">
-        <p class="plan" (click)="contents(p)">{{p.name}}
+  <!-- <ion-list> -->
+  <ion-list [dragula]='"plan-list"' [(dragulaModel)]="PPP.plans">
+    <div ion-item text-wrap no-lines *ngFor="let p of PPP.plans; let i = index">
+      <p class="plan">
+        <span class="planId" hidden>{{i}}</span>
+        <span (click)="contents(p)">
+          {{p.name}}
           <ion-icon name="create" class="tool"></ion-icon>
-        </p>
-      </div>
-    </ion-list>
+        </span>
+      </p>
+    </div>
+  </ion-list>
 </ion-content>
