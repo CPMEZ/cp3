@@ -57,10 +57,10 @@ export class AddPlanPage {
     this.PPP.listSelection = "";
     // confirm before copy
     let prompt = this.alertCtrl.create({
-      title: 'Confirm Add ' + this.planToMerge["name"],
+      title: 'Confirm Copy ' + this.planToMerge["name"] + ' to ' + this.newPlan.name,
       buttons: [
         {
-          text: "No, don't add",
+          text: "No, don't copy",
           role: 'cancel',
           handler: () => {
             this.navCtrl.pop();
