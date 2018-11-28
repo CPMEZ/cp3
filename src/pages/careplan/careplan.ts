@@ -27,7 +27,6 @@ export class CarePlanPage {
     public navParams: NavParams,
     private plt: Platform,
     private alertCtrl: AlertController,
-    // private loadCtrl: LoadingController,
     private toast: Toast,
     private ds: DragulaService,
     public auth: AuthenticationProvider,
@@ -86,23 +85,16 @@ export class CarePlanPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CareplanPage');
-
-    this.ddChanges = false;  // in/re-init on load
-    // wait indicator
-    // let loading = this.loadCtrl.create({
-    //   content: 'Getting the list...'
-    // });
-    // loading.present();
-    // this.PPP.loadPlans();
-    // // cause we don't have async on loadPlans,
-    // setTimeout(() => {
-    //   loading.dismiss();
-    // }, 1500);
+  }
+  
+  ionViewDidEnter() {
+    console.log('ionViewDidEnter CareplanPage');
+    this.ddChanges = false;  // init/re-init on load
   }
 
   ionViewWillLeave() {
     console.log('ionViewWillLeave CareplanPage');
-    console.log('ddchanges', this.ddChanges);
+    // console.log('ddchanges', this.ddChanges);
     if (this.ddChanges) {
       this.PPP.write();
       this.ddChanges = false;  // reset after save--overkill if on exit from page

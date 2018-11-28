@@ -38,6 +38,8 @@ export class ContentsPage {
     public PPP: PersonalPlansProvider) {
     this.plan = navParams.get('plan');
 
+    // dragging stuff
+    // disable scroll when dragging
     document.addEventListener('touchstart', (e) => {
       if (this.nowDragging) {
         e.preventDefault();
@@ -63,6 +65,7 @@ export class ContentsPage {
       })
     );
 
+    // drag/drop events
     this.subs.add(this.ds.dropModel("goal-list")
       .subscribe(({ el, targetModel }) => {
         this.nowDragging = false;
@@ -74,7 +77,7 @@ export class ContentsPage {
         this.ddChanges = true;
       })
     );
-    
+
     this.subs.add(this.ds.dropModel("int-list")
       .subscribe(({ name, el, targetModel }) => {
         this.nowDragging = false;
@@ -90,11 +93,32 @@ export class ContentsPage {
 
   ionViewDidEnter() {
     console.log('ionViewDidEnter ContentsPage');
+    this.ddChanges = false;  // init/re-init on load
     let v = this.navCtrl.last();
     if ((v.component === MergePage) && (this.PPP.listSelection > "")) {
       // do the merge
       this.finishMerge();
     }
+  }
+
+
+  ionViewWillLeave() {
+    console.log('ionViewWillLeave ContentsPage');
+    // this.subs.unsubscribe();
+    // document.removeEventListener('touchmove', () => { });
+    // document.removeEventListener('touchend', () => { });
+    if (this.ddChanges) {
+      this.PPP.write();
+      this.ddChanges = false;  // reset after save
+    }
+    // console.log(this.subs);
+  }
+
+  ionViewWillUnload() {
+    console.log('ionViewWillUnload ContentsPage');
+    this.subs.unsubscribe();
+    document.removeEventListener('touchmove', () => { });
+    document.removeEventListener('touchend', () => { });
   }
 
   private finishMerge() {
@@ -120,18 +144,6 @@ export class ContentsPage {
       ]
     });
     prompt.present();
-  }
-
-  ionViewWillLeave() {
-    console.log('ionViewWillLeave ContentsPage');
-    this.subs.unsubscribe();
-    document.removeEventListener('touchmove', () => { });
-    document.removeEventListener('touchend', () => { });
-    if (this.ddChanges) {
-      this.PPP.write();
-      this.ddChanges = false;  // reset after save
-    }
-    // console.log(this.subs);
   }
 
   editPlan() {
