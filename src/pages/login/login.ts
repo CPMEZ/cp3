@@ -7,6 +7,7 @@ import { HelpPage } from '../help/help';
 import { ConnectionProvider } from '../../providers/connection/connection';
 import { SubselectPage } from '../subselect/subselect';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
+import { TermsPage } from '../terms/terms';
 
 // TODO this should use oauth, google, facebook, linkedin
 
@@ -35,6 +36,11 @@ export class LoginPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
+  }
+  
+  ionViewWillLeave() {
+    console.log('ionViewWillLeave LoginPage');
+    this.events.unsubscribe('loadComplete');
   }
 
   login() {
@@ -84,5 +90,9 @@ export class LoginPage {
 
   help() {
     this.navCtrl.push(HelpPage);
+  }
+
+  showTerms() {
+    this.navCtrl.push(TermsPage);
   }
 }
