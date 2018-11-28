@@ -209,7 +209,7 @@ export class AuthenticationProvider {
                     resolve(true);
                 },
                     error => {
-                        alert("not saved to web");  // remove for production
+                        alert("There was a problem saving your new user information.");  // remove for production
                         //  if no web connection?
                         console.log(error);
                         reject(false);
