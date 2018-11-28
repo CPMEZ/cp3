@@ -1,10 +1,11 @@
-import { AuthenticationProvider } from '../authentication/authentication';
-import { CPAPI } from '../cpapi/cpapi';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { LocalStoreProvider } from '../local-store/local-store';
-
+import { Events } from 'ionic-angular';
 import CryptoJS from 'crypto-js';
+
+import { CPAPI } from '../cpapi/cpapi';
+import { AuthenticationProvider } from '../authentication/authentication';
+import { LocalStoreProvider } from '../local-store/local-store';
 import { MasterPlansProvider } from '../master-plans/master-plans';
 
 const STORAGE_KEY = 'plans';  // note CacheProvider ignores this key on clearCache
@@ -16,6 +17,7 @@ export class PersonalPlansProvider {
   listSelection: any;  // used by merge, add-plan pages
 
   constructor(private http: HttpClient,
+    public events: Events,
     private LSP: LocalStoreProvider,
     public auth: AuthenticationProvider,
     private cpapi: CPAPI,
@@ -30,11 +32,11 @@ export class PersonalPlansProvider {
   web: {};
   readWeb: boolean = false;
   webReadComplete: boolean = false;
+  loadingNow: boolean = false;
 
   // .userValidSubscription and .userLoggedIn determines if user can search from master
 
   loadPlans() {
-    // console.log('check logged in--should be after authenticate Then');
     // always get the local copy regardless of internet
 
     // clear out plans before reading,
@@ -131,7 +133,7 @@ export class PersonalPlansProvider {
     // if (targetPlan.problems.length > 0) {
       // if the plan is not currently empty, 
       // merge into existing problems
-      console.log('source', sourcePlan["problems"]);
+      // console.log('source', sourcePlan["problems"]);
       sourcePlan["problems"].forEach(p => {
         let found = false;
         for (var i = 0; i < targetPlan.problems.length; i++) {
@@ -261,6 +263,9 @@ export class PersonalPlansProvider {
     //   }
     // }
     if (this.localReadComplete && this.webReadComplete) {
+      // notify loading completed
+      this.events.publish('loadComplete', Date.now());
+      // find newest
       if (this.readLocal && this.readWeb) {
         // got both, compare dates
         console.log('comparing');
@@ -271,7 +276,7 @@ export class PersonalPlansProvider {
         }
       } else if (this.readLocal) {
         // only got a local, use it
-        console.log('this.local.plans 2')
+        console.log('local only, no web')
         this.plans = this.local["plans"];
       } else if (this.readWeb) {
         // only got a web, use it
@@ -306,10 +311,9 @@ export class PersonalPlansProvider {
   readFromLocal(): Promise<object> {
     return new Promise(resolve => {
       const userStorageKey = STORAGE_KEY + '_' + this.auth.userId
-      console.log('reading local with ', userStorageKey);
       this.LSP.get(userStorageKey)
-        .then((data) => {
-          console.log('read from local');
+      .then((data) => {
+        console.log('read local with ', userStorageKey);
           // console.log(data);
           if (data) {
             resolve(this.decrypt(data, this.auth.userKey))

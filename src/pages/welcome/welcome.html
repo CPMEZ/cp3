@@ -19,14 +19,14 @@
     <h2 *ngIf="conn.internet && auth.userLoggedIn">Welcome Back! You're logged in as {{auth.userId}}.</h2>
   </div>
   <div text-center>
-    <button ion-button icon-right *ngIf="conn.internet && auth.userLoggedIn" (click)="alreadyLoggedIn()">
+    <button ion-button icon-right *ngIf="conn.internet && auth.userLoggedIn" (click)="goToWork()">
       CONTINUE
     </button>
     <button ion-button icon-right *ngIf="conn.internet && !auth.userLoggedIn" (click)="login()">
       LOG IN
     </button>
     <h3 *ngIf="!conn.internet">No internet connection? Could not connect to Red Book cloud.</h3>
-    <button ion-button icon-right (click)="workOffline()">
+    <button ion-button icon-right (click)="goToWork()">
       WORK OFFLINE
     </button>
     <h4 (click)="showTerms()">Using the app indicates you accept the <span class="underline">License Agreement.</span></h4>
