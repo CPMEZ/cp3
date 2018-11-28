@@ -63,22 +63,26 @@ export class ContentsPage {
       })
     );
 
-    this.subs.add(this.ds.dropModel()
-      .subscribe(({ name, el, targetModel }) => {
+    this.subs.add(this.ds.dropModel("goal-list")
+      .subscribe(({ el, targetModel }) => {
         this.nowDragging = false;
-        // reassignment to this.plans.problems[] fails if not explicit,
-        //    this works on both source and target when dragging from one problem to another, 
-        //      without assigning source explicitly.
-        //      i don't understand it but it works. (so leave it alone)
+        // reassignment to this.plans.problems[].xxx replaces arraw w/newly-sequenced one,
+        // should not work if they drag out of one problem to another
         const t = el.getElementsByClassName('probId');
         const c = parseInt(t[0].innerHTML);
-        if (name === "goal-list") {
-          this.plan.problems[c].goals = targetModel;
-          // console.log('goals', targetModel);
-        } else {
-          this.plan.problems[c].interventions = targetModel;
-          // console.log('interventions', targetModel);
-        }
+        this.plan.problems[c].goals = targetModel;
+        this.ddChanges = true;
+      })
+    );
+    
+    this.subs.add(this.ds.dropModel("int-list")
+      .subscribe(({ name, el, targetModel }) => {
+        this.nowDragging = false;
+        // reassignment to this.plans.problems[].xxx replaces arraw w/newly-sequenced one,
+        // should not work if they drag out of one problem to another
+        const t = el.getElementsByClassName('probId');
+        const c = parseInt(t[0].innerHTML);
+        this.plan.problems[c].interventions = targetModel;
         this.ddChanges = true;
       })
     );
@@ -92,7 +96,7 @@ export class ContentsPage {
       this.finishMerge();
     }
   }
-  
+
   private finishMerge() {
     // confirm before copy
     let prompt = this.alertCtrl.create({
@@ -123,7 +127,7 @@ export class ContentsPage {
     this.subs.unsubscribe();
     document.removeEventListener('touchmove', () => { });
     document.removeEventListener('touchend', () => { });
-    if (this.ddChanges)  {
+    if (this.ddChanges) {
       this.PPP.write();
       this.ddChanges = false;  // reset after save
     }
@@ -160,7 +164,7 @@ export class ContentsPage {
 
   mergeIn() {
     this.navCtrl.push(MergePage, {
-      plan: this.plan 
+      plan: this.plan
     });
   }
   problemAdd() {
@@ -303,7 +307,7 @@ export class ContentsPage {
     if (int.other) { discText += int.other }
     return discText;
   }
- 
+
   help() {
     this.navCtrl.push(HelpPage);
   }
