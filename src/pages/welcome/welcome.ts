@@ -38,8 +38,15 @@ export class WelcomePage {
     console.log('ionViewDidLoad WelcomePage');
   }
 
+
+  ionViewWillUnload() {
+    console.log('ionViewWillUnload WelcomePage');
+    this.events.unsubscribe('loadComplete');
+  }
+
   goToWork() {
-    console.log('loading plans');
+    // this logic repeated in login.ts
+    console.log('loading plans from welcome');
     let loading = this.loadCtrl.create({
       content: 'Getting your plans...'
     });
@@ -47,7 +54,7 @@ export class WelcomePage {
     this.PPP.loadPlans();
     // cause we don't have async on loadPlans,
     this.events.subscribe('loadComplete', (time) => {
-      // console.log('got event loadComplete');
+      console.log('got event loadComplete');
       try { loading.dismiss(); }
       catch (err) { console.log('load timeout before complete'); }
       this.navCtrl.setRoot(CarePlanPage);
