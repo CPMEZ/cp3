@@ -35,10 +35,10 @@ export class CarePlanPage {
 
     // event listeners
     // save if swapped out
-    this.plt.pause.subscribe(() => {
-      // think this fails because async takes too long?
-      this.PPP.write();
-    });
+    // this.plt.pause.subscribe(() => {
+    //   // think this fails because async takes too long?
+    //   this.PPP.write();
+    // });
 
     // dragging stuff
     // disable scroll when dragging
