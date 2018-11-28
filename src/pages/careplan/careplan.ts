@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController, IonicPage, LoadingController, NavController, NavParams, Platform } from 'ionic-angular';
+import { AlertController, IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { Toast } from '@ionic-native/toast';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
@@ -27,12 +27,17 @@ export class CarePlanPage {
     public navParams: NavParams,
     private plt: Platform,
     private alertCtrl: AlertController,
-    private loadCtrl: LoadingController,
+    // private loadCtrl: LoadingController,
     private toast: Toast,
     private ds: DragulaService,
     public auth: AuthenticationProvider,
     private cache: CacheProvider,
     public PPP: PersonalPlansProvider) {
+
+  // }
+
+  // ionViewWillEnter() {
+    // event listeners
     // save if swapped out
     this.plt.pause.subscribe(() => {
       this.PPP.write();
@@ -51,9 +56,23 @@ export class CarePlanPage {
         e.preventDefault();
       }
     }, { passive: false });
+
+    this.subs.add(this.ds.drag()
+      .subscribe(({ name }) => {
+        this.nowDragging = true;
+        // console.log('drag event', name, this.nowDragging);
+      })
+    );
+    this.subs.add(this.ds.dragend()
+      .subscribe(({ name }) => {
+        this.nowDragging = false;
+        // console.log('dragend event', name, this.nowDragging);
+      })
+    );
+
     // drag/drop events
-    this.subs.add(this.ds.dropModel()
-      .subscribe(({ name, el, targetModel }) => {
+    this.subs.add(this.ds.dropModel("plan-list")
+      .subscribe(({ el, targetModel }) => {
         this.nowDragging = false;
         // reassignment to this.plans.problems[] fails if not explicit,
         //    this works on both source and target when dragging from one problem to another, 
@@ -61,31 +80,26 @@ export class CarePlanPage {
         //      i don't understand it but it works. (so leave it alone)
         const t = el.getElementsByClassName('planId');
         const c = parseInt(t[0].innerHTML);
-        // console.log(t[0].innerHTML);
-        // console.log('plan index', c);
-        if (name === "plan-list") {
-          this.PPP.plans[c] = targetModel;
-          this.ddChanges = true;
-        } 
+        this.PPP.plans[c] = targetModel;
+        this.ddChanges = true;
       })
     );
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CareplanPage');
-    console.log('loading plans');
-    this.ds.find('none');  // to prevent the lint error on ds not used
+
     this.ddChanges = false;  // in/re-init on load
     // wait indicator
-    let loading = this.loadCtrl.create({
-      content: 'Getting the list...'
-    });
-    loading.present();
-    this.PPP.loadPlans();
-    // cause we don't have async on loadPlans,
-    setTimeout(() => {
-      loading.dismiss();
-    }, 1500);
+    // let loading = this.loadCtrl.create({
+    //   content: 'Getting the list...'
+    // });
+    // loading.present();
+    // this.PPP.loadPlans();
+    // // cause we don't have async on loadPlans,
+    // setTimeout(() => {
+    //   loading.dismiss();
+    // }, 1500);
   }
 
   ionViewWillLeave() {
