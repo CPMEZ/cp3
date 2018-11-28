@@ -52,7 +52,7 @@ export class AuthenticationProvider {
             var path = this.cpapi.apiURL + "user/" + this.userId + "?p=" + this.pwd;
             this.cpapi.getData(path).then((data) => {
                 const d = JSON.parse(data);
-                // console.log('authenticate.then');
+                console.log('authenticate getData.then');
                 // console.log(d);
                 if (d) {
                     this.userKey = d.key;
@@ -72,6 +72,12 @@ export class AuthenticationProvider {
                     this.saveAuthState();
                     reject(this.userLoggedIn);
                 }
+            })
+            .catch((err) => {
+                console.log('authenticate getData.catch');
+                this.userLoggedIn = false;
+                this.saveAuthState();
+                reject(this.userLoggedIn);
             });
         });
     }

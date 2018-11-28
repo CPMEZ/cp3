@@ -21,10 +21,9 @@ export class CPAPI {
         return new Promise((resolve, reject) => {
             this.http.get(type)
                 .timeout(7100)
-                .subscribe((data) => {
-                    console.log('getData', data);
-                    resolve(JSON.stringify(data));
-                }), (err) => { reject(err); };
+                .subscribe(
+                    (data) => resolve(JSON.stringify(data)),
+                    (err) => reject(err));
         });
     }
 

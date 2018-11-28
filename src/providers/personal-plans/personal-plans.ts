@@ -306,7 +306,7 @@ export class PersonalPlansProvider {
       const userStorageKey = STORAGE_KEY + '_' + this.auth.userId
       this.LSP.get(userStorageKey)
       .then((data) => {
-        console.log('read local with ', userStorageKey);
+        console.log('read local with', userStorageKey);
           // console.log(data);
           if (data) {
             resolve(this.decrypt(data, this.auth.userKey))
