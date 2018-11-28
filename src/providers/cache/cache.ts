@@ -4,17 +4,17 @@ import { LocalStoreProvider } from '../local-store/local-store';
 
 import CryptoJS from 'crypto-js';
 
+// cache uses passed-in key for encryption
+
 @Injectable()
 export class CacheProvider {
-  secret: string;
-  storeKey: string;
+  // secret: string;
+  // storeKey: string;
 
   constructor(
     private LSP: LocalStoreProvider,
     public auth: AuthenticationProvider) {
     console.log('Constructor Cache Provider');
-    this.secret = auth.userKey;
-    this.storeKey = auth.encryptKey;
   }
 
   checkRecent(): boolean {

@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import CryptoJS from 'crypto-js';
 
 const STORAGE_KEY = 'cp_session' // note CacheProvider does not clear this key on clearCache
-const ENCRYPT_KEY = 'A little life with dried tubers'  // ts eliot the waste land, line 7
+const STATE_ENCRYPT_KEY = 'A little life with dried tubers'  // ts eliot the waste land, line 7
 
 @Injectable()
 export class AuthenticationProvider {
@@ -29,7 +29,6 @@ export class AuthenticationProvider {
         private http: HttpClient,
         private LSP: LocalStoreProvider) {
         console.log('Constructor AuthenticationProvider Provider');
-        this.encryptKey = ENCRYPT_KEY;
     }
 
     alreadyLoggedIn(): Promise<boolean> {
@@ -131,7 +130,7 @@ export class AuthenticationProvider {
             this.LSP.get(STORAGE_KEY)
                 .then((data) => {
                     if (data) {
-                        const state = this.decrypt(data, this.encryptKey);
+                        const state = this.decrypt(data, STATE_ENCRYPT_KEY);
                         // console.log('got state', state);
                         this.userLoggedIn = state["userLoggedIn"];
                         this.userId = state["userId"];
@@ -168,7 +167,7 @@ export class AuthenticationProvider {
         state["clientKey"] = this.clientKey;
         state["userValidSubscription"] = this.userValidSubscription;
         state["userLoggedIn"] = this.userLoggedIn;
-        const s = this.encrypt(state, this.encryptKey);
+        const s = this.encrypt(state, STATE_ENCRYPT_KEY);
         // write
         this.LSP.set(STORAGE_KEY, s)
             .then(result => console.log("saved session"))
@@ -191,7 +190,6 @@ export class AuthenticationProvider {
             // set up a new user on cpapi
             // console.log("createSubscription");
             // TODO: encrypt user data 
-            // let e = this.encrypt(userData, this.cpapi.MASTER_KEY);
             var renewalDate = new Date(Date.now());
             // TODO: actual days needs to be annual or trial period
             // however we'll later change to store validateReceipt to determine && see below also
@@ -202,7 +200,7 @@ export class AuthenticationProvider {
             let userData = {
                 user: this.userId,
                 password: this.pwd,
-                key: this.encryptKey,
+                key: this.userKey,
                 renewal: ds,
                 // TODO also fix when changing to validateReceipt
                 renewalType: "auto",  // checks for auto & skips expiration messages

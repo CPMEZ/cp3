@@ -9,6 +9,7 @@ import { LocalStoreProvider } from '../local-store/local-store';
 import { MasterPlansProvider } from '../master-plans/master-plans';
 
 const STORAGE_KEY = 'plans';  // note CacheProvider ignores this key on clearCache
+// user data encrypted with user's own key phrase
 
 @Injectable()
 export class PersonalPlansProvider {

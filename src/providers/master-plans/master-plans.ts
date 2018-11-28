@@ -3,6 +3,10 @@ import { AuthenticationProvider } from '../authentication/authentication';
 import { CPAPI } from '../cpapi/cpapi';
 import { CacheProvider } from '../cache/cache';
 
+const MASTER_KEY = 'my first thought was he lied in every word';  // from childe rowland to the dark tower came, browning, 1855
+// master-plans uses this key for encryption in common for any/all users
+
+
 @Injectable()
 export class MasterPlansProvider {
 
@@ -35,7 +39,7 @@ export class MasterPlansProvider {
     if (this.auth.userLoggedIn) {
       return new Promise(resolve => {
         // check cache first
-        this.cache.read(type, this.auth.encryptKey, filter)
+        this.cache.read(type, MASTER_KEY, filter)
           .then((data) => resolve(data))
           .catch(() => {
             // not in cache, read from cpi
@@ -43,7 +47,7 @@ export class MasterPlansProvider {
             if (filter) { path = path + "?f=" + filter; }
             this.cpapi.getData(path)
               .then((data) => {
-                this.cache.write(type, this.auth.encryptKey, data);
+                this.cache.write(type, MASTER_KEY, data);
                 resolve(data)
               });
           });
