@@ -65,6 +65,9 @@ x remove delete confirmation from outcome and intervention
 
 x change local storage key to user-specific for plan data
 
+_ loading data timeout is still not right, errors if 
+	timer fires before loadComplete
+	
 _ write when device re-activated from sleep--fix that
 
 _ update EULA
