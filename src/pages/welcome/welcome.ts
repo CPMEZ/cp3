@@ -47,15 +47,16 @@ export class WelcomePage {
     this.PPP.loadPlans();
     // cause we don't have async on loadPlans,
     this.events.subscribe('loadComplete', (time) => {
-      console.log('got event loadComplete');
+      // console.log('got event loadComplete');
       try { loading.dismiss(); }
       catch (err) { console.log('load timeout before complete'); }
       this.navCtrl.setRoot(CarePlanPage);
     })
     // insurance
     setTimeout(() => {
-      console.log('in timer');
-      try { loading.dismiss(); }
+      // console.log('in timer');
+      try { loading.dismiss(); 
+      }
       catch (err) { console.log('load complete before timeout'); }
     }, 5000);
   }

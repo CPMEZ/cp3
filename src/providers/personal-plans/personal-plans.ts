@@ -37,8 +37,6 @@ export class PersonalPlansProvider {
   // .userValidSubscription and .userLoggedIn determines if user can search from master
 
   loadPlans() {
-    // always get the local copy regardless of internet
-
     // clear out plans before reading,
     //    in case new user has signed in
     this.initPlans();
@@ -47,7 +45,8 @@ export class PersonalPlansProvider {
     this.localReadComplete = false;
     this.readWeb = false;
     this.webReadComplete = false;
-
+    
+    // always get the local copy regardless of internet
     this.loadPlansLocal();
     if (this.auth.userLoggedIn) {
       // if we can, also get the web copy
@@ -254,21 +253,14 @@ export class PersonalPlansProvider {
     // can't check currency until both read attempts are completed,
     // but web read might not be completed at all (if subscrptn expired, eg)
     // so set local, then override with web if web is newer
-    // if (this.localReadComplete) {
-    //   console.log('this.local.plans 1')
-    //   if (this.local["plans"]) {
-    //     this.plans = this.local["plans"];
-    //   } else {
-    //     this.initPlans();
-    //   }
-    // }
+
     if (this.localReadComplete && this.webReadComplete) {
       // notify loading completed
       this.events.publish('loadComplete', Date.now());
       // find newest
       if (this.readLocal && this.readWeb) {
         // got both, compare dates
-        console.log('comparing');
+        // console.log('comparing');
         if (this.local["lastWrite"] < this.web["lastWrite"]) {
           // web newer
           console.log('web newer');
@@ -280,6 +272,7 @@ export class PersonalPlansProvider {
         this.plans = this.local["plans"];
       } else if (this.readWeb) {
         // only got a web, use it
+        console.log('web only, no local')
         this.plans = this.web["plans"];
       } else {
         // none, init
@@ -335,7 +328,7 @@ export class PersonalPlansProvider {
     this.http.post(api, p)
       .subscribe(data => { console.log("saved to web"); },
         error => {
-          alert("not saved to web");  // remove for production
+          // alert("not saved to web");  // remove for production
           //  if no web connection?
           console.log(error);
         });
