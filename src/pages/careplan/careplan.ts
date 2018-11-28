@@ -34,12 +34,10 @@ export class CarePlanPage {
     private cache: CacheProvider,
     public PPP: PersonalPlansProvider) {
 
-  // }
-
-  // ionViewWillEnter() {
     // event listeners
     // save if swapped out
     this.plt.pause.subscribe(() => {
+      // think this fails because async takes too long?
       this.PPP.write();
     });
 
@@ -104,15 +102,19 @@ export class CarePlanPage {
 
   ionViewWillLeave() {
     console.log('ionViewWillLeave CareplanPage');
-    // this.subs.unsubscribe();
-    // document.removeEventListener('touchmove', () => { });
-    // document.removeEventListener('touchend', () => { });
     console.log('ddchanges', this.ddChanges);
     if (this.ddChanges) {
       this.PPP.write();
-      this.ddChanges = false;  // reset after save
+      this.ddChanges = false;  // reset after save--overkill if on exit from page
     }
     // console.log(this.subs);
+  }
+  
+  ionViewWillUnload() {
+    console.log('ionViewWillUnload CareplanPage');
+    this.subs.unsubscribe();
+    document.removeEventListener('touchmove', () => { });
+    document.removeEventListener('touchend', () => { });
   }
 
   contents(plan) {
