@@ -20,10 +20,10 @@ export class MyApp {
       this.timer = setTimeout(() => {
         if (platform.is('cordova')) {
           // for ios quirks
-          console.log('splashscreen hide');
+          // console.log('splashscreen hide');
           splashScreen.hide();
         }
-        console.log('setting rootPage');
+        // console.log('setting rootPage');
         this.rootPage = WelcomePage;
       }, 2000);
     }); 

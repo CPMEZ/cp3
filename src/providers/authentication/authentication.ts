@@ -34,7 +34,7 @@ export class AuthenticationProvider {
 
     alreadyLoggedIn(): Promise<boolean> {
         // check already logged in
-        console.log('in alreadyLoggedIn');
+        // console.log('in alreadyLoggedIn');
         return new Promise<boolean>((resolve) => {
             this.readAuthState().then((r) => { resolve(r); })
         });
@@ -79,7 +79,7 @@ export class AuthenticationProvider {
     checkSubscription(): boolean {
         // TODO: may need to rework this to use store validateReceipt
         // exit if no renewal value
-        console.log('checkSubscription');
+        // console.log('checkSubscription');
         if (!this.renewal) return false;
         // use credentials to check last renewal date
         // let userValidSubscription: boolean = false;
@@ -120,13 +120,13 @@ export class AuthenticationProvider {
     }
 
     readAuthState(): Promise<boolean> {
-        console.log('readAuthState');
+        // console.log('readAuthState');
         return new Promise(resolve => {
             this.LSP.get(STORAGE_KEY)
                 .then((data) => {
                     if (data) {
                         const state = this.decrypt(data, this.encryptKey);
-                        console.log('got state', state);
+                        // console.log('got state', state);
                         this.userLoggedIn = state["userLoggedIn"];
                         this.userId = state["userId"];
                         this.pwd = state["pwd"];
@@ -170,12 +170,12 @@ export class AuthenticationProvider {
     }
 
     encrypt(data: {}, key: string): string {
-        console.log("encrypting");
+        // console.log("encrypting");
         return CryptoJS.AES.encrypt(JSON.stringify(data), key).toString();
     }
 
     decrypt(data: string, key: string): {} {
-        console.log('decrypting');
+        // console.log('decrypting');
         let bytes = CryptoJS.AES.decrypt(data, key);
         return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
     }

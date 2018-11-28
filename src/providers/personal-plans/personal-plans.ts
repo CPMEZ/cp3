@@ -362,12 +362,12 @@ export class PersonalPlansProvider {
   }
 
   encrypt(data: {}, key: string): string {
-    console.log("encrypting");
+    // console.log("encrypting");
     return CryptoJS.AES.encrypt(JSON.stringify(data), key).toString();
   }
 
   decrypt(data: string, key: string): {} {
-    console.log('decrypting');
+    // console.log('decrypting');
     let bytes = CryptoJS.AES.decrypt(data, key);
     return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
   }
@@ -385,20 +385,16 @@ export class PersonalPlansProvider {
 }
 
 // helper
-
 function deepCopy(obj) {
   var copy;
-
   // Handle the 3 simple types, and null or undefined
   if (null == obj || "object" != typeof obj) return obj;
-
   // Handle Date
   if (obj instanceof Date) {
     copy = new Date();
     copy.setTime(obj.getTime());
     return copy;
   }
-
   // Handle Array
   if (obj instanceof Array) {
     copy = [];
@@ -407,7 +403,6 @@ function deepCopy(obj) {
     }
     return copy;
   }
-
   // Handle Object
   if (obj instanceof Object) {
     copy = {};
@@ -416,6 +411,5 @@ function deepCopy(obj) {
     }
     return copy;
   }
-
   throw new Error("Unable to copy obj! Its type isn't supported.");
 }
