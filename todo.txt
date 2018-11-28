@@ -25,6 +25,8 @@ x		no, put in text below banner, above search
 
 _ build some kind of undo?
 
+_ all disciplines default to nursing in conditions
+
 x change splash screen color for contrast
 x  replace splash screen with tina's picture
 
@@ -70,14 +72,14 @@ X bad password message
 x write when device re-activated from sleep--fix that
 
 _ update EULA
-	_ insert click thru
-	_ update terms page
+	x insert click thru
+	x update terms page
 	_ update URL w apple store connect
 
-cut and paste to rearrange
-drag and drop scroll beyond limits --try ionic reorder
+maybe later:  cut and paste to rearrange
+maybe later:  drag and drop scroll beyond limits --try ionic reorder
 
-***malformed UTF-8 error is caused by using the user's personal encryption key, so when you change users, fails
+x malformed UTF-8 error is caused by using the user's personal encryption key, so when you change users, fails
 	needs to have user-specific storage for PPP & masters' cache
 
 x check user id exists before creating new
