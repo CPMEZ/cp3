@@ -76,7 +76,7 @@ export class EditPlanPage {
         {
           text: 'Yes, log out',
           handler: () => {
-            this.PPP.write();
+            // this.PPP.write();
             this.auth.logout();
           }
         }
