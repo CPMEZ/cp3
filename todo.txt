@@ -27,6 +27,38 @@ _ build some kind of undo?
 
 _ all disciplines default to nursing in conditions
 
+_ fix save on pause:  try ionViewCanLeave, with async resolve before return true?
+	i think the request is going out of scope/being killed and aborting because of it
+	see this "background mode" example:  =============================================
+	import { Component } from '@angular/core';
+import { NavController } from 'ionic-angular';
+import { BackgroundMode } from '@ionic-native/background-mode';
+import { NativeAudio } from '@ionic-native/native-audio';
+
+export class HomePage {
+
+  constructor(public navCtrl: NavController,public nativeAudio: NativeAudio , public backgroundMode : BackgroundMode) {
+
+  }
+}  
+Next you need to preload the mp3 to be played before playing it:
+
+this.nativeAudio.preloadSimple('audio1', 'audio/1.mp3').then((msg)=>{
+  console.log("message: " + msg);
+}, (error)=>{
+  console.log("error: " + error);
+});
+Then you can add the method to play the audio
+
+  public playAudio(){
+    this.backgroundMode.enable();
+    this.backgroundMode.on("activate").subscribe(()=>{
+      this.nativeAudio.play("audio1");  
+    });
+    this.nativeAudio.play("audio1"),() => console.log('audio1 is done playing'));
+  }
+=============================================================================================
+
 x change splash screen color for contrast
 x  replace splash screen with tina's picture
 
