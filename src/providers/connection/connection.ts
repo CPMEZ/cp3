@@ -17,18 +17,20 @@ export class ConnectionProvider {
   // private network: Network,
   private cpapi: CPAPI) {
     console.log('Constructor ConnectionProvider Provider');
+    // periodically check network connection?
+    // 30 seconds
+    // setInterval(() => {
+    //   this.checkConnection();
+    // }, 30000);
   }
 
   checkConnection() {
-    // now see if there's internet access
-    // console.log('checkConnection');
+    // now see if there's api access
     var route: string = this.cpapi.apiURL + "master/";
     this.http.options(route)
       .subscribe((data) => {
         console.log('internet on');
         this.internet = true;
-        // therefore, connected must be true
-        // this.connected = true;
       }),
       (err) => {
         console.log('internet off');

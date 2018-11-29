@@ -124,12 +124,14 @@ export class CacheProvider {
   }
 
   encrypt(data: string, key: string): string {
-    console.log("encrypting");
+    // console.log("encrypting");
+    // console.log("key", key);
     return CryptoJS.AES.encrypt(data, key).toString();
   }
-
+  
   decrypt(data: string, key: string): string {
-    console.log('decrypting');
+    // console.log('decrypting');
+    // console.log("key", key);
     const bytes = CryptoJS.AES.decrypt(data, key);
     return bytes.toString(CryptoJS.enc.Utf8);
   }

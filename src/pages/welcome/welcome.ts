@@ -55,7 +55,9 @@ export class WelcomePage {
     // cause we don't have async on loadPlans,
     this.events.subscribe('loadComplete', (time) => {
       console.log('got event loadComplete');
-      try { loading.dismiss(); }
+      try { loading.dismiss(); 
+        // console.log('on loading complete event, plans =', this.PPP.plans);
+      }
       catch (err) { console.log('load timeout before complete'); }
       this.navCtrl.setRoot(CarePlanPage);
     })
@@ -65,6 +67,8 @@ export class WelcomePage {
       try { loading.dismiss(); 
       }
       catch (err) { console.log('load complete before timeout'); }
+      // TODO:  handle this
+      // this.navCtrl.setRoot(CarePlanPage);
     }, 5000);
   }
 
