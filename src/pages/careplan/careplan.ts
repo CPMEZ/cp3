@@ -85,6 +85,7 @@ export class CarePlanPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CareplanPage');
+    // console.log('plans', this.PPP.plans);
   }
   
   ionViewDidEnter() {
@@ -121,14 +122,14 @@ export class CarePlanPage {
   }
 
   pushToWeb() {
-    this.PPP.saveToWeb();
+    this.PPP.pushWeb();
     if (this.plt.is('mobile')) {
       this.toast.show('Uploaded to Cloud', '1500', 'center').subscribe(t => { });
     }
   }
 
   pullFromWeb() {
-    this.PPP.loadPlansWeb();
+    this.PPP.pullWeb();
     if (this.plt.is('mobile')) {
       this.toast.show('Downloaded from Cloud', '1500', 'center').subscribe(t => { });
     }
@@ -147,6 +148,11 @@ export class CarePlanPage {
   login() {
     this.navCtrl.push(LoginPage);
   }
+
+  testEmpty() {
+    // this.PPP.initPlans();
+  }
+
   logout() {
     // confirm before logout
     let prompt = this.alertCtrl.create({
@@ -159,7 +165,7 @@ export class CarePlanPage {
         {
           text: 'Yes, log out',
           handler: () => {
-            this.PPP.write();
+            // this.PPP.write();
             this.auth.logout();
           }
         }
