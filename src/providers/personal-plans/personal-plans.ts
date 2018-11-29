@@ -7,9 +7,12 @@ import { CPAPI } from '../cpapi/cpapi';
 import { AuthenticationProvider } from '../authentication/authentication';
 import { LocalStoreProvider } from '../local-store/local-store';
 import { MasterPlansProvider } from '../master-plans/master-plans';
+import { ConnectionProvider } from '../connection/connection';
 
 const STORAGE_KEY = 'plans';  // note CacheProvider ignores this key on clearCache
-// user data encrypted with user's own key phrase
+// user local data encrypted with common key because user may never log in, or subscribe
+const LOCAL_ENCRYPT_KEY = 'Askance to watch the working of his lie';  // childe roland, 3rd line, browning 1855
+// user web data encrypted with user's own key phrase
 
 @Injectable()
 export class PersonalPlansProvider {
@@ -19,6 +22,7 @@ export class PersonalPlansProvider {
 
   constructor(private http: HttpClient,
     public events: Events,
+    public conn: ConnectionProvider,
     private LSP: LocalStoreProvider,
     public auth: AuthenticationProvider,
     private cpapi: CPAPI,
@@ -28,11 +32,11 @@ export class PersonalPlansProvider {
   }
 
   local: {};
-  readLocal: boolean = false;
-  localReadComplete: boolean = false;
+  foundLocal: boolean = false;
+  localAttemptComplete: boolean = false;
   web: {};
-  readWeb: boolean = false;
-  webReadComplete: boolean = false;
+  foundWeb: boolean = false;
+  webAttemptComplete: boolean = false;
   loadingNow: boolean = false;
 
   // .userValidSubscription and .userLoggedIn determines if user can search from master
@@ -41,18 +45,22 @@ export class PersonalPlansProvider {
     // clear out plans before reading,
     //    in case new user has signed in
     this.initPlans();
-    // reset flags
-    this.readLocal = false;
-    this.localReadComplete = false;
-    this.readWeb = false;
-    this.webReadComplete = false;
-    
+
+
     // always get the local copy regardless of internet
     this.loadPlansLocal();
     if (this.auth.userLoggedIn) {
+      // console.log('loadPlans logged in=', this.auth.userLoggedIn);
       // if we can, also get the web copy
       this.loadPlansWeb();
       this.checkRecent();  // use the most recent if we've read both web & local
+    } else {
+      // can't read the web
+      console.log('loadPlans userLoggedIn else path');
+      this.foundWeb = false;
+      this.webAttemptComplete = true;
+      this.checkRecent();  // let the standard logic choose local
+      // this.plans = this.local["plans"];
     }
   }
 
@@ -99,7 +107,7 @@ export class PersonalPlansProvider {
   // END add standard plan section
 
   // copy your own plan section
-    copyPlan(op, np) {
+  copyPlan(op, np) {
     // create a new plan, 
     // copy all the components from the old one,
     // (have to copy contents individual, so not by reference)
@@ -131,35 +139,35 @@ export class PersonalPlansProvider {
   mergeProblemsFromPlan(targetPlan, sourcePlan) {
     // console.log('mergeProblemsFromPlan');
     // if (targetPlan.problems.length > 0) {
-      // if the plan is not currently empty, 
-      // merge into existing problems
-      // console.log('source', sourcePlan["problems"]);
-      sourcePlan["problems"].forEach(p => {
-        let found = false;
-        for (var i = 0; i < targetPlan.problems.length; i++) {
-          // problem in newly-added condition already in the plan?
-          if (targetPlan.problems[i].text === p["text"]) {
-            found = true;
-            // these lines will cause problem to which we've added to be expanded
-            p["icon"] = "arrow-dropdown";
-            p["expanded"] = true;
-            // add all the goals and interventions to the existing problem
-            // console.log("goals");
-            this.addNewItems(p["goals"], "text", targetPlan.problems[i].goals);
-            // console.log("interventions");
-            this.addNewItems(p["interventions"], "text", targetPlan.problems[i].interventions);
-            break;  // no need to look further
-          }
-        }
-        if (!found) {  // never found it, add the whole problem
-          // console.log('not found, whole problem');
+    // if the plan is not currently empty, 
+    // merge into existing problems
+    // console.log('source', sourcePlan["problems"]);
+    sourcePlan["problems"].forEach(p => {
+      let found = false;
+      for (var i = 0; i < targetPlan.problems.length; i++) {
+        // problem in newly-added condition already in the plan?
+        if (targetPlan.problems[i].text === p["text"]) {
+          found = true;
+          // these lines will cause problem to which we've added to be expanded
           p["icon"] = "arrow-dropdown";
           p["expanded"] = true;
-          var t = deepCopy(p);
-          // console.log(t);
-          targetPlan.problems.push(t);
+          // add all the goals and interventions to the existing problem
+          // console.log("goals");
+          this.addNewItems(p["goals"], "text", targetPlan.problems[i].goals);
+          // console.log("interventions");
+          this.addNewItems(p["interventions"], "text", targetPlan.problems[i].interventions);
+          break;  // no need to look further
         }
-      })
+      }
+      if (!found) {  // never found it, add the whole problem
+        // console.log('not found, whole problem');
+        p["icon"] = "arrow-dropdown";
+        p["expanded"] = true;
+        var t = deepCopy(p);
+        // console.log(t);
+        targetPlan.problems.push(t);
+      }
+    })
     // }
   }
   // END copy your own plan section
@@ -189,7 +197,7 @@ export class PersonalPlansProvider {
       }
     }
   }
- 
+
   deletePlan(plan) {
     // remove the designated plan from plans
     var index: number = this.plans.indexOf(plan, 0);
@@ -211,40 +219,59 @@ export class PersonalPlansProvider {
 
   // reading/writing plans section  ===================
   loadPlansLocal() {
+    // reset flags
+    this.foundLocal = false;
+    this.localAttemptComplete = false;
+    this.local = {};  // init/re-init first
     this.readFromLocal()
       .then((data: any) => {
         // console.log(data);
         this.local = JSON.parse(data);
-        this.readLocal = true;
-        this.localReadComplete = true;
+        // console.log('size of local plans', this.local["plans"].length);
+        this.foundLocal = true;
+        this.localAttemptComplete = true;
         if (typeof this.local !== "object") {
           this.local = { plans: [] };
         }
         this.checkRecent();
       })
       .catch((error: any) => {
-        this.readLocal = false;  // didn't get one
-        this.localReadComplete = true;  // but the reading is done
+        this.foundLocal = false;  // didn't get one
+        this.localAttemptComplete = true;  // but the reading is done
         this.local = { plans: [] };  // create an empty
         this.checkRecent();
       });
   }
 
   loadPlansWeb() {
-    this.readFromWeb()
-      .then((data: any) => {
-        // console.log(data);
-        this.web = JSON.parse(data);
-        this.readWeb = true;
-        this.webReadComplete = true;
-        this.checkRecent();
-      })
-      .catch((error: any) => {
-        console.log('loadplansweb', error);
-        this.readWeb = false;  // didn't get one
-        this.webReadComplete = true;  // but the getting is done
-        this.checkRecent();
-      });
+    // reset flags
+    this.foundWeb = false;
+    this.webAttemptComplete = false;
+    // clear first in case re-read w different userid
+    this.web = {};
+    // check connection
+    this.conn.checkConnection();
+    if (this.conn.internet) {
+      this.readFromWeb()
+        .then((data: any) => {
+          this.web = JSON.parse(data);
+          // console.log('size of web plans', this.web["plans"].length);
+          this.foundWeb = true;
+          this.webAttemptComplete = true;
+          this.checkRecent();
+        })
+        .catch((error: any) => {
+          console.log('loadplansweb', error);
+          this.foundWeb = false;  // didn't get one
+          this.webAttemptComplete = true;  // but the getting is done
+          this.checkRecent();
+        });
+    } else {
+      console.log('no internet for loadPlansWeb');
+      this.foundWeb = false;  // didn't get one
+      this.webAttemptComplete = true;  // but the getting is done
+      this.checkRecent();
+    }
   }
 
   checkRecent() {
@@ -255,39 +282,90 @@ export class PersonalPlansProvider {
     // but web read might not be completed at all (if subscrptn expired, eg)
     // so set local, then override with web if web is newer
 
-    if (this.localReadComplete && this.webReadComplete) {
-      // notify loading completed
-      this.events.publish('loadComplete', Date.now());
-      // find newest
-      if (this.readLocal && this.readWeb) {
-        // got both, compare dates
-        // console.log('comparing');
+    if (this.localAttemptComplete && this.webAttemptComplete) {
+      // choose which to use
+      if (this.foundLocal && this.foundWeb) {
+        // got both, 
+        // compare dates
         if (this.local["lastWrite"] < this.web["lastWrite"]) {
           // web newer
           console.log('web newer');
           this.plans = this.web["plans"];
+        } else {
+          // local newer
+          console.log('local newer');
+          this.plans = this.local["plans"];
         }
-      } else if (this.readLocal) {
-        // only got a local, use it
+      }
+      if (this.foundLocal && !this.foundWeb) {
+        // only got a local, but no web
+        // use local
         console.log('local only, no web')
         this.plans = this.local["plans"];
-      } else if (this.readWeb) {
-        // only got a web, use it
+      }
+      if (!this.foundLocal && this.foundWeb) {
+        // only got a web, but no local
+        // use web
         console.log('web only, no local')
         this.plans = this.web["plans"];
-      } else {
-        // none, init
+      }
+      if (!this.foundLocal && !this.foundWeb) {
+        // got neither, init to empty
         this.initPlans();
       }
-    } // no "else" might be a problem
+      // notify loading completed
+      this.events.publish('loadComplete', Date.now());
+    }
+  }
+
+  pullWeb() {
+    console.log("pullWeb");
+    this.conn.checkConnection();
+    if (this.conn.internet) {
+      this.readFromWeb()
+        .then((data: any) => {
+          // ensure we got other than empty plans[]
+          // console.log(data);
+          this.webAttemptComplete = true;
+          this.web = JSON.parse(data);
+          if (this.web["plans"]) {
+            if (this.web["plans"].length > 0) {
+              this.foundWeb = true;
+              this.plans = this.web["plans"];
+              this.saveToLocal();
+            } else {
+              console.log('readFromWeb empty result');
+            }
+          } else {
+            console.log('readFromWeb empty result');
+            // don't disturb the current plans[] content if read unsuccessful
+          }
+        })
+        .catch((error: any) => {
+          console.log('loadplansweb', error);
+          // don't disturb the current plans[] content if read unsuccessful
+        });
+    }
+  }
+
+  pushWeb() {
+    console.log("pushWeb");
+    if (this.auth.userLoggedIn) {
+      // console.log('write logged in=', this.auth.userLoggedIn);
+      this.saveToWeb();  // always also save to web, if connected
+    }
   }
 
   write() {
     console.log('writing');
+    // console.log('user', this.auth.userId);
+    // console.log('logged in', this.auth.userLoggedIn);
     // if (this.pltfrm.is('mobile')) {
     this.saveToLocal();
     // }
+    // console.log('write logged in=', this.auth.userLoggedIn);
     if (this.auth.userLoggedIn) {
+      console.log('write logged in=', this.auth.userLoggedIn);
       this.saveToWeb();  // always also save to web, if connected
     }
   }
@@ -295,22 +373,22 @@ export class PersonalPlansProvider {
   saveToLocal(): void {
     // console.log("saveToLocal");
     let p = this.packagePlans();
-    p = this.encrypt(p, this.auth.userKey);
+    p = this.encrypt(p, LOCAL_ENCRYPT_KEY);
     const userStorageKey = STORAGE_KEY + '_' + this.auth.userId
     this.LSP.set(userStorageKey, p)
-    .then(result => console.log("saved local"))
-    .catch(e => console.log("error: " + e));
+      .then(result => console.log("saved local"))
+      .catch(e => console.log("error: " + e));
   }
-  
+
   readFromLocal(): Promise<object> {
     return new Promise(resolve => {
       const userStorageKey = STORAGE_KEY + '_' + this.auth.userId
       this.LSP.get(userStorageKey)
-      .then((data) => {
-        console.log('read local with', userStorageKey);
+        .then((data) => {
+          console.log('read local with', userStorageKey);
           // console.log(data);
           if (data) {
-            resolve(this.decrypt(data, this.auth.userKey))
+            resolve(this.decrypt(data, LOCAL_ENCRYPT_KEY))
           } else {
             console.log('read nothing local, resolving empty plans');
             resolve({ plans: [] })
@@ -322,17 +400,22 @@ export class PersonalPlansProvider {
 
   saveToWeb() {
     // console.log("saveToWeb");
-    let e = this.packagePlans();
-    e = this.encrypt(e, this.auth.userKey);
-    const p: {} = { plans: e };
-    var api: string = this.cpapi.apiURL + "data/" + this.auth.userId;
-    this.http.post(api, p)
-      .subscribe(data => { console.log("saved to web"); },
-        error => {
-          // alert("not saved to web");  // remove for production
-          //  if no web connection?
-          console.log(error);
-        });
+    this.conn.checkConnection();
+    if (this.conn.internet) {
+      let e = this.packagePlans();
+      e = this.encrypt(e, this.auth.userKey);
+      const p: {} = { plans: e };
+      var api: string = this.cpapi.apiURL + "data/" + this.auth.userId;
+      this.http.post(api, p)
+        .subscribe(data => { console.log("saved to web"); },
+          error => {
+            // alert("not saved to web");  // remove for production
+            //  if no web connection?
+            console.log(error);
+          });
+    } else {
+      console.log('not saved to web, no internet');
+    }
   }
 
   readFromWeb(): Promise<object> {
@@ -340,11 +423,15 @@ export class PersonalPlansProvider {
       var api: string = this.cpapi.apiURL + "data/" + this.auth.userId;
       this.http.get(api)
         .subscribe((data) => {
-          console.log('read from web');
+          console.log('read from web with', this.auth.userId);
           if (data) {
-            resolve(this.decrypt(data["plans"] as string, this.auth.userKey));
+            let d = this.decrypt(data["plans"] as string, this.auth.userKey);
+            // console.log('plans after read from web', d);
+            resolve(d);
           } else {
-            resolve({ plans: [] });
+            let d = { plans: [] };
+            // console.log('plans after read from web', d);
+            resolve(d);
           }
         });
     });
@@ -361,11 +448,13 @@ export class PersonalPlansProvider {
 
   encrypt(data: {}, key: string): string {
     // console.log("encrypting");
+    // console.log('key', key);
     return CryptoJS.AES.encrypt(JSON.stringify(data), key).toString();
   }
 
   decrypt(data: string, key: string): {} {
     // console.log('decrypting');
+    // console.log('key', key);
     let bytes = CryptoJS.AES.decrypt(data, key);
     return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
   }
