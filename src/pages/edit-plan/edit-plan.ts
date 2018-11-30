@@ -33,7 +33,7 @@ export class EditPlanPage {
   }
 
   nameChange() {
-    console.log('checking');
+    // console.log('checking');
     if (this.savePlan.name === this.plan['name'].trim())  {
       // cause it's ok to reuse the same name you already had
       this.canUseName = true;
@@ -41,7 +41,7 @@ export class EditPlanPage {
       console.log('checking=', this.plan['name']);
       this.canUseName = this.PPP.checkPlanName(this.plan['name'].trim());
     }
-    console.log('checking=', this.canUseName);
+    // console.log('checking=', this.canUseName);
   }
 
   editDone() {
