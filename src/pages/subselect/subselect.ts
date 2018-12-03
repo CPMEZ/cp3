@@ -10,7 +10,10 @@ import { TermsPage } from '../terms/terms';
   selector: 'page-subselect',
   templateUrl: 'subselect.html',
 })
+ 
 
+// subselect comes first where purchase is done; 
+// then comes subscribe, where account is set up
 export class SubselectPage {
   userId: string;
   pwd: string;

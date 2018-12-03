@@ -28,7 +28,7 @@
     <div>Log in to your Red Book account.</div>
   </ion-item>
   <br><br>
-  <ion-item no-lines *ngIf="conn.internet">
+  <ion-item no-lines *ngIf="conn.internet && !auth.userLoggedIn">
     <button ion-button (click)="subscribe()">SUBSCRIBE</button><br>
     <div>Subscribe to use the Red Book content in your care plans.</div>
   </ion-item>

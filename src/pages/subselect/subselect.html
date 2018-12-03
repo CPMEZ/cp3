@@ -8,7 +8,10 @@
 
 
 <ion-content padding>
-  <ion-item no-lines>
+  <ion-item no-lines *ngIf="auth.userLoggedIn">
+    <h1>You're already subscribed, logged in, and ready to go.</h1>
+  </ion-item>
+  <ion-item no-lines *ngIf="!auth.userLoggedIn">
     <h1>Subscribe to use Red Book Care Plan content.</h1>
 
     <div ion-item no-lines *ngFor="let p of products" class="hilite">

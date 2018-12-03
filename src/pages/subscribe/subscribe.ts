@@ -9,6 +9,10 @@ import { CarePlanPage } from '../careplan/careplan';
   templateUrl: 'subscribe.html',
 })
 export class SubscribePage {
+
+// subselect comes first where purchase is done; 
+// then comes subscribe, where account is set up
+
   userId: string;
   pwd: string;
   pwdVer: string;
