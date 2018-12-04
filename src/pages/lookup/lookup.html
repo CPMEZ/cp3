@@ -24,7 +24,8 @@
   <div *ngIf="itemsList">
     <ion-list>
       <div ion-item no-lines *ngFor="let z of itemsList">
-        <p (click)="choose(z)">{{z.text}}</p>
+        <p [class]="types"
+         (click)="choose(z)">{{z.text}}</p>
       </div>
     </ion-list>
   </div>
