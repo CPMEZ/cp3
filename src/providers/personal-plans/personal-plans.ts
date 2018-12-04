@@ -458,12 +458,12 @@ export class PersonalPlansProvider {
     let bytes = CryptoJS.AES.decrypt(data, key);
     return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
   }
-
+ 
   checkPlanName(name: string): boolean {
     // see if the name's already in use
     var canUseName: boolean = true;
     this.plans.forEach(p => {
-      if (p["name"] == name) {
+      if (p["name"].trim() == name) {
         canUseName = false;
       }
     });

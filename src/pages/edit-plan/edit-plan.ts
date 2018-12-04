@@ -14,6 +14,7 @@ import { PersonalPlansProvider } from '../../providers/personal-plans/personal-p
 export class EditPlanPage {
   plan: any;
   savePlan: { name: string, text: string, updated: string } = { name: "", text: "", updated: "" };
+  newName: string;
   canUseName: boolean;
 
   constructor(public navCtrl: NavController, 
@@ -23,6 +24,8 @@ export class EditPlanPage {
     public PPP: PersonalPlansProvider) {
     this.plan = navParams.get('plan');
     this.savePlan.name = this.plan.name;
+    this.newName = this.plan.name;
+    // console.log('constructor newName', this.newName);
     this.savePlan.text = this.plan.text;
     this.savePlan.updated = this.plan.updated;
     this.canUseName = true;
@@ -34,17 +37,19 @@ export class EditPlanPage {
 
   nameChange() {
     // console.log('checking');
-    if (this.savePlan.name === this.plan['name'].trim())  {
+    if (this.savePlan.name === this.newName.trim())  {
       // cause it's ok to reuse the same name you already had
       this.canUseName = true;
     } else {
-      console.log('checking=', this.plan['name']);
-      this.canUseName = this.PPP.checkPlanName(this.plan['name'].trim());
+      // console.log('checking=', this.newName);
+      this.canUseName = this.PPP.checkPlanName(this.newName.trim());
+      // console.log('canUseName', this.canUseName);
     }
     // console.log('checking=', this.canUseName);
   }
 
   editDone() {
+    this.plan['name'] = this.newName;
     const d: Date = new Date();
     this.plan.updated = d.toLocaleDateString();
     this.PPP.write();
