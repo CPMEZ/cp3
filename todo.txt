@@ -23,6 +23,8 @@ x		no, put in text below banner, above search
 
 0 change color of loading spinner on splashscreen--don't seem to be able to
 
+x colorize lookup lists
+
 _ build some kind of undo?
 
 _ all disciplines default to nursing in conditions
