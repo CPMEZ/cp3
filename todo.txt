@@ -25,6 +25,10 @@ x		no, put in text below banner, above search
 
 x colorize lookup lists
 
+_ add timestamp to pdf heading in splashscreen
+
+_ set price to 9.99, first month free subscription price
+
 _ build some kind of undo?
 
 _ all disciplines default to nursing in conditions
