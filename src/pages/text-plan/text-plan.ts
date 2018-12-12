@@ -61,6 +61,18 @@ export class TextPlanPage {
     return discText;
   }
 
+  goalTerm(goal: any): string {
+    if (goal.term) {
+      if (goal.term === "ST") {
+        return "Short Term";
+      } else {
+        return "Long Term";
+      }
+    } else {
+      return "";
+    }
+  }
+
   pdfObj = null;
 
   createPdf(download: boolean) {
@@ -130,7 +142,9 @@ export class TextPlanPage {
             docDefinition.content.push({
               text: // this.plan.problems[i].goals[j].term +
                 "         " +
-                this.plan.problems[i].goals[j].text, style: "goalText"
+                this.plan.problems[i].goals[j].text + "   " 
+                + this.goalTerm(this.plan.problems[i].goals[j]), 
+              style: "goalText"
             });
           }
         }
@@ -245,10 +259,16 @@ export class TextPlanPage {
           text += "   Outcomes";
           for (let j = 0; j < this.plan.problems[i].goals.length; j++) {
             text += "    ";
-            if (this.plan.problems[i].goals[j].term) { text += this.plan.problems[i].goals[j].term; }
-            // text += " Outcome:  " +
             text += "   " +
-              this.plan.problems[i].goals[j].text + "\r\n";
+              this.plan.problems[i].goals[j].text;
+            if (this.plan.problems[i].goals[j].term) {
+              if (this.plan.problems[i].goals[j].term == 'ST') {
+                text += '(Short Term)';
+              } else {  // long term
+                text += '(Long Term)';
+              }
+            }
+            text += + "\r\n";
           }
         }
         if (this.plan.problems[i].interventions) {

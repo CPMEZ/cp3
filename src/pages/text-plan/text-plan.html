@@ -26,11 +26,13 @@
         <div *ngFor="let p of plan.problems">
           <p class="ptext prob">{{p.text}}</p>
           <div>
-              <div *ngFor="let g of p.goals">
-                <p class="ptext goal"><em>{{g.term}} Outcome:</em>  {{g.text}}</p>
-              </div>
-              <div *ngFor="let n of p.interventions">
-                <p class="ptext int"><em>Int:</em>  {{n.text}}</p>
+            <div><em>Outcomes</em></div>
+            <div *ngFor="let g of p.goals">
+              <p class="ptext goal">{{g.text}}  <em>{{goalTerm(g)}}</em></p>
+            </div>
+            <div><em>Interventions</em></div>
+            <div *ngFor="let n of p.interventions">
+                <p class="ptext int">{{n.text}}</p>
                 <p class="ptext dsc" *ngIf="discList(n)"><em>Disciplines:</em>  {{discList(n)}}</p>
               </div>
           </div>

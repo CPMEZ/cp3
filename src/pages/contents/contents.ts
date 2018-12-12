@@ -320,6 +320,16 @@ export class ContentsPage {
     return discText;
   }
 
+  goalTerm(goal: any): string {
+    if (goal.term) {
+      if (goal.term === "ST") {
+        return "Short Term";
+      } else {
+        return "Long Term";
+      }
+    }
+  }
+
   help() {
     this.navCtrl.push(HelpPage);
   }

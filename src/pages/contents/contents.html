@@ -72,7 +72,7 @@
             <div ion-item no-lines *ngFor="let g of p.goals">
               <p class="goal">
                 <span class="probId" hidden>{{i}}</span>
-                <span (click)="goalEdit(g)">{{g.term}} {{g.text}}</span>
+                <span (click)="goalEdit(g)">{{g.text}} <em>{{goalTerm(g)}}</em></span>
                 <button class="trash" (click)="goalDelete(p, g)">
                   <ion-icon name="trash"></ion-icon>
                 </button>
