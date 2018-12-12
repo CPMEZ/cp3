@@ -1,18 +1,21 @@
 page-preview {
     .ptext { 
-        color: rgb(89, 7, 195);
+        // color: rgb(89, 7, 195);
         font-size: 1.4rem; 
         word-break: normal;
         white-space: normal;
     }
     .prob { 
+        color: red;
         margin-top: 1.2rem;
     }
     .goal { 
+        color: green;
         margin-top: 0.8rem;
         margin-left: 1rem;
     }
     .int { 
+        color: blue;
         margin-top: 0.4rem;
         margin-left: 1rem;
         margin-bottom: 0;
@@ -23,6 +26,7 @@ page-preview {
         margin-bottom: 0;
     }    
     .h1text {
+        // color: rgb(89, 7, 195);
         font-size: 1.6rem;
     }
     button {
