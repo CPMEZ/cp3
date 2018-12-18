@@ -1,12 +1,7 @@
 import { Injectable } from '@angular/core';
-// import { PersonalPlansProvider } from '../personal-plans/personal-plans';
-
 
 @Injectable()
 export class MergeProvider {
-
-    // basePlan: any = undefined;
-    // mergePlan: any = undefined;
 
     constructor() {
         console.log('Constructor MergeProvider Provider');
@@ -74,35 +69,6 @@ export class MergeProvider {
             }
         }
     }
-
-
-    // // add standard plan section
-    // standardPlan(np, condition) {
-    //     // add a standard plan
-    //     let newPlan: any;
-    //     newPlan = { name: np.name, text: np.text, created: "", updated: "", problems: [] };
-    //     if (newPlan.text === "") { newPlan.text = condition["text"]; }
-    //     const d: Date = new Date();
-    //     newPlan.created = d.toLocaleDateString();
-    //     newPlan.updated = d.toLocaleDateString();
-    //     this.MPP.getMaster(condition["file"])
-    //         .then(data => {
-    //             const cond: {} = JSON.parse(data);
-    //             this.addProblemsFromCondition(newPlan, cond);
-    //             this.plans.push(newPlan);
-    //             // console.log(this.plans);
-    //             this.write();
-    //         });
-    // }
-
-    // addProblemsFromCondition(target, cond) {
-    //     cond["condition"]["problems"].forEach(p => {
-    //         p["icon"] = "arrow-dropdown";
-    //         p["expanded"] = true;
-    //         target["problems"].push(p);
-    //     });
-    // }
-
 
 }
 

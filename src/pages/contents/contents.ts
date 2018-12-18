@@ -16,8 +16,8 @@ import { LoginPage } from '../login/login';
 import { TextPlanPage } from '../text-plan/text-plan';
 import { DragulaService } from 'ng2-dragula';
 import { Subscription } from 'rxjs';
-import { MergePage } from '../merge/merge';
-import { MergeProvider } from '../../providers/merge/merge';
+// import { MergePage } from '../merge/merge';
+// import { MergeProvider } from '../../providers/merge/merge';
 import { LookupPlanPage } from '../lookupPlan/lookupPlan';
 
 @IonicPage()
@@ -37,8 +37,7 @@ export class ContentsPage {
     private ds: DragulaService,
     private alertCtrl: AlertController,
     public auth: AuthenticationProvider,
-    public PPP: PersonalPlansProvider,
-    private merge: MergeProvider) {
+    public PPP: PersonalPlansProvider) {
     this.plan = navParams.get('plan');
 
     // dragging stuff
