@@ -1,6 +1,5 @@
 page-preview {
     .ptext { 
-        // color: rgb(89, 7, 195);
         font-size: 1.4rem; 
         word-break: normal;
         white-space: normal;
@@ -14,19 +13,25 @@ page-preview {
         margin-top: 0.8rem;
         margin-left: 1rem;
     }
+    // .goalCheck { 
+    //     background-color: green !important;
+    // }
     .int { 
         color: blue;
         margin-top: 0.4rem;
         margin-left: 1rem;
         margin-bottom: 0;
     }
+    // .intCheck { 
+    //     background-color: blue !important;
+    // }
     .dsc { 
+        color: blue;
         margin-top: 0;
         margin-left: 2.2rem;
         margin-bottom: 0;
     }    
     .h1text {
-        // color: rgb(89, 7, 195);
         font-size: 1.6rem;
     }
     button {

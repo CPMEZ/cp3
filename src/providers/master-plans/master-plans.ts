@@ -22,6 +22,18 @@ export class MasterPlansProvider {
     this._listSelection = v;
   }
 
+  // used to pass selections from preview pages
+  private _previewSelection: Object;
+
+  public get previewSelection(): Object {
+    // const ls = this._listSelection;
+    // this._listSelection = "";
+    return this._previewSelection;
+  }
+  public set previewSelection(v: Object) {
+    this._previewSelection = v;
+  }
+
   constructor(private cpapi: CPAPI,
     public auth: AuthenticationProvider,
     private cache: CacheProvider) {

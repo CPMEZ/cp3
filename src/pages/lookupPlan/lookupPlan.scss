@@ -1,0 +1,32 @@
+page-lookupPlan {
+    .problems {
+        color:color($colors, primary);
+    }
+    .goals {
+        color: green;
+    }
+    .interventions {
+        color: blue;
+    }
+    .conditions {
+        color: black;
+    }
+    .disciplines {
+        color: black;
+    }
+    .search {
+        font-size: 2.0rem;
+        margin-left: 0.2rem;
+        margin-right: 0.6rem;        
+        color: white;
+        background-color: color($colors, primary) ;
+    }
+
+    .tool {
+        font-size: 2.0rem;
+        margin-left: 1.0rem;
+        margin-right: 0.6rem;
+        color: white;
+        background-color:color($colors, primary);
+    }
+}

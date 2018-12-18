@@ -31,11 +31,11 @@ _ set price to 9.99, first month free subscription price
 
 _ build some kind of undo?
 
-_ all disciplines default to nursing in conditions
+x all disciplines default to nursing in conditions
 
 _ fix save on pause:  try ionViewCanLeave, with async resolve before return true?
 	i think the request is going out of scope/being killed and aborting because of it
-	see this "background mode" example:  =============================================
+see this "background mode" example:  =============================================
 	import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { BackgroundMode } from '@ionic-native/background-mode';
@@ -63,7 +63,7 @@ Then you can add the method to play the audio
     });
     this.nativeAudio.play("audio1"),() => console.log('audio1 is done playing'));
   }
-=============================================================================================
+===end of example==========================================================================================
 
 x change splash screen color for contrast
 x  replace splash screen with tina's picture
@@ -109,10 +109,10 @@ X bad password message
 
 x write when device re-activated from sleep--fix that
 
-_ update EULA
+x update EULA
 	x insert click thru
 	x update terms page
-	_ update URL w apple store connect
+	x update URL w apple store connect
 
 maybe later:  cut and paste to rearrange
 maybe later:  drag and drop scroll beyond limits --try ionic reorder
@@ -122,3 +122,6 @@ x malformed UTF-8 error is caused by using the user's personal encryption key, s
 
 x check user id exists before creating new
 	(using cpapi)
+
+_ refactor PPP.plans[] change .name to .text, .text to .description
+	_ have to change all masters and data

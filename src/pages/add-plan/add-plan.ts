@@ -5,9 +5,9 @@ import { PersonalPlansProvider } from '../../providers/personal-plans/personal-p
 import { HelpPage } from '../help/help';
 import { LoginPage } from '../login/login';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
-import { LookupPage } from '../lookup/lookup';
+import { LookupPlanPage } from '../lookupPlan/lookupPlan';
 import { MasterPlansProvider } from '../../providers/master-plans/master-plans';
-import { MergePage } from '../merge/merge';
+// import { MergePage } from '../merge/merge';
 
 @IonicPage()
 @Component({
@@ -36,83 +36,83 @@ export class AddPlanPage {
 
   ionViewDidEnter() {
     console.log('ionViewDidEnter AddPlanPage');
-    // may have returned from add condition selection
-    // if so, continue with processing the add
-    if (this.MPP.listSelection) {
-      this.finishAddStandard();
-      this.MPP.listSelection = "";
-    } // else entered initially vs returned
-    if (this.PPP.listSelection) {
-      this.finishCopyPlan();
-      this.PPP.listSelection = "";
-    } // else entered initially vs returned
+    // // may have returned from add condition selection
+    // // if so, continue with processing the add
+    // if (this.MPP.listSelection) {
+    //   this.finishAddStandard();
+    //   this.MPP.listSelection = "";
+    // } // else entered initially vs returned
+    // if (this.PPP.listSelection) {
+    //   this.finishCopyPlan();
+    //   this.PPP.listSelection = "";
+    // } // else entered initially vs returned
   }
 
-  private finishCopyPlan() {
-    // complete adding a copied care plan
-    // after re-entry from merge
-    console.log('finishCopyPlan');
-    this.planToMerge = this.PPP.listSelection;
-    // clear it immediately after used
-    this.PPP.listSelection = "";
-    // confirm before copy
-    let prompt = this.alertCtrl.create({
-      title: 'Confirm Copy ' + this.planToMerge["name"] + ' to ' + this.newPlan.name,
-      buttons: [
-        {
-          text: "No, don't copy",
-          role: 'cancel',
-          handler: () => {
-            this.navCtrl.pop();
-          }
-        },
-        {
-          text: 'Yes, please',
-          handler: () => {
-            this.PPP.copyPlan(this.planToMerge, this.newPlan);
-            if (this.plt.is('mobile')) {
-              this.toast.show('Added ' + this.newPlan['name'], '1500', 'center').subscribe(t => { });
-            }
-            this.navCtrl.pop();
-          }
-        }
-      ]
-    });
-    prompt.present();
-  }
+  // private finishCopyPlan() {
+  //   // complete adding a copied care plan
+  //   // after re-entry from merge
+  //   console.log('finishCopyPlan');
+  //   this.planToMerge = this.PPP.listSelection;
+  //   // clear it immediately after used
+  //   this.PPP.listSelection = "";
+  //   // confirm before copy
+  //   let prompt = this.alertCtrl.create({
+  //     title: 'Confirm Copy ' + this.planToMerge["name"] + ' to ' + this.newPlan.name,
+  //     buttons: [
+  //       {
+  //         text: "No, don't copy",
+  //         role: 'cancel',
+  //         handler: () => {
+  //           this.navCtrl.pop();
+  //         }
+  //       },
+  //       {
+  //         text: 'Yes, please',
+  //         handler: () => {
+  //           this.PPP.copyPlan(this.planToMerge, this.newPlan);
+  //           if (this.plt.is('mobile')) {
+  //             this.toast.show('Added ' + this.newPlan['name'], '1500', 'center').subscribe(t => { });
+  //           }
+  //           this.navCtrl.pop();
+  //         }
+  //       }
+  //     ]
+  //   });
+  //   prompt.present();
+  // }
 
-  private finishAddStandard() {
-    // complete adding a standard care plan
-    // after re-entry from lookup
-    console.log('finishAddStandard');
-    this.condition = this.MPP.listSelection;
-    // clear it immediately after used
-    this.MPP.listSelection = "";
-    // confirm before copy
-    let prompt = this.alertCtrl.create({
-      title: 'Confirm Add ' + this.condition["text"],
-      buttons: [
-        {
-          text: "No, don't add",
-          role: 'cancel',
-          handler: () => {
-            this.navCtrl.pop();
-          }
-        },
-        {
-          text: 'Yes, please',
-          handler: () => {
-            this.PPP.standardPlan(this.newPlan, this.condition);
-            if (this.plt.is('mobile')) {
-              this.toast.show('Added ' + this.newPlan['name'], '1500', 'center').subscribe(t => { });
-            }
-            this.navCtrl.pop();
-          }
-        }
-      ]
-    });
-    prompt.present();
-  }
+  // private finishAddStandard() {
+  //   // complete adding a standard care plan
+  //   // after re-entry from lookup
+  //   console.log('finishAddStandard');
+  //   this.condition = this.MPP.listSelection;
+  //   // clear it immediately after used
+  //   this.MPP.listSelection = "";
+  //   // confirm before copy
+  //   let prompt = this.alertCtrl.create({
+  //     title: 'Confirm Add ' + this.condition["text"],
+  //     buttons: [
+  //       {
+  //         text: "No, don't add",
+  //         role: 'cancel',
+  //         handler: () => {
+  //           this.navCtrl.pop();
+  //         }
+  //       },
+  //       {
+  //         text: 'Yes, please',
+  //         handler: () => {
+  //           this.PPP.standardPlan(this.newPlan, this.condition);
+  //           if (this.plt.is('mobile')) {
+  //             this.toast.show('Added ' + this.newPlan['name'], '1500', 'center').subscribe(t => { });
+  //           }
+  //           this.navCtrl.pop();
+  //         }
+  //       }
+  //     ]
+  //   });
+  //   prompt.present();
+  // }
 
   nameChange(){
     // console.log('checking');
@@ -132,29 +132,26 @@ export class AddPlanPage {
 
   stdPlan() {
     // newPlan should have name & text from this page
-    this.navCtrl.push(LookupPage, {
+    // new plan is otherwise empty at this point
+    this.navCtrl.push(LookupPlanPage, {
       types: "conditions",
       type: "condition",
       searchName: "Condition",
-      planName: this.newPlan['name'],      
-      item: this.condition
+      target: this.newPlan,
+      fromPage: 'plans'      
     });
-    // process continues when return from selection
   }
-
-  // mergePlan() {
-  //   this.navCtrl.push(MergePage, {
-  //     planName: this.newPlan['name'],
-  //     planText: this.newPlan['text']
-  //   })
-  // }
 
   copyPlan() {
-    this.navCtrl.push(MergePage, {
-      planName: this.newPlan['name'],
-      planText: this.newPlan['text']
-    })
+    this.navCtrl.push(LookupPlanPage, {
+      types: "",
+      type: "My Plan",
+      searchName: "Your Plan",
+      target: this.newPlan,
+      fromPage: 'plans'
+    });
   }
+  
   cancelEdit() {
     this.navCtrl.pop();
   }

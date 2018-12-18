@@ -41,10 +41,18 @@ export class AddDisciplinePage {
     console.log('ionViewDidEnter AddDisciplinePage');
     // this.discipline["text"] = "";
     if (this.MPP.listSelection) {
+      console.log('got listSelection');
       this.discipline = this.MPP.listSelection;
       console.log(this.discipline);
       // clear it immediately after used
       this.MPP.listSelection = "";
+    }
+    if (this.MPP.previewSelection) {
+      console.log('got previewSelection');
+      this.discipline = this.MPP.previewSelection;
+      console.log(this.discipline);
+      // clear it immediately after used
+      this.MPP.previewSelection = undefined;
     }
   }
 
@@ -58,10 +66,9 @@ export class AddDisciplinePage {
     });
   }
 
-  populateProblems() {
+  populateProblemsWOPreview() {
     // get the list of problems associated with a discipline,
     // add the list to the plan
-
     this.MPP.getMaster(this.discipline["file"])
       .then(data => {
         const cond: {} = JSON.parse(data);
@@ -73,6 +80,21 @@ export class AddDisciplinePage {
         this.PPP.write();
       });
   }
+
+  populateProblemsFromPreview(p) {
+    console.log('populateProblemsFromPreview');
+    // p is the content returned from preview
+    // use the content returned from preview
+    // add to the plan
+    if (this.plan.problems.length > 0) {  // some problems already, therefore merge
+      this.mergeProblems(p);
+    } else {  // no problems at all yet, just add from selected discipline
+      this.addProblems(p);
+    }
+    this.PPP.write();
+  }
+
+
 
   preview() {
     // get discipline contents to preview
@@ -89,6 +111,7 @@ export class AddDisciplinePage {
   }
 
   addProblems(cond) {
+    console.log('addProblems');
     cond["discipline"]["problems"].forEach(p => {
       p["icon"] = "arrow-dropdown";
       p["expanded"] = true;
@@ -97,6 +120,7 @@ export class AddDisciplinePage {
   }
 
   mergeProblems(cond) {
+    console.log('mergeProblems');
     if (this.plan.problems.length > 0) {
       // if the plan is not currently empty, 
       // merge into existing problems
@@ -165,7 +189,7 @@ export class AddDisciplinePage {
   editDone() {
     const d: Date = new Date();
     this.plan.updated = d.toLocaleDateString();
-    if (this.discipline) this.populateProblems();
+    if (this.discipline) this.populateProblemsWOPreview();
     if (this.plt.is('mobile')) {
       this.toast.show('Added ' + this.discipline["text"], '1500', 'center').subscribe(t => { });
     }

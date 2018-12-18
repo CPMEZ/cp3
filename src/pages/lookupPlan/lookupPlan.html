@@ -1,0 +1,30 @@
+<ion-header>
+
+  <ion-navbar class="navbarStyle" color="primary">
+    <ion-title>Select {{searchName}}</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="help()">
+        <ion-icon name="help"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <p class="helpful">{{searchTitle}}</p>
+  <br>
+  <ion-toolbar color=primary>
+    <ion-searchbar class="search" [(ngModel)]="searchTerm" debounce=750 placeholder="Search" (ionInput)="getList()">
+    </ion-searchbar>
+  </ion-toolbar>
+  <div *ngIf="itemsList">
+    <ion-list>
+      <div ion-item no-lines *ngFor="let z of itemsList">
+        <!-- definite hack -->
+        <p *ngIf="searchingMaster" (click)="choose(z)">{{z.text}}</p>
+        <p *ngIf="!searchingMaster" (click)="choose(z)">{{z.name}}</p>
+      </div>
+    </ion-list>
+  </div>
+</ion-content>

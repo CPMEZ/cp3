@@ -23,6 +23,7 @@ import { CPAPI } from '../providers/cpapi/cpapi';
 import { PersonalPlansProvider } from '../providers/personal-plans/personal-plans';
 import { LocalStoreProvider } from '../providers/local-store/local-store';
 import { CacheProvider } from '../providers/cache/cache';
+import { MergeProvider } from '../providers/merge/merge';
 import { ConnectionProvider } from '../providers/connection/connection';
 
 import { WelcomePage } from '../pages/welcome/welcome';
@@ -31,7 +32,7 @@ import { CarePlanPage } from '../pages/careplan/careplan';
 import { EditPlanPage } from '../pages/edit-plan/edit-plan';
 import { ContentsPage } from '../pages/contents/contents';
 import { AddPlanPage } from '../pages/add-plan/add-plan';
-import { AddConditionPage } from '../pages/add-condition/add-condition';
+// import { AddConditionPage } from '../pages/add-condition/add-condition';
 import { AddProblemPage } from '../pages/add-problem/add-problem';
 import { AddGoalPage } from '../pages/add-goal/add-goal';
 import { AddInterventionPage } from '../pages/add-intervention/add-intervention';
@@ -41,12 +42,13 @@ import { EditInterventionPage } from '../pages/edit-intervention/edit-interventi
 import { HelpPage } from '../pages/help/help';
 import { TermsPage } from '../pages/terms/terms';
 import { LookupPage } from '../pages/lookup/lookup';
+import { LookupPlanPage } from '../pages/lookupPlan/lookupPlan';
 import { SubscribePage } from '../pages/subscribe/subscribe';
 import { TextPlanPage } from '../pages/text-plan/text-plan';
 import { SubselectPage } from '../pages/subselect/subselect';
-import { AddDisciplinePage } from '../pages/add-discipline/add-discipline';
+// import { AddDisciplinePage } from '../pages/add-discipline/add-discipline';
 import { PreviewPage } from '../pages/preview/preview';
-import { MergePage } from '../pages/merge/merge';
+// import { MergePage } from '../pages/merge/merge';
 
 
 @NgModule({
@@ -57,12 +59,13 @@ import { MergePage } from '../pages/merge/merge';
     CarePlanPage,
     ContentsPage,
     AddPlanPage,
-    AddDisciplinePage,
-    AddConditionPage,
+    // AddDisciplinePage,
+    // AddConditionPage,
     AddProblemPage,
     AddGoalPage,
     AddInterventionPage,
     LookupPage,
+    LookupPlanPage,
     EditPlanPage,
     EditProblemPage,
     EditGoalPage,
@@ -73,7 +76,7 @@ import { MergePage } from '../pages/merge/merge';
     SubscribePage,
     SubselectPage,
     PreviewPage,
-    MergePage
+    // MergePage
   ],
   imports: [
     BrowserModule,
@@ -93,12 +96,13 @@ import { MergePage } from '../pages/merge/merge';
     CarePlanPage,
     ContentsPage,
     AddPlanPage,
-    AddConditionPage,
-    AddDisciplinePage,
+    // AddConditionPage,
+    // AddDisciplinePage,
     AddProblemPage,
     AddGoalPage,
     AddInterventionPage,
     LookupPage,    
+    LookupPlanPage,    
     EditPlanPage,
     EditProblemPage,
     EditGoalPage,
@@ -109,7 +113,7 @@ import { MergePage } from '../pages/merge/merge';
     SubscribePage,
     SubselectPage,
     PreviewPage,
-    MergePage
+    // MergePage
   ],
   providers: [
     AuthenticationProvider,
@@ -119,6 +123,7 @@ import { MergePage } from '../pages/merge/merge';
     PersonalPlansProvider,
     ConnectionProvider,
     CacheProvider,
+    MergeProvider,
     StatusBar,
     File,
     EmailComposer,

@@ -8,8 +8,8 @@ import { EditInterventionPage } from '../edit-intervention/edit-intervention';
 import { AddProblemPage } from '../add-problem/add-problem';
 import { AddGoalPage } from '../add-goal/add-goal';
 import { AddInterventionPage } from '../add-intervention/add-intervention';
-import { AddConditionPage } from '../add-condition/add-condition';
-import { AddDisciplinePage } from '../add-discipline/add-discipline';
+// import { AddConditionPage } from '../add-condition/add-condition';
+// import { AddDisciplinePage } from '../add-discipline/add-discipline';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { HelpPage } from '../help/help';
 import { LoginPage } from '../login/login';
@@ -17,6 +17,8 @@ import { TextPlanPage } from '../text-plan/text-plan';
 import { DragulaService } from 'ng2-dragula';
 import { Subscription } from 'rxjs';
 import { MergePage } from '../merge/merge';
+import { MergeProvider } from '../../providers/merge/merge';
+import { LookupPlanPage } from '../lookupPlan/lookupPlan';
 
 @IonicPage()
 @Component({
@@ -35,7 +37,8 @@ export class ContentsPage {
     private ds: DragulaService,
     private alertCtrl: AlertController,
     public auth: AuthenticationProvider,
-    public PPP: PersonalPlansProvider) {
+    public PPP: PersonalPlansProvider,
+    private merge: MergeProvider) {
     this.plan = navParams.get('plan');
 
     // dragging stuff
@@ -94,11 +97,11 @@ export class ContentsPage {
   ionViewDidEnter() {
     console.log('ionViewDidEnter ContentsPage');
     this.ddChanges = false;  // init/re-init on load
-    let v = this.navCtrl.last();
-    if ((v.component === MergePage) && (this.PPP.listSelection > "")) {
-      // do the merge
-      this.finishMerge();
-    }
+    // let v = this.navCtrl.last();
+    // if ((v.component === MergePage) && (this.PPP.listSelection > "")) {
+    //   // do the merge
+    //   this.finishMerge();
+    // }
   }
 
 
@@ -121,30 +124,30 @@ export class ContentsPage {
     document.removeEventListener('touchend', () => { });
   }
 
-  private finishMerge() {
-    // confirm before copy
-    let prompt = this.alertCtrl.create({
-      title: 'Confirm Add ' + this.PPP.listSelection["name"],
-      buttons: [
-        {
-          text: "No, don't add",
-          role: 'cancel',
-          handler: () => {
-            this.navCtrl.pop();
-          }
-        },
-        {
-          text: 'Yes, please',
-          handler: () => {
-            console.log(this.PPP.listSelection);
-            this.PPP.mergePlan(this.plan, this.PPP.listSelection);
-            this.PPP.listSelection = "";  // clear after use
-          }
-        }
-      ]
-    });
-    prompt.present();
-  }
+  // private finishMerge() {
+  //   // confirm before copy
+  //   let prompt = this.alertCtrl.create({
+  //     title: 'Confirm Add ' + this.PPP.listSelection["name"],
+  //     buttons: [
+  //       {
+  //         text: "No, don't add",
+  //         role: 'cancel',
+  //         handler: () => {
+  //           this.navCtrl.pop();
+  //         }
+  //       },
+  //       {
+  //         text: 'Yes, please',
+  //         handler: () => {
+  //           console.log(this.PPP.listSelection);
+  //           this.merge.mergePlans(this.plan, this.PPP.listSelection);
+  //           this.PPP.listSelection = "";  // clear after use
+  //         }
+  //       }
+  //     ]
+  //   });
+  //   prompt.present();
+  // }
 
   editPlan() {
     this.navCtrl.push(EditPlanPage, {
@@ -163,22 +166,36 @@ export class ContentsPage {
   }
 
   conditionAdd() {
-    this.navCtrl.push(AddConditionPage, {
-      plan: this.plan
+    this.navCtrl.push(LookupPlanPage, {
+      types: "conditions",
+      type: "condition",
+      searchName: "Condition",
+      target: this.plan,
+      fromPage: 'contents'
     });
   }
 
   disciplineAdd() {
-    this.navCtrl.push(AddDisciplinePage, {
-      plan: this.plan
+    console.log('discplineAdd');
+      this.navCtrl.push(LookupPlanPage, {
+        types: "disciplines",
+        type: "discipline",
+        searchName: "Discipline",
+        target: this.plan,
+        fromPage: 'contents'
+      });
+    }
+
+  mergeIn() {
+    this.navCtrl.push(LookupPlanPage, {
+      types: "",
+      type: "My Plan",
+      searchName: "Your Plan",
+      target: this.plan,
+      fromPage: 'contents'
     });
   }
 
-  mergeIn() {
-    this.navCtrl.push(MergePage, {
-      plan: this.plan
-    });
-  }
   problemAdd() {
     this.navCtrl.push(AddProblemPage, {
       plan: this.plan
