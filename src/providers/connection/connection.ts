@@ -26,6 +26,7 @@ export class ConnectionProvider {
 
   checkConnection() {
     // now see if there's api access
+    console.log('checkConnection');
     var route: string = this.cpapi.apiURL + "master/";
     this.http.options(route)
       .subscribe((data) => {
