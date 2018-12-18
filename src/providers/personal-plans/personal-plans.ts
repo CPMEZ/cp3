@@ -8,7 +8,6 @@ import { AuthenticationProvider } from '../authentication/authentication';
 import { LocalStoreProvider } from '../local-store/local-store';
 import { MasterPlansProvider } from '../master-plans/master-plans';
 import { ConnectionProvider } from '../connection/connection';
-import { MergeProvider } from '../merge/merge';
 
 const STORAGE_KEY = 'plans';  // note CacheProvider ignores this key on clearCache
 // user local data encrypted with common key because user may never log in, or subscribe
@@ -21,67 +20,13 @@ export class PersonalPlansProvider {
   plans: {}[] = [];
   listSelection: any;  // used by merge, add-plan pages
 
-  // private emptyPlan: {
-  //   name: string, text: string, created: string, updated: string,
-  //   problems: [{
-  //     text: string, hint: string, expanded: boolean,
-  //     goals: [{ text: string, hint: string, term: string }],
-  //     interventions: [{
-  //       text: string,
-  //       hint: string,
-  //       interdisciplinary: boolean,
-  //       nursing: boolean,
-  //       aide: boolean,
-  //       bereavement: boolean,
-  //       dietary: boolean,
-  //       music: boolean,
-  //       OT: boolean,
-  //       PT: boolean,
-  //       pharmacist: boolean,
-  //       social: boolean,
-  //       spiritual: boolean,
-  //       speech: boolean,
-  //       volunteer: boolean,
-  //       other: string
-  //     }]
-  //   }]
-  // } = {
-  //     name: "", text: "", created: "", updated: "",
-  //     problems: any
-  //   }
-
-    //     text: "", hint: "", expanded: false,
-    //     goals: [{ text: "", hint: "", term: "" }],
-    //     interventions: [{
-    //       text: "",
-    //       hint: "",
-    //       interdisciplinary: false,
-    //       nursing: false,
-    //       aide: false,
-    //       bereavement: false,
-    //       dietary: false,
-    //       music: false,
-    //       OT: false,
-    //       PT: false,
-    //       pharmacist: false,
-    //       social: false,
-    //       spiritual: false,
-    //       speech: false,
-    //       volunteer: false,
-    //       other: ""
-    //     }]
-    //   }]
-    // }
-
     constructor(private http: HttpClient,
       public events: Events,
       public conn: ConnectionProvider,
       private LSP: LocalStoreProvider,
       public auth: AuthenticationProvider,
       private cpapi: CPAPI,
-      // private pltfrm: Platform,
-      public MPP: MasterPlansProvider,
-      private merge: MergeProvider) {
+      public MPP: MasterPlansProvider) {
       console.log('Constructor PersonalPlansProvider Provider');
     }
 
@@ -144,116 +89,75 @@ standardPlan(np, condition) {
   this.MPP.getMaster(condition["file"])
     .then(data => {
       const cond: {} = JSON.parse(data);
-      this.merge.mergePlans(newPlan, cond);
+      this.mergePlans(newPlan, cond);
       this.plans.push(newPlan);
       // console.log(this.plans);
       this.write();
     });
 }
 
-// addProblemsFromCondition(target, cond) {
-//   cond["condition"]["problems"].forEach(p => {
-//     p["icon"] = "arrow-dropdown";
-//     p["expanded"] = true;
-//     target["problems"].push(p);
-//   });
-// }
-// // END add standard plan section
+  mergePlans(targetPlan: any, sourcePlan: any): any {
+    if (targetPlan["problems"]) {
+      sourcePlan["problems"].forEach(p => {
+        let found = false;
+        for (var i = 0; i < targetPlan.problems.length; i++) {
+          // is a problem from the newly-added content already in the plan?
+          if (targetPlan.problems[i].text === p["text"]) {
+            found = true;
+            // these lines will cause problem to which we've added to be expanded
+            p["icon"] = "arrow-dropdown";
+            p["expanded"] = true;
+            // add all the goals and interventions to the existing problem
+            // console.log("goals");
+            this.addUndupItems(p["goals"], "text", targetPlan.problems[i].goals);
+            // console.log("interventions");
+            this.addUndupItems(p["interventions"], "text", targetPlan.problems[i].interventions);
+            break;  // no need to look further
+          }
+        }
+        if (!found) {  // never found it, add the whole problem
+          // console.log('not found, whole problem');
+          p["icon"] = "arrow-dropdown";
+          p["expanded"] = true;
+          var t = this.deepCopy(p);
+          // console.log(t);
+          targetPlan.problems.push(t);
+        }
+      })
+    } else {  // no problems in the target, add 'em
+      sourcePlan["problems"].forEach(p => {
+        p["icon"] = "arrow-dropdown";
+        p["expanded"] = true;
+      });
+      targetPlan["problems"] = this.deepCopy(sourcePlan["problems"]);
+      console.log('after merge', targetPlan["problems"]);
+    }
+  }
 
-// // copy your own plan section
-copyPlan(op, np) {
-  // create a new plan, 
-  // copy all the components from the old one,
-  // (have to copy contents individual, so not by reference)
-  // add to (personal) plans array
-  // let newPlan = Object.assign({},  ...op);
-  let newPlan = deepCopy(op);
-  newPlan.name = np.name;
-  newPlan.text = np.text;
-  const d: Date = new Date();
-  newPlan.created = d.toLocaleDateString();
-  newPlan.updated = d.toLocaleDateString();
-  // console.log(newPlan);
-
-// NOT WORKING NOW--FIX THIS
-
-  // this.plans.push(this.merge.copyPlan(op, newPlan));
-  // console.log(this.plans);
-  this.write();
-}
-
-// mergePlan(targetPlan, sourcePlan) {
-//   // copy all the components from selected plan to the new plan,
-//   // (have to copy contents individual, so not by reference)
-//   // and exclude any item from the selected already present in the target
-//   const d: Date = new Date();
-//   targetPlan.updated = d.toLocaleDateString();
-//   this.mergeProblemsFromPlan(targetPlan, sourcePlan);
-//   // console.log(targetPlan);
-//   this.write();
-// }
-
-// mergeProblemsFromPlan(targetPlan, sourcePlan) {
-//   // console.log('mergeProblemsFromPlan');
-//   // if (targetPlan.problems.length > 0) {
-//   // if the plan is not currently empty, 
-//   // merge into existing problems
-//   // console.log('source', sourcePlan["problems"]);
-//   sourcePlan["problems"].forEach(p => {
-//     let found = false;
-//     for (var i = 0; i < targetPlan.problems.length; i++) {
-//       // problem in newly-added condition already in the plan?
-//       if (targetPlan.problems[i].text === p["text"]) {
-//         found = true;
-//         // these lines will cause problem to which we've added to be expanded
-//         p["icon"] = "arrow-dropdown";
-//         p["expanded"] = true;
-//         // add all the goals and interventions to the existing problem
-//         // console.log("goals");
-//         this.addNewItems(p["goals"], "text", targetPlan.problems[i].goals);
-//         // console.log("interventions");
-//         this.addNewItems(p["interventions"], "text", targetPlan.problems[i].interventions);
-//         break;  // no need to look further
-//       }
-//     }
-//     if (!found) {  // never found it, add the whole problem
-//       // console.log('not found, whole problem');
-//       p["icon"] = "arrow-dropdown";
-//       p["expanded"] = true;
-//       var t = deepCopy(p);
-//       // console.log(t);
-//       targetPlan.problems.push(t);
-//     }
-//   })
-//   // }
-// }
-// // END copy your own plan section
-
-// // helper for add standard and copy your own
-// addNewItems(source: Array<object>, element: string, arr: Array<object>) {
-//   // console.log('addNewItems');
-//   // only insert items not already found
-//   var work = source;
-//   var found;
-//   for (var i = 0; i < arr.length; i++) {
-//     found = undefined;
-//     for (var j = 0; j < work.length; j++) {
-//       if (work[j][element] == arr[i][element]) {
-//         found = j;
-//       }
-//     }
-//     if (found < work.length) {
-//       // remove from working array
-//       work.splice(found, 1);
-//     }
-//   };
-//   // now add the remaining
-//   if (work.length > 0) {
-//     for (var k = 0; k < work.length; k++) {
-//       arr.push(deepCopy(work[k]));
-//     }
-//   }
-// }
+  addUndupItems(source: Array<object>, element: string, target: Array<object>) {
+    // console.log('addUndupItems');
+    // only insert items not already found
+    var work = source;
+    var found;
+    for (var i = 0; i < target.length; i++) {
+      found = undefined;
+      for (var j = 0; j < work.length; j++) {
+        if (work[j][element] == target[i][element]) {
+          found = j;
+        }
+      }
+      if (found < work.length) {
+        // remove from working array
+        work.splice(found, 1);
+      }
+    };
+    // now add the remaining, those not duplicate/removed
+    if (work.length > 0) {
+      for (var k = 0; k < work.length; k++) {
+        target.push(this.deepCopy(work[k]));
+      }
+    }
+  }
 
 deletePlan(plan) {
   // remove the designated plan from plans
@@ -526,10 +430,9 @@ checkPlanName(name: string): boolean {
   });
   return canUseName;
 }
-}
 
 // helper
-function deepCopy(obj) {
+deepCopy(obj) {
   var copy;
   // Handle the 3 simple types, and null or undefined
   if (null == obj || "object" != typeof obj) return obj;
@@ -543,7 +446,7 @@ function deepCopy(obj) {
   if (obj instanceof Array) {
     copy = [];
     for (var i = 0, len = obj.length; i < len; i++) {
-      copy[i] = deepCopy(obj[i]);
+      copy[i] = this.deepCopy(obj[i]);
     }
     return copy;
   }
@@ -551,9 +454,10 @@ function deepCopy(obj) {
   if (obj instanceof Object) {
     copy = {};
     for (var attr in obj) {
-      if (obj.hasOwnProperty(attr)) copy[attr] = deepCopy(obj[attr]);
+      if (obj.hasOwnProperty(attr)) copy[attr] = this.deepCopy(obj[attr]);
     }
     return copy;
   }
   throw new Error("Unable to copy obj! Its type isn't supported.");
+}
 }

@@ -15,13 +15,10 @@ export class LookupPlanPage {
   types: string;
   type: string;
   searchTerm: string;
-  // searchName: string;
   searchTitle: string;
   target: any;
-  // planName: string;
   itemsList: any;
   fromPage: string;
-  // item: any;
   searchingMaster: boolean = true;
 
   constructor(public navCtrl: NavController,
@@ -32,11 +29,8 @@ export class LookupPlanPage {
     this.types = this.navParams.get('types');
     this.type = this.navParams.get('type');
     this.searchTerm = this.navParams.get('searchTerm');
-    // this.searchName = this.navParams.get('searchName');
     this.fromPage = this.navParams.get('fromPage');
     this.target = this.navParams.get('target');  // plan we're merging into
-    // this.item = this.navParams.get('item');
-    // this.planName = this.target["name"];
     this.searchTitle = "Searching for " + this.navParams.get('searchName') + " to be added to " + this.target["name"];
     if (this.type === 'condition'
       || this.type === 'discipline') {
@@ -60,7 +54,6 @@ export class LookupPlanPage {
   }
 
   getMasterList() {
-    // wait indicator
     let loading = this.lc.create({
       content: 'Getting the list...'
     });

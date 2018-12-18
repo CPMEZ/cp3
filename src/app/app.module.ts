@@ -23,7 +23,6 @@ import { CPAPI } from '../providers/cpapi/cpapi';
 import { PersonalPlansProvider } from '../providers/personal-plans/personal-plans';
 import { LocalStoreProvider } from '../providers/local-store/local-store';
 import { CacheProvider } from '../providers/cache/cache';
-import { MergeProvider } from '../providers/merge/merge';
 import { ConnectionProvider } from '../providers/connection/connection';
 
 import { WelcomePage } from '../pages/welcome/welcome';
@@ -123,7 +122,6 @@ import { PreviewPage } from '../pages/preview/preview';
     PersonalPlansProvider,
     ConnectionProvider,
     CacheProvider,
-    MergeProvider,
     StatusBar,
     File,
     EmailComposer,

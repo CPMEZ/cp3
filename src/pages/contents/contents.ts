@@ -8,17 +8,14 @@ import { EditInterventionPage } from '../edit-intervention/edit-intervention';
 import { AddProblemPage } from '../add-problem/add-problem';
 import { AddGoalPage } from '../add-goal/add-goal';
 import { AddInterventionPage } from '../add-intervention/add-intervention';
-// import { AddConditionPage } from '../add-condition/add-condition';
-// import { AddDisciplinePage } from '../add-discipline/add-discipline';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { HelpPage } from '../help/help';
 import { LoginPage } from '../login/login';
 import { TextPlanPage } from '../text-plan/text-plan';
+import { LookupPlanPage } from '../lookupPlan/lookupPlan';
+
 import { DragulaService } from 'ng2-dragula';
 import { Subscription } from 'rxjs';
-// import { MergePage } from '../merge/merge';
-// import { MergeProvider } from '../../providers/merge/merge';
-import { LookupPlanPage } from '../lookupPlan/lookupPlan';
 
 @IonicPage()
 @Component({
@@ -96,11 +93,6 @@ export class ContentsPage {
   ionViewDidEnter() {
     console.log('ionViewDidEnter ContentsPage');
     this.ddChanges = false;  // init/re-init on load
-    // let v = this.navCtrl.last();
-    // if ((v.component === MergePage) && (this.PPP.listSelection > "")) {
-    //   // do the merge
-    //   this.finishMerge();
-    // }
   }
 
 
@@ -113,7 +105,6 @@ export class ContentsPage {
       this.PPP.write();
       this.ddChanges = false;  // reset after save
     }
-    // console.log(this.subs);
   }
 
   ionViewWillUnload() {
@@ -122,31 +113,6 @@ export class ContentsPage {
     document.removeEventListener('touchmove', () => { });
     document.removeEventListener('touchend', () => { });
   }
-
-  // private finishMerge() {
-  //   // confirm before copy
-  //   let prompt = this.alertCtrl.create({
-  //     title: 'Confirm Add ' + this.PPP.listSelection["name"],
-  //     buttons: [
-  //       {
-  //         text: "No, don't add",
-  //         role: 'cancel',
-  //         handler: () => {
-  //           this.navCtrl.pop();
-  //         }
-  //       },
-  //       {
-  //         text: 'Yes, please',
-  //         handler: () => {
-  //           console.log(this.PPP.listSelection);
-  //           this.merge.mergePlans(this.plan, this.PPP.listSelection);
-  //           this.PPP.listSelection = "";  // clear after use
-  //         }
-  //       }
-  //     ]
-  //   });
-  //   prompt.present();
-  // }
 
   editPlan() {
     this.navCtrl.push(EditPlanPage, {

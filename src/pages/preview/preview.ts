@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { MergeProvider } from '../../providers/merge/merge';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
-import { deepCopy } from 'ionic-angular/umd/util/util';
 
 @IonicPage()
 @Component({
@@ -17,12 +15,11 @@ export class PreviewPage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    private merge: MergeProvider,
     public PPP: PersonalPlansProvider) {
       this.target = navParams.get('target');
       this.type = navParams.get('type');
       this.fromPage = navParams.get('fromPage');
-      this.copyOfSource = deepCopy(navParams.get('source'));
+    this.copyOfSource = PPP.deepCopy(navParams.get('source'));
       this.addCheckedProperty(this.copyOfSource);
   }
 
@@ -36,7 +33,7 @@ export class PreviewPage {
     // reduce the content to only the items checked
     this.getChecked();
     // do the merge
-    this.merge.mergePlans(this.target, this.copyOfSource)
+    this.PPP.mergePlans(this.target, this.copyOfSource)
     // now go to page we're called from
     if (this.fromPage === 'plans') {
       // we're adding from the plans page
