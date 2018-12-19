@@ -12,9 +12,9 @@
     <button ion-button (click)="selectAll()">Select All</button>
     <button ion-button (click)="selectNone()">Select None</button>
     <!-- hack because ppp.plans[] have .name, and master have .text -->
-  <h1 *ngIf="type !== 'My Plan'" class="h1text">{{type}}: {{source.text}}</h1>
-  <h1 *ngIf="type == 'My Plan'" class="h1text">{{type}}: {{source.name}}</h1>
-  <div *ngFor="let p of source.problems">
+  <h1 *ngIf="type !== 'My Plan'" class="h1text">{{type}}: {{copyOfSource.text}}</h1>
+  <h1 *ngIf="type == 'My Plan'" class="h1text">{{type}}: {{copyOfSource.name}}</h1>
+  <div *ngFor="let p of copyOfSource.problems">
     <p class="ptext prob">{{p.text}}</p>
     <div>
       <div class="goal"><em>Outcomes</em></div>
