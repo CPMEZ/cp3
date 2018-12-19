@@ -18,7 +18,7 @@
 
 <ion-content padding>
   <div class="divHeader"><span (click)="editPlan()">{{plan.name}}</span>
-    <div style="margin-top: 10px;">
+    <div>
       <button class="tool" *ngIf="auth.userLoggedIn" (click)="conditionAdd()">
         <ion-icon name="fastforward"></ion-icon>
         <ion-icon name="add"></ion-icon>
@@ -38,9 +38,6 @@
       <button class="tool" (click)="showPrint()">
         <ion-icon name="share"></ion-icon>
       </button>
-      <!-- <button class="tool" (click)="copyPlan()">
-        <ion-icon name="copy"></ion-icon>
-      </button> -->
       <button class="trash">
         <ion-icon name="trash" (click)="deletePlan()"></ion-icon>
       </button>
@@ -75,7 +72,7 @@
               </button>
             </ion-col>
           </ion-row>
-          <ion-list [dragula]='"goal-list"' [(dragulaModel)]="p.goals">
+          <ion-list no-margin [dragula]='"goal-list"' [(dragulaModel)]="p.goals">
             <div ion-item no-lines *ngFor="let g of p.goals">
               <ion-row no-padding align-items-center>
                 <ion-col col-1 no-padding>
@@ -94,7 +91,7 @@
               </ion-row>
             </div>
           </ion-list>
-          <ion-list [dragula]='"int-list"' [(dragulaModel)]="p.interventions">
+          <ion-list no-margin [dragula]='"int-list"' [(dragulaModel)]="p.interventions">
             <div ion-item no-lines *ngFor="let n of p.interventions">
               <ion-row no-padding align-items-center>
                 <ion-col col-1 no-padding>
