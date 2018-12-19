@@ -125,3 +125,11 @@ x check user id exists before creating new
 
 _ refactor PPP.plans[] change .name to .text, .text to .description
 	_ have to change all masters and data
+
+_ return to welcome page after logout
+
+_ change icons
+_ add legend
+
+_ generate a template/skeleton plan into PPP.plans for new users
+	_ reinstate if goes missing?
