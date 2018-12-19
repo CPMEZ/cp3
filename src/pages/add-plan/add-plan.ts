@@ -5,9 +5,8 @@ import { PersonalPlansProvider } from '../../providers/personal-plans/personal-p
 import { HelpPage } from '../help/help';
 import { LoginPage } from '../login/login';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
-import { LookupPlanPage } from '../lookupPlan/lookupPlan';
+import { LookupPlanPage } from '../lookup-plan/lookup-plan';
 import { MasterPlansProvider } from '../../providers/master-plans/master-plans';
-// import { MergePage } from '../merge/merge';
 
 @IonicPage()
 @Component({

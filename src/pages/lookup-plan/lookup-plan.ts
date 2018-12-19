@@ -5,10 +5,11 @@ import { HelpPage } from '../help/help';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 import { PreviewPage } from '../preview/preview';
 
+
 @IonicPage()
 @Component({
-  selector: 'page-lookupPlan',
-  templateUrl: 'lookupPlan.html',
+  selector: 'page-lookup-plan',
+  templateUrl: 'lookup-plan.html',
 })
 export class LookupPlanPage {
 

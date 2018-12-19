@@ -12,7 +12,7 @@ import { AuthenticationProvider } from '../../providers/authentication/authentic
 import { HelpPage } from '../help/help';
 import { LoginPage } from '../login/login';
 import { TextPlanPage } from '../text-plan/text-plan';
-import { LookupPlanPage } from '../lookupPlan/lookupPlan';
+import { LookupPlanPage } from '../lookup-plan/lookup-plan';
 
 import { DragulaService } from 'ng2-dragula';
 import { Subscription } from 'rxjs';

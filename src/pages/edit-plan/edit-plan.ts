@@ -4,7 +4,6 @@ import { HelpPage } from '../help/help';
 import { LoginPage } from '../login/login';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
-// import { ThrowStmt } from '@angular/compiler';
 
 @IonicPage()
 @Component({
@@ -25,7 +24,6 @@ export class EditPlanPage {
     this.plan = navParams.get('plan');
     this.savePlan.name = this.plan.name;
     this.newName = this.plan.name;
-    // console.log('constructor newName', this.newName);
     this.savePlan.text = this.plan.text;
     this.savePlan.updated = this.plan.updated;
     this.canUseName = true;
