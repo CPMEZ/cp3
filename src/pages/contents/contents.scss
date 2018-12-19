@@ -22,7 +22,11 @@ page-contents {
     p.intervention {
         color: blue;
     }
-    p.discpline {
+    p.discipline {
+        color: blue;
+        font-size: smaller;
+    }
+    .discipline {
         color: blue;
         font-size: smaller;
     }
@@ -47,6 +51,7 @@ page-contents {
         margin-right: 1rem;
         color: grey;
         background-color: white;
+        padding: 0; 
     }
     .helptext {
         font-size: 0.8rem;
