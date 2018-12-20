@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AlertController, IonicPage, NavController, NavParams, PopoverController } from 'ionic-angular';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 import { EditPlanPage } from '../edit-plan/edit-plan';
 import { EditProblemPage } from '../edit-problem/edit-problem';
@@ -13,6 +13,8 @@ import { HelpPage } from '../help/help';
 import { LoginPage } from '../login/login';
 import { TextPlanPage } from '../text-plan/text-plan';
 import { LookupPlanPage } from '../lookup-plan/lookup-plan';
+import { PlanMenuPage } from '../plan-menu/plan-menu';
+import { TopicMenuPage } from '../topic-menu/topic-menu';
 
 import { DragulaService } from 'ng2-dragula';
 import { Subscription } from 'rxjs';
@@ -31,6 +33,7 @@ export class ContentsPage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
+    public popup: PopoverController,
     private ds: DragulaService,
     private alertCtrl: AlertController,
     public auth: AuthenticationProvider,
@@ -114,6 +117,56 @@ export class ContentsPage {
     document.removeEventListener('touchend', () => { });
   }
 
+  planMenu(pEv) {
+     let menu = this.popup.create(PlanMenuPage, {}, { cssClass: 'planMenu'});
+
+    menu.onDidDismiss((opt) => {
+      switch (opt) {
+        case 'condition':
+          this.conditionAdd();
+          break;
+        case 'discipline':
+          this.disciplineAdd();
+          break;
+        case 'myplan':
+          this.mergeIn();
+          break;
+        case 'topic':
+          this.problemAdd();
+          break;
+        case 'share':
+          this.showPrint();
+          break;
+        case 'delete':
+          this.deletePlan();
+          break;
+        default: console.log('got ' + opt + ' from plan-menu');
+      }
+    });
+    menu.present({ ev: pEv });
+  }
+
+  topicMenu(pEv, item) {
+    let menu = this.popup.create(TopicMenuPage, {item: item}, { cssClass: 'topicMenu'});
+
+    menu.onDidDismiss((opt: string, item: any) => {
+      console.log(item);
+      switch (opt) {
+        case 'goal':
+          this.goalAdd(item);
+          break;
+        case 'intervention':
+          this.interventionAdd(item);
+          break;
+        case 'delete':
+          this.problemDelete(item);
+          break;
+        default: console.log('got ' + opt + ' from topic-menu');
+      }
+    });
+    menu.present({ ev: pEv });
+  }
+
   editPlan() {
     this.navCtrl.push(EditPlanPage, {
       plan: this.plan
@@ -142,14 +195,14 @@ export class ContentsPage {
 
   disciplineAdd() {
     console.log('discplineAdd');
-      this.navCtrl.push(LookupPlanPage, {
-        types: "disciplines",
-        type: "discipline",
-        searchName: "Discipline",
-        target: this.plan,
-        fromPage: 'contents'
-      });
-    }
+    this.navCtrl.push(LookupPlanPage, {
+      types: "disciplines",
+      type: "discipline",
+      searchName: "Discipline",
+      target: this.plan,
+      fromPage: 'contents'
+    });
+  }
 
   mergeIn() {
     this.navCtrl.push(LookupPlanPage, {

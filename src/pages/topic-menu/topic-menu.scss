@@ -1,0 +1,12 @@
+page-topic-menu {
+    div {
+        font-size: small;
+        padding-bottom: 5px;
+    }
+    .no-scroll {
+        overflow: hidden;
+    }
+    .scroll-content {
+        overflow: hidden !important;
+    }
+}

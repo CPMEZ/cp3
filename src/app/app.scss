@@ -63,3 +63,13 @@
       color: grey !important;
       font-size: 1.4rem;
   }
+
+/*  plan pop up menu on contents page */
+  .planMenu .popover-content{
+    left: 8px !important;
+    width: 150px;
+ }
+/* topics pop up menu on contents page */
+  .topicMenu .popover-content{
+    width: 170px;
+ }

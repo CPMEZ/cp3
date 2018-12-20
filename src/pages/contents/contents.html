@@ -17,8 +17,12 @@
 </ion-header>
 
 <ion-content padding>
-  <div class="divHeader"><span (click)="editPlan()">{{plan.name}}</span>
-    <div>
+  <div class="divHeader">
+    <button class="tool" (click)="planMenu($event)">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <span (click)="editPlan()">{{plan.name}}</span>
+    <!-- <div>
       <button class="tool" *ngIf="auth.userLoggedIn" (click)="conditionAdd()">
         <ion-icon name="fastforward"></ion-icon>
         <ion-icon name="add"></ion-icon>
@@ -41,7 +45,7 @@
       <button class="trash">
         <ion-icon name="trash" (click)="deletePlan()"></ion-icon>
       </button>
-    </div>
+    </div> -->
   </div>
 
   <ion-grid>
@@ -51,10 +55,15 @@
           <ion-col col-1>
             <ion-icon class="expandTool" [name]="p.icon" (click)="toggleProblemExpand(p)"></ion-icon>
           </ion-col>
-          <ion-col col-11><span class="problem" (click)="problemEdit(p)">{{p.text}}</span></ion-col>
-        </ion-row>
-        <div io-item *ngIf="p.expanded">
-          <ion-row no-padding>
+          <ion-col col-10><span class="problem" (click)="problemEdit(p)">{{p.text}}</span></ion-col>
+          <ion-col col-1>
+            <button class="tool" (click)="topicMenu($event, p)">
+              <ion-icon name="menu"></ion-icon>
+            </button>
+          </ion-col>
+         </ion-row>
+       <div io-item *ngIf="p.expanded">
+<!--          <ion-row no-padding>
             <ion-col col-6 no-padding> </ion-col>
             <ion-col col-2 no-padding>
               <button class="tool" (click)="goalAdd(p)">
@@ -71,7 +80,7 @@
                 <ion-icon name="trash"></ion-icon>
               </button>
             </ion-col>
-          </ion-row>
+          </ion-row> -->
           <ion-list no-margin [dragula]='"goal-list"' [(dragulaModel)]="p.goals">
             <div ion-item no-lines *ngFor="let g of p.goals">
               <ion-row no-padding align-items-center>

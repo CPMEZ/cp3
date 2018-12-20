@@ -45,6 +45,8 @@ import { SubscribePage } from '../pages/subscribe/subscribe';
 import { TextPlanPage } from '../pages/text-plan/text-plan';
 import { SubselectPage } from '../pages/subselect/subselect';
 import { PreviewPage } from '../pages/preview/preview';
+import { PlanMenuPage } from '../pages/plan-menu/plan-menu';
+import { TopicMenuPage } from '../pages/topic-menu/topic-menu';
 
 
 @NgModule({
@@ -70,6 +72,8 @@ import { PreviewPage } from '../pages/preview/preview';
     SubscribePage,
     SubselectPage,
     PreviewPage,
+    PlanMenuPage,
+    TopicMenuPage
   ],
   imports: [
     BrowserModule,
@@ -104,6 +108,8 @@ import { PreviewPage } from '../pages/preview/preview';
     SubscribePage,
     SubselectPage,
     PreviewPage,
+    PlanMenuPage,
+    TopicMenuPage
   ],
   providers: [
     AuthenticationProvider,
