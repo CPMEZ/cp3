@@ -76,7 +76,7 @@ export class TextPlanPage {
   pdfObj = null;
 
   createPdf(download: boolean) {
-    console.log('pdf');
+    // console.log('pdf');
     var docDefinition = {
       content: [
         { text: "Care Plan: " + this.plan.name, style: "header" },
@@ -174,7 +174,7 @@ export class TextPlanPage {
   // WORKING HERE
   downloadPdf() {
     // if (this.plt.is('ios') || this.plt.is('android')) {
-    console.log('download');
+    // console.log('download');
     if (this.plt.is('mobile')) {
       var dd: string;
       if (this.plt.is('ios')) {
@@ -182,19 +182,19 @@ export class TextPlanPage {
       } else if (this.plt.is('android')) {
         dd = this.file.externalDataDirectory;
       }
-      console.log('sure:', dd);
+      // console.log('sure:', dd);
       this.pdfObj.getBuffer((buffer) => {
         var blob = new Blob([buffer], { type: 'application/pdf' });
         // Save the PDF to the data Directory of our App
         const flnm = this.formatFileName(this.plan.name) + '_CP.pdf';
-        console.log(flnm);
+        // console.log(flnm);
         this.file.writeFile(dd, flnm, blob, { replace: true }).then(fileEntry => {
-          console.log('written');
-          console.log(dd);
-          console.log(flnm);
+          // console.log('written');
+          // console.log(dd);
+          // console.log(flnm);
           // Open the pdf (not supported on DevApp)
           // this.plt.ready().then(() => {
-          console.log('in plt.ready');
+          // console.log('in plt.ready');
           const opts = { title: this.plan.name, email: { enabled: true }, print: { enabled: true }, search: { enabled: true } };
           this.dv.viewDocument(dd + flnm, 'application/pdf',
             opts)
@@ -222,12 +222,12 @@ export class TextPlanPage {
 
   sendEmail() {
     // console.log(this.getPlanText());
-    console.log(this.plt.platforms());
+    // console.log(this.plt.platforms());
     // alert(this.plt.platforms());
     if (this.plt.is('mobile')) {  // no email if not on device
-      console.log('mobile');
+      // console.log('mobile');
       this.em.isAvailable().then((hasAccount) => {
-        console.log('hasAccount', hasAccount);
+        // console.log('hasAccount', hasAccount);
         this.createMail();
       });
     } else {
@@ -236,7 +236,7 @@ export class TextPlanPage {
   }
 
   createMail() {
-    console.log('create');
+    // console.log('create');
     this.em.open({
       to: '',
       subject: "Care Plan " + this.plan.name,
@@ -246,7 +246,7 @@ export class TextPlanPage {
   }
 
   getPlanText(): string {
-    console.log('getPlanText');
+    // console.log('getPlanText');
     var text: string = "Care Plan:  " + this.plan.name + "\r\n";
     text += "Created:  " + this.plan.created + "     Updated:  " + this.plan.updated + "\r\n";
     text += "    " + this.plan.text + "\r\n";

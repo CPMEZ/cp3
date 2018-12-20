@@ -32,7 +32,7 @@ export class SubselectPage {
     public auth: AuthenticationProvider) {
       this.userId = this.auth.userId;
       this.pwd = this.auth.pwd;
-      console.log(this.userId, this.pwd);
+      // console.log(this.userId, this.pwd);
       if (this.plt.is('cordova')) {
         this.initStore();
       }

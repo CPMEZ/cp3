@@ -15,7 +15,7 @@ export class TopicMenuPage {
   }
 
    close(opt: any) {
-    console.log('p=', this.item);
+    // console.log('p=', this.item);
     this.viewCtrl.dismiss(opt, this.item);
   }
 }

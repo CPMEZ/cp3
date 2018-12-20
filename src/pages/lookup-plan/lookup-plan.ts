@@ -68,7 +68,7 @@ export class LookupPlanPage {
   }
 
   getPersonalList() {
-    console.log('getPersonalList', this.PPP.listPlans());
+    // console.log('getPersonalList', this.PPP.listPlans());
     this.itemsList = this.PPP.listPlans();
   }
 
@@ -83,13 +83,13 @@ export class LookupPlanPage {
   getMaster(which: string) {
     // get the selected content, 
     // go to preview/select page
-    console.log('getMaster', which);
+    // console.log('getMaster', which);
     this.MPP.getMaster(which["file"])
       .then((data) => {
-        console.log('getMaster', data );
+        // console.log('getMaster', data );
         const d = JSON.parse(data);
-        console.log('getMaster', d );
-        console.log('d:type', this.type, d[this.type]);
+        // console.log('getMaster', d );
+        // console.log('d:type', this.type, d[this.type]);
         // nav to the preview page
         this.navCtrl.push(PreviewPage, {
           source: d[this.type],
@@ -104,7 +104,7 @@ export class LookupPlanPage {
   getPersonal(which: string) {
     // get the selected content, 
     // go to preview/select page
-    console.log('getPersonal', which);
+    // console.log('getPersonal', which);
     // nav to the preview page
     this.navCtrl.push(PreviewPage, {
       source: which,

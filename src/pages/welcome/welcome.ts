@@ -46,7 +46,7 @@ export class WelcomePage {
 
   goToWork() {
     // this logic repeated in login.ts
-    console.log('loading plans from welcome');
+    // console.log('loading plans from welcome');
     let loading = this.loadCtrl.create({
       content: 'Getting your plans...'
     });
@@ -54,7 +54,7 @@ export class WelcomePage {
     this.PPP.loadPlans();
     // cause we don't have async on loadPlans,
     this.events.subscribe('loadComplete', (time) => {
-      console.log('got event loadComplete');
+      // console.log('got event loadComplete');
       try { loading.dismiss(); 
         // console.log('on loading complete event, plans =', this.PPP.plans);
       }

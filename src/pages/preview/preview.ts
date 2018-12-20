@@ -53,7 +53,7 @@ export class PreviewPage {
   }
 
   getChecked() {
-    console.log('original before select', this.copyOfSource);
+    // console.log('original before select', this.copyOfSource);
     // copy checked goals & interventions to a new array each
     // replace the p.problems.goals/interventions array when done
     this.copyOfSource["problems"].forEach(p => {
@@ -80,7 +80,7 @@ export class PreviewPage {
         pp.push(p);
     })
     this.copyOfSource["problems"] = pp;
-    console.log('resulting after select', this.copyOfSource);
+    // console.log('resulting after select', this.copyOfSource);
   }
 
   cancelEdit() {
@@ -98,7 +98,7 @@ export class PreviewPage {
   }
 
   addCheckedProperty(p: any) {
-    console.log('addCheckedProperty', p);
+    // console.log('addCheckedProperty', p);
     for (let j = 0; j < p["problems"].length; j++) {
       if (p["problems"][j]["goals"]) {
         p["problems"][j]["goals"].forEach(g => {

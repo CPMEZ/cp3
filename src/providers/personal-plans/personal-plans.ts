@@ -56,7 +56,7 @@ export class PersonalPlansProvider {
       this.checkRecent();  // use the most recent if we've read both web & local
     } else {
       // can't read the web
-      console.log('loadPlans userLoggedIn else path');
+      // console.log('loadPlans (userLoggedIn- else path)');
       this.foundWeb = false;
       this.webAttemptComplete = true;
       this.checkRecent();  // let the standard logic choose local
@@ -137,7 +137,7 @@ export class PersonalPlansProvider {
         p["expanded"] = true;
       });
       targetPlan["problems"] = this.deepCopy(sourcePlan["problems"]);
-      console.log('after merge', targetPlan["problems"]);
+      // console.log('after merge', targetPlan["problems"]);
     }
   }
 
@@ -287,7 +287,7 @@ export class PersonalPlansProvider {
   }
 
   pullWeb() {
-    console.log("pullWeb");
+    // console.log("pullWeb");
     this.conn.checkConnection();
     if (this.conn.internet) {
       this.readFromWeb()
@@ -317,7 +317,7 @@ export class PersonalPlansProvider {
   }
 
   pushWeb() {
-    console.log("pushWeb");
+    // console.log("pushWeb");
     if (this.auth.userLoggedIn) {
       // console.log('write logged in=', this.auth.userLoggedIn);
       this.saveToWeb();  // always also save to web, if connected
@@ -353,7 +353,7 @@ export class PersonalPlansProvider {
       const userStorageKey = STORAGE_KEY + '_' + this.auth.userId
       this.LSP.get(userStorageKey)
         .then((data) => {
-          console.log('read local with', userStorageKey);
+          // console.log('read local with', userStorageKey);
           // console.log(data);
           if (data) {
             resolve(this.decrypt(data, LOCAL_ENCRYPT_KEY))
@@ -391,7 +391,7 @@ export class PersonalPlansProvider {
       var api: string = this.cpapi.apiURL + "data/" + this.auth.userId;
       this.http.get(api)
         .subscribe((data) => {
-          console.log('read from web with', this.auth.userId);
+          // console.log('read from web with', this.auth.userId);
           if (data) {
             let d = this.decrypt(data["plans"] as string, this.auth.userKey);
             // console.log('plans after read from web', d);
