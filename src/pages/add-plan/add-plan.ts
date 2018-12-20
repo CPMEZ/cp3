@@ -43,10 +43,10 @@ export class AddPlanPage {
     // console.log('checking=', this.canUseName);
   }
 
-  addPlan() {
+  addPlan(type: string) {
     // console.log(this.newPlan.name, this.newPlan.text);
     if (this.PPP.checkPlanName(this.newPlan['name'])) {}
-    this.PPP.addPlan(this.newPlan);
+    this.PPP.addPlan(this.newPlan, type);
     if (this.plt.is('mobile')) {
       this.toast.show('Added ' + this.newPlan['name'], '1500', 'center').subscribe(t => { });
     }

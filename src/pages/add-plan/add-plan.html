@@ -34,13 +34,17 @@
     <p>There are different ways to create a new plan:</p>
     <ul>
       <li>You may create an "empty" plan and add topics, outcomes, and interventions to it later.</li>
+      <li>You may create from a "guided" starter plan, which suggests care focus areas, to which you can add your outcomes and interventions.</li>
        <span *ngIf="auth.userLoggedIn"><li>You may also add standard plans or discipline topics from the Red Book.</li></span> 
       <li>You may copy an existing Plan from your My Care Plans.</li>
       </ul>
-      <p>The newly-created plan will be shown below other plans in your My Care Plans list.</p>
+      <p>The newly-created plan will be shown at the end of your My Care Plans list.  You may need to scroll down to see it.</p>
   </ion-item>
   <ion-item no-lines>
-    <button ion-button [disabled]="(!canUseName || !newPlan.name)" (click)="addPlan()">Add Care Plan</button>
+    <button ion-button [disabled]="(!canUseName || !newPlan.name)" (click)="addPlan('empty')">Add Care Plan</button>
+  </ion-item>
+  <ion-item no-lines>
+    <button ion-button [disabled]="(!canUseName || !newPlan.name)" (click)="addPlan('guided')">Add Guided Care Plan</button>
   </ion-item>
   <ion-item no-lines>
     <button ion-button *ngIf="auth.userLoggedIn" [disabled]="(!canUseName || !newPlan.name)" (click)="stdPlan()">Add a Standard Plan from the
