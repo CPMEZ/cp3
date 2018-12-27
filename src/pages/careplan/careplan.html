@@ -25,11 +25,6 @@
 
 </ion-header>
 
-<!-- <ion-fab right top>
-  <button ion-fab (click)="addPlan()"><ion-icon name="add"></ion-icon>
-</button>
-</ion-fab> -->
-
 <ion-content padding>
   <!-- <div class="helptext">touch the name or the icon <ion-icon name="create" class="tool"></ion-icon>to work with the contents of a plan</div>
     <br> -->
@@ -39,7 +34,7 @@
       Create a New Plan
     </button>
   </div>
-  <p class="helpful" *ngIf="PPP.plans.length > 0">Care plans I've created.</p>
+  <p class="helpful" *ngIf="PPP.plans.length > 0">Care plans I've created:</p>
   <p class="helpful" *ngIf="PPP.plans.length == 0">You haven't created any plans yet--select Create a New Plan to get started.</p>
   <!-- <ion-list> -->
   <ion-list [dragula]='"plan-list"' [(dragulaModel)]="PPP.plans">

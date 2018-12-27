@@ -22,32 +22,7 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <span (click)="editPlan()">{{plan.name}}</span>
-    <!-- <div>
-      <button class="tool" *ngIf="auth.userLoggedIn" (click)="conditionAdd()">
-        <ion-icon name="fastforward"></ion-icon>
-        <ion-icon name="add"></ion-icon>
-      </button>
-      <button class="tool" *ngIf="auth.userLoggedIn" (click)="disciplineAdd()">
-        <ion-icon name="medical"></ion-icon>
-        <ion-icon name="add"></ion-icon>
-      </button>
-      <button class="tool" (click)="mergeIn()">
-        <ion-icon name="shuffle"></ion-icon>
-        <ion-icon name="add"></ion-icon>
-      </button>
-      <button class="tool" (click)="problemAdd()">
-        <ion-icon name="alert"></ion-icon>
-        <ion-icon name="add"></ion-icon>
-      </button>
-      <button class="tool" (click)="showPrint()">
-        <ion-icon name="share"></ion-icon>
-      </button>
-      <button class="trash">
-        <ion-icon name="trash" (click)="deletePlan()"></ion-icon>
-      </button>
-    </div> -->
   </div>
-
   <ion-grid>
     <div *ngFor="let p of plan.problems; let i = index">
       <div>
@@ -57,30 +32,12 @@
           </ion-col>
           <ion-col col-10><span class="problem" (click)="problemEdit(p)">{{p.text}}</span></ion-col>
           <ion-col col-1>
-            <button class="tool" (click)="topicMenu($event, p)">
+            <button *ngIf="p.expanded" class="tool" (click)="topicMenu($event, p)">
               <ion-icon name="menu"></ion-icon>
             </button>
           </ion-col>
-         </ion-row>
-       <div io-item *ngIf="p.expanded">
-<!--          <ion-row no-padding>
-            <ion-col col-6 no-padding> </ion-col>
-            <ion-col col-2 no-padding>
-              <button class="tool" (click)="goalAdd(p)">
-                <ion-icon name="star"></ion-icon>
-              </button>
-            </ion-col>
-            <ion-col col-2 no-padding>
-              <button class="tool" (click)="interventionAdd(p)">
-                <ion-icon name="construct"></ion-icon>
-              </button>
-            </ion-col>
-            <ion-col col-2 no-padding>
-              <button class="trash" (click)="problemDelete(p)">
-                <ion-icon name="trash"></ion-icon>
-              </button>
-            </ion-col>
-          </ion-row> -->
+        </ion-row>
+        <div io-item *ngIf="p.expanded">
           <ion-list no-margin [dragula]='"goal-list"' [(dragulaModel)]="p.goals">
             <div ion-item no-lines *ngFor="let g of p.goals">
               <ion-row no-padding align-items-center>
@@ -130,8 +87,50 @@
       </div>
     </div>
   </ion-grid>
-
 </ion-content>
+
+<!-- <div>
+          <button class="tool" *ngIf="auth.userLoggedIn" (click)="conditionAdd()">
+            <ion-icon name="fastforward"></ion-icon>
+            <ion-icon name="add"></ion-icon>
+          </button>
+          <button class="tool" *ngIf="auth.userLoggedIn" (click)="disciplineAdd()">
+            <ion-icon name="medical"></ion-icon>
+            <ion-icon name="add"></ion-icon>
+          </button>
+          <button class="tool" (click)="mergeIn()">
+            <ion-icon name="shuffle"></ion-icon>
+            <ion-icon name="add"></ion-icon>
+          </button>
+          <button class="tool" (click)="problemAdd()">
+            <ion-icon name="alert"></ion-icon>
+            <ion-icon name="add"></ion-icon>
+          </button>
+          <button class="tool" (click)="showPrint()">
+            <ion-icon name="share"></ion-icon>
+          </button>
+          <button class="trash">
+            <ion-icon name="trash" (click)="deletePlan()"></ion-icon>
+          </button>
+        </div> -->
+<!--          <ion-row no-padding>
+            <ion-col col-6 no-padding> </ion-col>
+            <ion-col col-2 no-padding>
+              <button class="tool" (click)="goalAdd(p)">
+                <ion-icon name="star"></ion-icon>
+              </button>
+            </ion-col>
+            <ion-col col-2 no-padding>
+              <button class="tool" (click)="interventionAdd(p)">
+                <ion-icon name="construct"></ion-icon>
+              </button>
+            </ion-col>
+            <ion-col col-2 no-padding>
+              <button class="trash" (click)="problemDelete(p)">
+                <ion-icon name="trash"></ion-icon>
+              </button>
+            </ion-col>
+          </ion-row> -->
 
 <!-- <ion-list class="noScroller">
       <div ion-item no-lines *ngFor="let p of plan.problems; let i = index">
