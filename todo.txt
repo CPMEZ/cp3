@@ -73,11 +73,12 @@ x when reusing your own content, be able to merge in condition plans i've previo
 
 x put disclaimer on login page, "by your login you accept..." + t&c button
 
-_ procedural assist..guide thru developing a plan
+0 procedural assist..guide thru developing a plan
 		copy template
 		merge other templates
 		edit to remove, occasionally add content
 		fill in the blanks
+x guided outline starter plan
 
 _ import someone else's plans?
 
@@ -86,7 +87,6 @@ x if reading plans returns 304, have to use local copy
 	[made api never return 304 via expires and cache: no-cache]
 
 x verify unduplicated plan name in edit-plan
-
 
 x test dragula in care plans page, for modeling large lists
 	working for now; doesn't save drag
@@ -116,6 +116,7 @@ x update EULA
 
 maybe later:  cut and paste to rearrange
 maybe later:  drag and drop scroll beyond limits --try ionic reorder
+	or, drag handle on items
 
 x malformed UTF-8 error is caused by using the user's personal encryption key, so when you change users, fails
 	needs to have user-specific storage for PPP & masters' cache
@@ -126,11 +127,12 @@ x check user id exists before creating new
 _ refactor PPP.plans[] change .name to .text, .text to .description
 	_ have to change all masters and data
 
-_ return to welcome page after logout
+0 return to welcome page after logout
 
-_ change icons
-_ add legend
+0 change icons
+0 add legend
+x add popup menus
 
-_ generate a template/skeleton plan into PPP.plans for new users
-	_ reinstate if goes missing?
-
+0 generate a template/skeleton plan into PPP.plans for new users
+	0 reinstate if goes missing?
+x guided starter plan
