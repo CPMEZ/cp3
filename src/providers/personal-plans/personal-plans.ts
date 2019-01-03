@@ -39,7 +39,7 @@ export class PersonalPlansProvider {
   webAttemptComplete: boolean = false;
   loadingNow: boolean = false;
 
-  // .userValidSubscription and .userLoggedIn determines if user can search from master
+  // .userLoggedIn determines if user can search from master
 
   loadPlans() {
     // clear out plans before reading,
