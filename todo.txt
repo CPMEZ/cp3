@@ -136,3 +136,6 @@ x add popup menus
 0 generate a template/skeleton plan into PPP.plans for new users
 	0 reinstate if goes missing?
 x guided starter plan
+
+
+v 0.0.8 for distribution
