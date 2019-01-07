@@ -2,7 +2,7 @@
   <ion-navbar class="navbarStyle" color="primary">
     <ion-title>User Guide</ion-title>
     <ion-buttons end>
-      <!-- <button *ngIf="canPrint" ion-button (click)="print()"> -->
+      <!-- <p *ngIf="canPrint" ion-button (click)="print()"> -->
       <button ion-button (click)="print()">
         <ion-icon name="print"></ion-icon>
       </button>
@@ -133,7 +133,8 @@
     <p>When this version of the app was released, the cost was 9.99 USD per month, or the equivalent in your local currency.  Renewals will always be the price you originally signed up for, unless you specifically agree to a change, even if the price may be increased for new subscribers.</p>
     <p>If you've taken advantage of a free trial period, then when you subscribe the remaining portion, if any, of your free trial period is forfeit, and your subscription begins immediately</p>
 
-  <button ion-button (click)="subscribe()">Subscribe Now</button>
+  <button ion-button (click)="subscribe()" *ngIf="!auth.userLoggedIn">Subscribe Now</button>
+  <p *ngIf="auth.userLoggedIn" class="hilite">You're already subscribed and logged in, so you're good to go.</p>
   <h2 id="without">Without a Subscription</h2>
   <p>You can use Care Planning without a subscription to the Red Book library. Simply select WORK OFFLINE from the
     welcome page. You can still enjoy the thoughtful structure and ease of use, you'll just be providing your own

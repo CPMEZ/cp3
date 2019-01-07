@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { Printer, PrintOptions } from '@ionic-native/printer';
 import { TermsPage } from '../terms/terms';
 import { SubselectPage } from '../subselect/subselect';
+import { AuthenticationProvider } from '../../providers/authentication/authentication';
 
 @IonicPage()
 @Component({
@@ -15,6 +16,7 @@ export class HelpPage {
 
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
+    public auth: AuthenticationProvider,
     private printer: Printer,
     public plt: Platform) {
       if (plt.is('mobile')) {this.canPrint = true;}
