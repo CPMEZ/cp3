@@ -204,6 +204,7 @@ export class PersonalPlansProvider {
         this.checkRecent();
       })
       .catch((error: any) => {
+        console.log('loadPlansLocal error', error);
         this.foundLocal = false;  // didn't get one
         this.localAttemptComplete = true;  // but the reading is done
         this.local = { plans: [] };  // create an empty
@@ -359,7 +360,7 @@ export class PersonalPlansProvider {
             resolve(this.decrypt(data, LOCAL_ENCRYPT_KEY))
           } else {
             console.log('read nothing local, resolving empty plans');
-            resolve({ plans: [] })
+            resolve({ plans: [] });
           }
         });
       // .catch(e => reject => console.log("error: " + e));
