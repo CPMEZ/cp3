@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, AlertController, Platform } from 'ionic-angular';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { CarePlanPage } from '../careplan/careplan';
+import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 
 @IonicPage()
 @Component({
@@ -10,8 +11,8 @@ import { CarePlanPage } from '../careplan/careplan';
 })
 export class SubscribePage {
 
-// subselect comes first where purchase is done; 
-// then comes subscribe, where account is set up
+  // subselect comes first where purchase is done; 
+  // then comes subscribe, where account is set up
 
   userId: string;
   pwd: string;
@@ -32,7 +33,8 @@ export class SubscribePage {
     private loadCtrl: LoadingController,
     private alertCtrl: AlertController,
     private plt: Platform,
-    public auth: AuthenticationProvider) {
+    public auth: AuthenticationProvider,
+    public PPP: PersonalPlansProvider) {
     this.userId = this.auth.userId;
     this.pwd = this.auth.pwd;
   }
@@ -66,29 +68,33 @@ export class SubscribePage {
           });
           prompt.present()
             .then(() => {
-              this.auth.authenticate();
+              this.auth.authenticate().then(() => {
+                // save the new user's previously-created plans
+                this.PPP.write();
+              });
               this.navCtrl.setRoot(CarePlanPage);
             })
-            // failed
-            .catch(() => {
-              loading.dismiss;
-              let prompt = this.alertCtrl.create({
-                title: 'Problem:',
-                message: 'Set up did not complete correctly',
-                buttons: [{ text: "Continue", role: 'cancel' }]
-              });
-              prompt.present()
-                .then(() => {
-                  this.navCtrl.setRoot(CarePlanPage);
-                })
-            });
         })
+        // create failed
+        .catch(() => {
+          loading.dismiss;
+          let prompt = this.alertCtrl.create({
+            title: 'Problem:',
+            message: 'Set up did not complete correctly',
+            buttons: [{ text: "Continue", role: 'cancel' }]
+          });
+          prompt.present()
+            .then(() => {
+              this.navCtrl.setRoot(CarePlanPage);
+            })
+        });
+      // })
     }
   }
 
   checkAvail() {
     this.auth.checkUser(this.userId)
-    .then((d) => { this.uidAvail = d;})
+      .then((d) => { this.uidAvail = d; })
   }
 
 }

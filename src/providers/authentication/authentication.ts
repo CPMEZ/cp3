@@ -191,8 +191,7 @@ export class AuthenticationProvider {
             // console.log("createSubscription");
             // TODO: encrypt user data 
             var renewalDate = new Date(Date.now());
-            // TODO: actual days needs to be annual or trial period
-            // however we'll later change to store validateReceipt to determine && see below also
+            // TODO we'll later change to store validateReceipt to determine && see below also
             // this is setting a MONTHLY subscription
             renewalDate.setDate(renewalDate.getDate());
             //                                +1 because monthly subscription, +1 because .getMonth jan=0
