@@ -70,7 +70,8 @@ export class SubscribePage {
             .then(() => {
               this.auth.authenticate().then(() => {
                 // save the new user's previously-created plans
-                this.PPP.write();
+                //    initializes server-stored plans even if empty
+                this.PPP.pushWeb();
               });
               this.navCtrl.setRoot(CarePlanPage);
             })
