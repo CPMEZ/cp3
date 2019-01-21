@@ -47,7 +47,7 @@ export class SubselectPage {
       //      subscribed before, to decide whether to present introductory
       // TODO change button label to "renew" if they're already subscribed?
     console.log('initStore');
-    this.iap.getProducts(['CP3Subscription'])
+    this.iap.getProducts(['CP3SubMonthly', 'CP3SubAnnual'])
       .then((prods) => {
         console.log('products', prods);
         this.products = prods;
