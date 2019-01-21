@@ -138,4 +138,4 @@ x add popup menus
 x guided starter plan
 
 
-v 0.0.8 for distribution
+v 0.0.9 for distribution
