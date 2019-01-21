@@ -67,8 +67,8 @@ export class SubselectPage {
       });
       loading.present();
       // alert(p.productId);
-      // this.iap.subscribe(p.productId)
-      this.iap.subscribe('CP3SubMonthly')
+      this.iap.subscribe(p.productId)
+      // this.iap.subscribe('CP3SubMonthly')
         .then((data) => {
           loading.dismiss();
           console.log('subscribe success', data);
