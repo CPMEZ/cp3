@@ -22,6 +22,7 @@ export class SubscribePage {
   products: any;
   uidAvail: boolean = false;
 
+  productId: string;
   // TODO change button label to "renew" if they're already subscribed?
   // NOTE!! don't think we can ever change the key once established, or encrypted plans wouldn't be de-cryptable
 
@@ -37,6 +38,7 @@ export class SubscribePage {
     public PPP: PersonalPlansProvider) {
     this.userId = this.auth.userId;
     this.pwd = this.auth.pwd;
+    this.productId = navParams.get('id');
   }
 
   ionViewDidLoad() {
@@ -58,7 +60,7 @@ export class SubscribePage {
       this.auth.pwd = this.pwd;
       this.auth.userKey = this.myKey;
       // if (!this.uidAvail) { this.checkAvail(); }
-      this.auth.createSubscription()
+      this.auth.createSubscription(this.productId) 
         .then(() => {
           // sucessful
           loading.dismiss;

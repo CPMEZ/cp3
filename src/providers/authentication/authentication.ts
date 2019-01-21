@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LocalStoreProvider } from '../local-store/local-store';
 import { CPAPI } from '../cpapi/cpapi';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import CryptoJS from 'crypto-js';
 
@@ -185,7 +185,7 @@ export class AuthenticationProvider {
         return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
     }
 
-    createSubscription(): Promise<boolean> {
+    createSubscription(productId: string): Promise<boolean> {
         return new Promise((resolve, reject) => {
             // set up a new user on cpapi
             // console.log("createSubscription");
@@ -194,8 +194,28 @@ export class AuthenticationProvider {
             // TODO we'll later change to store validateReceipt to determine && see below also
             // this is setting a MONTHLY subscription
             renewalDate.setDate(renewalDate.getDate());
-            //                                +1 because monthly subscription, +1 because .getMonth jan=0
-            var ds = renewalDate.getDate() + "/" + (renewalDate.getMonth() + 1 + 1) + "/" + renewalDate.getFullYear();
+            var ds;
+            var month = renewalDate.getMonth() + 1;  // getMonth is 0-based
+            var year = renewalDate.getFullYear();
+            switch (productId) { // match values in subselect.ts.initStore()
+                case  'CP3SubMonthly':
+                    // expires next month
+                    month += 1;
+                    if (renewalDate.getMonth() === 11) {
+                        // end of year, make jan next year
+                        year += 1;
+                        month = 1;
+                    }
+                    ds = month + "/" + renewalDate.getDate() + "/" + year;
+                    break;
+                case  'CP3SubAnnual':
+                    // expires same date next year
+                    year += 1;
+                    ds = month + "/" + renewalDate.getDate() + "/" + year;
+                    break;
+                default:
+                    break;
+            }
             let userData = {
                 user: this.userId,
                 password: this.pwd,
@@ -206,7 +226,9 @@ export class AuthenticationProvider {
                 clientKey: "keyval"
             };
             var api: string = this.cpapi.apiURL + "user/" + this.userId;
-            this.http.post(api, userData)
+            let httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
+            let postOptions = { headers: httpHeaders}
+            this.http.post(api, userData, postOptions)
                 .subscribe(data => {
                     console.log("saved new user");
                     resolve(true);

@@ -80,7 +80,7 @@ export class SubselectPage {
           });
           prompt.present()
             .then(() => {
-              this.navCtrl.push(SubscribePage);
+              this.navCtrl.push(SubscribePage, { id: p.productId });
             });
         })
         .catch((err) => {
@@ -109,9 +109,6 @@ export class SubselectPage {
     this.navCtrl.pop();
   }
   
-  test() {
-    this.navCtrl.push(SubscribePage);
-  }
   seeTerms() {
     this.navCtrl.push(TermsPage);
   }
