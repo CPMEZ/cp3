@@ -105,6 +105,13 @@ export class SubselectPage {
       prompt.present();
     }
   }
+
+  test() {
+    // if (this.plt.is('browser')) {
+      this.navCtrl.push(SubscribePage, { id: 'CP3SubMonthly' });
+    // }
+  }
+
   cancelEdit() {
     this.navCtrl.pop();
   }

@@ -31,7 +31,6 @@ export class SubscribePage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    private loadCtrl: LoadingController,
     private alertCtrl: AlertController,
     private plt: Platform,
     public auth: AuthenticationProvider,
@@ -46,53 +45,49 @@ export class SubscribePage {
   }
 
   setup() {
-    // WORKING HERE
     // subscribe trans success,
     // now create our new user on cpapi
 
     // TODO need an android version
     if (this.plt.is('ios')) {
-      let loading = this.loadCtrl.create({
-        content: 'Setting up...'
-      });
-      loading.present();
-      this.auth.userId = this.userId;
-      this.auth.pwd = this.pwd;
-      this.auth.userKey = this.myKey;
-      // if (!this.uidAvail) { this.checkAvail(); }
-      this.auth.createSubscription(this.productId) 
-        .then(() => {
-          console.log('back from createSubscription');
-          // sucessful
-          loading.dismiss;
-          let prompt = this.alertCtrl.create({
-            title: 'Set Up Complete!',
-            buttons: [{ text: "Continue", role: 'cancel' }]
-          });
-          prompt.present()
-            .then(() => {
+    this.auth.userId = this.userId;
+    this.auth.pwd = this.pwd;
+    this.auth.userKey = this.myKey;
+    this.auth.createSubscription(this.productId)
+      .then((a) => { 
+        // create sucessful
+        console.log('subscription created=',a);
+        let prompt = this.alertCtrl.create({
+          title: 'Set Up Complete!',
+          buttons: [{
+            text: 'Continue', role: 'cancel',
+            handler: () => {
               this.auth.authenticate().then(() => {
                 // save the new user's previously-created plans
-                //    initializes server-stored plans even if empty
+                //    initializes server-stored plans when empty
                 this.PPP.pushWeb();
+                this.navCtrl.setRoot(CarePlanPage);
               });
-              this.navCtrl.setRoot(CarePlanPage);
-            })
-        })
-        // create failed
-        .catch(() => {
-          loading.dismiss;
-          let prompt = this.alertCtrl.create({
-            title: 'Problem:',
-            message: 'Set up did not complete correctly',
-            buttons: [{ text: "Continue", role: 'cancel' }]
-          });
-          prompt.present()
-            .then(() => {
-              this.navCtrl.setRoot(CarePlanPage);
-            })
+            }
+          }]
         });
-      // })
+        prompt.present();
+      })
+      // create failed
+      .catch((b) => {
+        console.log('subscription created=',b);
+        let prompt = this.alertCtrl.create({
+          title: 'Problem:',
+          message: 'Set up did not complete correctly',
+          buttons: [{
+            text: "Continue", role: 'cancel',
+            handler: () => {
+              this.navCtrl.setRoot(CarePlanPage);
+            }
+          }]
+        });
+        prompt.present();
+      });
     }
   }
 

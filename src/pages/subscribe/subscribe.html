@@ -30,11 +30,11 @@
   <br>
   <ion-item>
     <ion-label stacked>Choose an Encryption Key</ion-label>
-    <ion-input type="password" [(ngModel)]="mykey"></ion-input>
+    <ion-input type="password" [(ngModel)]="myKey"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label stacked>Verify Encryption Key</ion-label>
-    <ion-input type="password" [(ngModel)]="mykeyVer"></ion-input>
+    <ion-input type="password" [(ngModel)]="myKeyVer"></ion-input>
   </ion-item>
   <ion-item no-lines>
     <div>
@@ -45,7 +45,7 @@
     <div>We suggest 20 characters or more, and something memorable, such as a line from a favorite song.</div>
   </ion-item>
   <!-- <button ion-button *ngIf="(!!pwd && pwd==pwdVer && !!mykey && mykey==mykeyVer && uidAvail)" (click)="setup()">Save and Continue</button><br> -->
-  <button ion-button [disabled]="(!(!!pwd && pwd==pwdVer && !!mykey && mykey==mykeyVer && uidAvail))" (click)="setup()">Save and Continue</button><br>
+  <button ion-button [disabled]="(!(!!pwd && pwd==pwdVer && !!myKey && myKey==myKeyVer && uidAvail))" (click)="setup()">Save and Continue</button><br>
   <ion-item no-lines>
     <div>After set up, you will be automatically signed in, and sent to your Care Plans Page.</div>
   </ion-item>
