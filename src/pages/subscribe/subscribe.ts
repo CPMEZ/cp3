@@ -46,12 +46,12 @@ export class SubscribePage {
   }
 
   setup() {
-    // TODO also check for active internet connection
     // WORKING HERE
     // subscribe trans success,
     // now create our new user on cpapi
 
-    if (this.plt.is('cordova')) {
+    // TODO need an android version
+    if (this.plt.is('ios')) {
       let loading = this.loadCtrl.create({
         content: 'Setting up...'
       });
@@ -62,6 +62,7 @@ export class SubscribePage {
       // if (!this.uidAvail) { this.checkAvail(); }
       this.auth.createSubscription(this.productId) 
         .then(() => {
+          console.log('back from createSubscription');
           // sucessful
           loading.dismiss;
           let prompt = this.alertCtrl.create({

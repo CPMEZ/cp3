@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LocalStoreProvider } from '../local-store/local-store';
+// import { ConnectionProvider } from '../connection/connection';
 import { CPAPI } from '../cpapi/cpapi';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -27,6 +28,7 @@ export class AuthenticationProvider {
 
     constructor(private cpapi: CPAPI,
         private http: HttpClient,
+        // private conn: ConnectionProvider,
         private LSP: LocalStoreProvider) {
         console.log('Constructor AuthenticationProvider Provider');
     }
@@ -192,7 +194,6 @@ export class AuthenticationProvider {
             // TODO: encrypt user data 
             var renewalDate = new Date(Date.now());
             // TODO we'll later change to store validateReceipt to determine && see below also
-            // this is setting a MONTHLY subscription
             renewalDate.setDate(renewalDate.getDate());
             var ds;
             var month = renewalDate.getMonth() + 1;  // getMonth is 0-based
@@ -226,14 +227,19 @@ export class AuthenticationProvider {
                 clientKey: "keyval"
             };
             var api: string = this.cpapi.apiURL + "user/" + this.userId;
+            // this.conn.checkConnection();
             let httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
             let postOptions = { headers: httpHeaders}
+            console.log('before new user post', userData);
+            // this.http.post(api, userData)
             this.http.post(api, userData, postOptions)
                 .subscribe(data => {
                     console.log("saved new user");
+                    console.log(data);
                     resolve(true);
                 },
                     error => {
+                        console.log('new user post error', error);
                         alert("There was a problem saving your new user information.");  // remove for production
                         //  if no web connection?
                         console.log(error);
