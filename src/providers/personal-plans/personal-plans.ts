@@ -43,7 +43,7 @@ export class PersonalPlansProvider {
 
   loadPlans() {
     // clear out plans before reading,
-    //    in case new user has signed in
+    //    in case different user has signed in
     this.initPlans();
 
 

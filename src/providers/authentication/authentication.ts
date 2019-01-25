@@ -331,21 +331,11 @@ export class AuthenticationProvider {
     checkUser(user: string): Promise<boolean> {
         return new Promise((resolve) => {
             // see if user already used, or is available, on cpapi
-            // console.log("auth checkUser");
             // TODO: could be user is present but expired, allow to be used?  no
             var api: string = this.cpapi.apiURL + "user/" + user;
             this.http.head(api)
-                .subscribe(data => {
-                    console.log('check user', data);
-                    console.log("can't use ", user);
-                    resolve(false);
-                },
-                    error => {
-                        //  if no web connection?
-                        console.log('check user error', error);
-                        console.log("can use ", user);
-                        resolve(true);
-                    });
+                .subscribe(data => { resolve(false); },
+                    error => { resolve(true); });
         });
     }
 }
