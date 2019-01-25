@@ -48,7 +48,7 @@ export class SubscribePage {
     // subscribe trans success,
     // now create our new user on cpapi
 
-    // TODO need an android version
+    // TODO need an android version?  no platform-specific stuff in here--do in createSubscription
     if (this.plt.is('ios')) {
     this.auth.userId = this.userId;
     this.auth.pwd = this.pwd;

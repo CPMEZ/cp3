@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, AlertController, Platform } from 'ionic-angular';
-import { AuthenticationProvider } from '../../providers/authentication/authentication';
+// import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { InAppPurchase } from '@ionic-native/in-app-purchase';
 import { SubscribePage } from '../subscribe/subscribe';
 import { TermsPage } from '../terms/terms';
@@ -28,11 +28,7 @@ export class SubselectPage {
     private loadCtrl: LoadingController,
     private alertCtrl: AlertController,
     private plt: Platform,
-    private iap: InAppPurchase,
-    public auth: AuthenticationProvider) {
-      this.userId = this.auth.userId;
-      this.pwd = this.auth.pwd;
-      // console.log(this.userId, this.pwd);
+    private iap: InAppPurchase) {
       if (this.plt.is('cordova')) {
         this.initStore();
       }
