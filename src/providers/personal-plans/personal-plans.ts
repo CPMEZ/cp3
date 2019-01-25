@@ -327,7 +327,7 @@ export class PersonalPlansProvider {
 
   write() {
     console.log('writing');
-    // console.log('user', this.auth.userId);
+    // console.log('user', this.auth.user);
     // console.log('logged in', this.auth.userLoggedIn);
     // if (this.pltfrm.is('mobile')) {
     this.saveToLocal();
@@ -343,7 +343,7 @@ export class PersonalPlansProvider {
     // console.log("saveToLocal");
     let p = this.packagePlans();
     p = this.encrypt(p, LOCAL_ENCRYPT_KEY);
-    const userStorageKey = STORAGE_KEY + '_' + this.auth.userId
+    const userStorageKey = STORAGE_KEY + '_' + this.auth.user
     this.LSP.set(userStorageKey, p)
       .then(result => console.log("saved local"))
       .catch(e => console.log("error: " + e));
@@ -351,7 +351,7 @@ export class PersonalPlansProvider {
 
   readFromLocal(): Promise<object> {
     return new Promise(resolve => {
-      const userStorageKey = STORAGE_KEY + '_' + this.auth.userId
+      const userStorageKey = STORAGE_KEY + '_' + this.auth.user
       this.LSP.get(userStorageKey)
         .then((data) => {
           // console.log('read local with', userStorageKey);
@@ -372,9 +372,9 @@ export class PersonalPlansProvider {
     this.conn.checkConnection();
     if (this.conn.internet) {
       let e = this.packagePlans();
-      e = this.encrypt(e, this.auth.userKey);
+      e = this.encrypt(e, this.auth.key);
       const p: {} = { plans: e };
-      var api: string = this.cpapi.apiURL + "data/" + this.auth.userId;
+      var api: string = this.cpapi.apiURL + "data/" + this.auth.user;
       this.http.post(api, p)
         .subscribe(data => { console.log("saved to web"); },
           error => {
@@ -389,12 +389,12 @@ export class PersonalPlansProvider {
 
   readFromWeb(): Promise<object> {
     return new Promise(resolve => {
-      var api: string = this.cpapi.apiURL + "data/" + this.auth.userId;
+      var api: string = this.cpapi.apiURL + "data/" + this.auth.user;
       this.http.get(api)
         .subscribe((data) => {
-          // console.log('read from web with', this.auth.userId);
+          // console.log('read from web with', this.auth.user);
           if (data) {
-            let d = this.decrypt(data["plans"] as string, this.auth.userKey);
+            let d = this.decrypt(data["plans"] as string, this.auth.key);
             // console.log('plans after read from web', d);
             resolve(d);
           } else {

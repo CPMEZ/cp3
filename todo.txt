@@ -139,3 +139,9 @@ x guided starter plan
 
 
 v 0.0.9 for distribution
+
+
+x renew subscription
+
+change password
+

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Platform } from 'ionic-angular';
 import { LocalStoreProvider } from '../local-store/local-store';
-// import { ConnectionProvider } from '../connection/connection';
 import { CPAPI } from '../cpapi/cpapi';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -14,9 +14,9 @@ const STATE_ENCRYPT_KEY = 'A little life with dried tubers'  // ts eliot the was
 export class AuthenticationProvider {
 
     userLoggedIn: boolean = false;
-    userId: string = "";
-    pwd: string = "";
-    userKey: string = "";
+    user: string = "";
+    password: string = "";
+    key: string = "";
     renewal: string = "";
     renewalType: string = "";
     clientKey: string = "";  // for payments--TODO, might drop this
@@ -31,7 +31,7 @@ export class AuthenticationProvider {
     constructor(private cpapi: CPAPI,
         private http: HttpClient,
         private iap: InAppPurchase,
-        // private conn: ConnectionProvider,
+        private plt: Platform,
         private LSP: LocalStoreProvider) {
         console.log('Constructor AuthenticationProvider Provider');
     }
@@ -45,33 +45,42 @@ export class AuthenticationProvider {
     }
 
     async authenticate(): Promise<boolean> {
-        console.log('authenticate', this.userId, this.pwd);
+        console.log('authenticate', this.user, this.password);
         return new Promise<boolean>((resolve, reject) => {
-            if ((!this.userId) || (!this.pwd)) {
+            if ((!this.user) || (!this.password)) {
                 // exit if either missing
                 this.userLoggedIn = false;
                 resolve(this.userLoggedIn);
             }
-            // TODO encrypt pwd before send
-            var path = this.cpapi.apiURL + "user/" + this.userId + "?p=" + this.pwd;
-            this.cpapi.getData(path).then((data) => {
-                const d = JSON.parse(data);
-                // console.log('authenticate getData.then');
-                // console.log(d);
-                if (d) {
-                    this.userKey = d.key;
-                    this.renewal = d.renewal;
-                    this.renewalType = d.renewalType;
-                    this.checkSubscription()
-                        .then((t) => { this.userLoggedIn = t; })
-                        .catch((f) => { this.userLoggedIn = f; });
-                } else {  // no data, bad credentials
-                    // TODO:  clear other userData contents
-                    this.userLoggedIn = false;
-                }
-                this.saveAuthState();
-                if (this.userLoggedIn) { resolve(this.userLoggedIn) } else { reject(this.userLoggedIn) }
-            })
+            // TODO encrypt password before send
+            var path = this.cpapi.apiURL + "user/" + this.user + "?p=" + this.password;
+            this.cpapi.getData(path)
+                .then((data) => {
+                    const d = JSON.parse(data);
+                    // console.log('authenticate getData.then');
+                    // console.log(d);
+                    if (d) {
+                        this.key = d.key;
+                        this.renewal = d.renewal;
+                        this.renewalType = d.renewalType;
+                        this.checkSubscription()
+                            .then((t) => {
+                                this.userLoggedIn = t;
+                                this.saveAuthState();
+                                resolve(this.userLoggedIn);
+                            })
+                            .catch((f) => {
+                                this.userLoggedIn = f;
+                                this.saveAuthState();
+                                reject(this.userLoggedIn);
+                            });
+                    } else {  // no data, bad credentials
+                        // TODO:  clear other userData contents
+                        this.userLoggedIn = false;
+                        this.saveAuthState();
+                        reject(this.userLoggedIn);
+                    }
+                })
                 .catch((err) => {
                     // console.log('authenticate getData.catch');
                     this.userLoggedIn = false;
@@ -85,7 +94,10 @@ export class AuthenticationProvider {
         // console.log('checkSubscription');
         // check even if supposed to be auto-renew, as user may have cancelled
         return new Promise<boolean>((resolve, reject) => {
-
+            // *******************************************************
+            // for testing, don't even check if not on device
+            if (!this.plt.is('cordova')) resolve(true);
+            // *******************************************************
             // exit if no renewal value
             if (!this.userLoggedIn) reject(false);
 
@@ -155,17 +167,17 @@ export class AuthenticationProvider {
 
     logout() {
         // save the user id, just for user convenience in re-logging in
-        const uid = this.userId;
+        const uid = this.user;
         this.clearUserData();
-        this.userId = uid;
+        this.user = uid;
         this.saveAuthState();
     }
 
     private clearUserData() {
         this.userLoggedIn = false;
-        this.userId = "";
-        this.pwd = "";
-        this.userKey = "";
+        this.user = "";
+        this.password = "";
+        this.key = "";
         this.renewal = "";
         this.renewalType = "";
         this.clientKey = ""; // for payments--TODO, might drop this
@@ -179,11 +191,11 @@ export class AuthenticationProvider {
                 .then((data) => {
                     if (data) {
                         const state = this.decrypt(data, STATE_ENCRYPT_KEY);
-                        // console.log('got state', state);
+                        console.log('got state', state);
                         this.userLoggedIn = state["userLoggedIn"];
-                        this.userId = state["userId"];
-                        this.pwd = state["pwd"];
-                        this.userKey = state["userKey"];
+                        this.user = state["user"];
+                        this.password = state["password"];
+                        this.key = state["key"];
                         this.renewal = state["renewal"];
                         this.renewalType = state["renewalType"];
                         this.clientKey = state["clientKey"];  // for payments--TODO, might drop this
@@ -201,9 +213,9 @@ export class AuthenticationProvider {
     saveAuthState() {
         // write user auth parms to local storage
         let state = this.getUserDataObject({});
-        // state["userId"] = this.userId;
-        // state["pwd"] = this.pwd;
-        // state["userKey"] = this.userKey;
+        // state["user"] = this.user;
+        // state["password"] = this.password;
+        // state["key"] = this.key;
         // state["renewal"] = this.renewal;
         // state["renewalType"] = this.renewalType;
         // state["clientKey"] = this.clientKey;
@@ -261,7 +273,7 @@ export class AuthenticationProvider {
                 year.toString();
             const userData = this.getUserDataObject({ renewal: ds });
             // remove the flags?  userLoggedIn and userValidSubscription
-            var api: string = this.cpapi.apiURL + "user/" + this.userId;
+            var api: string = this.cpapi.apiURL + "user/" + this.user;
             let httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
             let postOptions = { headers: httpHeaders }
             console.log('before new user post', userData);
@@ -292,7 +304,7 @@ export class AuthenticationProvider {
             // TODO:  could i get here if these this.xxx values blank?
             const userData = this.getUserDataObject({ renewal: ds });
             // TODO: same question:  should i remove the flages userLoggedIn and userValidSubscription before writing?
-            var api: string = this.cpapi.apiURL + "user/" + this.userId;
+            var api: string = this.cpapi.apiURL + "user/" + this.user;
             // this.conn.checkConnection();
             let httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
             let postOptions = { headers: httpHeaders }
@@ -316,9 +328,9 @@ export class AuthenticationProvider {
     private getUserDataObject(parm: object) {
         const base = {
             userLoggedIn: this.userLoggedIn,
-            userId: this.userId,
-            pwd: this.pwd,
-            userKey: this.userKey,
+            user: this.user,
+            password: this.password,
+            key: this.key,
             renewal: this.renewal,
             renewalType: "auto",
             clientKey: "keyval",

@@ -29,7 +29,7 @@ export class LoginPage {
     public MPP: MasterPlansProvider,
     public PPP: PersonalPlansProvider,
     public auth: AuthenticationProvider) {
-    this.userId = this.auth.userId;
+    this.userId = this.auth.user;
     console.log('Login constructor: user', this.userId);
     conn.checkConnection();
   }
@@ -44,8 +44,8 @@ export class LoginPage {
   }
 
   login() {
-    this.auth.userId = this.userId.trim().toLowerCase();
-    this.auth.pwd = this.pwd;
+    this.auth.user = this.userId.trim().toLowerCase();
+    this.auth.password = this.pwd;
     this.auth.authenticate()
       .then(result => this.goToWork(),
        err => alert('UserId or Password not recognized'));

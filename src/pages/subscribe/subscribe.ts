@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, AlertController, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, Platform } from 'ionic-angular';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { CarePlanPage } from '../careplan/careplan';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
@@ -35,8 +35,8 @@ export class SubscribePage {
     private plt: Platform,
     public auth: AuthenticationProvider,
     public PPP: PersonalPlansProvider) {
-    this.userId = this.auth.userId;
-    this.pwd = this.auth.pwd;
+    this.userId = this.auth.user;
+    this.pwd = this.auth.password;
     this.productId = navParams.get('id');
   }
 
@@ -50,9 +50,9 @@ export class SubscribePage {
 
     // TODO need an android version?  no platform-specific stuff in here--do in createSubscription
     if (this.plt.is('ios')) {
-    this.auth.userId = this.userId;
-    this.auth.pwd = this.pwd;
-    this.auth.userKey = this.myKey;
+    this.auth.user = this.userId;
+    this.auth.password = this.pwd;
+    this.auth.key = this.myKey;
     this.auth.createSubscription(this.productId)
       .then((a) => { 
         // create sucessful

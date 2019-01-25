@@ -16,7 +16,7 @@
   <br>
 
   <div text-center>
-    <h2 *ngIf="conn.internet && auth.userLoggedIn">Welcome Back! You're logged in as {{auth.userId}}.</h2>
+    <h2 *ngIf="conn.internet && auth.userLoggedIn">Welcome Back! You're logged in as {{auth.user}}.</h2>
   </div>
   <div text-center>
     <button ion-button icon-right *ngIf="conn.internet && auth.userLoggedIn" (click)="goToWork()">
