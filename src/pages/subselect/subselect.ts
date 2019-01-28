@@ -38,17 +38,24 @@ export class SubselectPage {
       console.log('ionViewDidLoad SubselectPage');
     }
     
-    initStore() {
+    async initStore() {
       // TODO:  check validateReceipt to see if they've ever
       //      subscribed before, to decide whether to present introductory
       // TODO change button label to "renew" if they're already subscribed?
     console.log('initStore');
-    this.iap.getProducts(['CP3SubMonthly', 'CP3SubAnnual'])
-      .then((prods) => {
-        console.log('products', prods);
-        this.products = prods;
-      })
-      .catch((err) => { console.log('store error', err); })
+    try {
+      this.products = await this.iap.getProducts(['CP3SubMonthly', 'CP3SubAnnual']);
+      console.log('products', JSON.stringify(this.products));
+    }
+    catch(err) {
+      console.log('store error', err);
+    }
+    // this.iap.getProducts(['CP3SubMonthly', 'CP3SubAnnual'])
+    //   .then((prods) => {
+    //     console.log('products', prods);
+    //     this.products = prods;
+    //   })
+    //   .catch((err) => { console.log('store error', err); })
   }
 
   subscribe(p) {
