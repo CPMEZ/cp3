@@ -37,18 +37,20 @@ export class LoginPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
   }
-  
+
   ionViewWillLeave() {
     console.log('ionViewWillLeave LoginPage');
     this.events.unsubscribe('loadComplete');
   }
 
-  login() {
+  async login() {
     this.auth.user = this.userId.trim().toLowerCase();
     this.auth.password = this.pwd;
-    this.auth.authenticate()
-      .then(result => this.goToWork(),
-       err => alert('UserId or Password not recognized'));
+    try {
+      await this.auth.authenticate();
+      this.goToWork();
+    }
+    catch (err) { alert('UserId or Password not recognized'); }
   }
 
   goToWork() {
