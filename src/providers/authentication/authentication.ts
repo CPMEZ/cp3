@@ -10,6 +10,12 @@ import { InAppPurchase } from '@ionic-native/in-app-purchase';
 const STORAGE_KEY = 'cp_session' // note CacheProvider does not clear this key on clearCache
 const STATE_ENCRYPT_KEY = 'A little life with dried tubers'  // ts eliot the waste land, line 7
 
+interface storeDataType {
+    subscription: string,
+    state: string,
+    date: string
+}
+
 @Injectable()
 export class AuthenticationProvider {
 
@@ -21,8 +27,6 @@ export class AuthenticationProvider {
     renewalType: string = "";
     clientKey: string = "";  // for payments--TODO, might drop this
     subType: string = "";
-
-    userValidSubscription: boolean = false;
 
     WARN_DAYS: number = 5;
 
@@ -44,125 +48,168 @@ export class AuthenticationProvider {
         });
     }
 
+
+    // 1) check credentials
+    // 2) check subscription
+    // 3) reconcile subscription
     async authenticate(): Promise<boolean> {
         console.log('authenticate', this.user, this.password);
-        return new Promise<boolean>((resolve, reject) => {
-            if ((!this.user) || (!this.password)) {
-                // exit if either missing
+        var goodCredentials = await this.getUserData(this.user, this.password);
+        if (goodCredentials) {
+            // check subscription
+            var goodSubscription = await this.checkSubscription();
+            if (goodSubscription) {
+                console.log('authenticate checkSubscription goodSubscription');
+                this.userLoggedIn = true;
+                return true;
+            } else {
+                console.log('authenticate checkSubscription badSubscription');
                 this.userLoggedIn = false;
-                resolve(this.userLoggedIn);
+                return false;
             }
-            // TODO encrypt password before send
-            var path = this.cpapi.apiURL + "user/" + this.user + "?p=" + this.password;
-            this.cpapi.getData(path)
-                .then((data) => {
-                    const d = JSON.parse(data);
-                    // console.log('authenticate getData.then');
-                    // console.log(d);
-                    if (d) {
-                        this.key = d.key;
-                        this.renewal = d.renewal;
-                        this.renewalType = d.renewalType;
-                        this.checkSubscription()
-                            .then((t) => {
-                                this.userLoggedIn = t;
-                                this.saveAuthState();
-                                resolve(this.userLoggedIn);
-                            })
-                            .catch((f) => {
-                                this.userLoggedIn = f;
-                                this.saveAuthState();
-                                reject(this.userLoggedIn);
-                            });
-                    } else {  // no data, bad credentials
-                        // TODO:  clear other userData contents
-                        this.userLoggedIn = false;
-                        this.saveAuthState();
-                        reject(this.userLoggedIn);
-                    }
-                })
-                .catch((err) => {
-                    // console.log('authenticate getData.catch');
-                    this.userLoggedIn = false;
-                    this.saveAuthState();
-                    reject(this.userLoggedIn);
-                });
-        });
+        } else {
+            this.userLoggedIn = false;
+            return false;
+        }
     }
 
-    checkSubscription(): Promise<boolean> {
-        // console.log('checkSubscription');
-        // check even if supposed to be auto-renew, as user may have cancelled
-        return new Promise<boolean>((resolve, reject) => {
-            // *******************************************************
-            // for testing, don't even check if not on device
-            if (!this.plt.is('cordova')) resolve(true);
-            // *******************************************************
-            // exit if no renewal value
-            if (!this.userLoggedIn) reject(false);
-
-            let expiredMessage: string;
-            // if not logged in, renewal irrelevant and/or this.renewal will be absent
-            // if logged in, the this.xxx values should be populated
-            const n = Date.now();
-            const d = new Date(this.renewal);
-            const millis = d.valueOf() - n.valueOf();
-            const duration: number = Math.trunc(millis / (60 * 60 * 24 * 1000));
-            // check to see if user has re-upped via app store
-            if (duration < this.WARN_DAYS) {
-                // only check for renewal if within warn_days of expiring, just to reduce traffic/server load
-                // verify with apple receipt first
-                this.iap.restorePurchases()
-                    .then((purchases) => {
-                        console.log(purchases);
-                        // see if a valid one of mine in the list
-                        // [ { productId:, state: (android), transactionId:, date:, 
-                        //     productType: (android), receipt: (android), signature: (android) }, ...]
-                        for (var rp = 0; rp < purchases.length; rp++) {
-                            if (purchases[rp]['productId'] == 'CP3SubAnnual' ||
-                                purchases[rp]['productId'] == 'CP3SubMonthly') {
-                                // found one
-                                console.log(purchases[rp]['productId']);
-                                console.log(purchases[rp]['state']);
-                                console.log(purchases[rp]['date']);
-                                console.log(purchases[rp]['transactionId']);
-                                // check date
-                                const storeRenewDate = new Date(purchases[rp]['date']);
-                                console.log(storeRenewDate);
-                                // if renewed, storeRenewDate will be > my authState.renewal "d"
-                                if (storeRenewDate.valueOf() > d.valueOf()) {
-                                    // renewed
-                                    // let the rest of the app know about it
-                                    this.userValidSubscription = true;
-                                    // update my server date, don't give message
-                                    this.renewSubscription(storeRenewDate);
-                                    resolve(this.userValidSubscription);
-                                } else {
-                                    // = or <, not renewed (should only be =, store date should never be less than my date)
-                                    // give the message
-                                    if (duration < 0) {  // already expired
-                                        expiredMessage = "Your subscription to Marrelli's Red Book Care Plans has expired.  Please renew to continue building Red Book-based Care Plans.  If you've already renewed, first make sure you're connected to the internet and then login to the app, and your records will be updated.";
-                                        alert(expiredMessage);
-                                        this.userValidSubscription = false;
-                                        resolve(this.userValidSubscription);
-                                    } else if (duration < this.WARN_DAYS) {
-                                        expiredMessage = "Your subscription to Marrelli's Red Book Care Plans expires in " + (duration + 1).toString() + " days." +
-                                            "  It will automatically renew 24 hrs before expiration, unless you cancel.";
-                                        alert(expiredMessage);
-                                        this.userValidSubscription = true;
-                                        resolve(this.userValidSubscription);
-                                    }
-                                }
-                            }  // else not one of mine, do nothing
-                        }
-                        // never found one
-                    })
-            } else {
-                // expiration >= today-warn_days
-                this.userValidSubscription = true;
-                resolve(this.userValidSubscription);
+    async getUserData(user: string, pwd: string): Promise<boolean> {
+        console.log('getUserData');
+        var path = this.cpapi.apiURL + "user/" + this.user + "?p=" + this.password;
+        if ((!user) || (!pwd)) {
+            // exit if either missing
+            return false;
+        }
+        try {
+            let data = await this.cpapi.getData(path);
+            // this.cpapi.getData(path)
+            if (!!data) {
+                const d = JSON.parse(data);
+                console.log('checkCredentials getData got data');
+                console.log(d);
+                if (d) {
+                    // set userData values
+                    this.setUserData(d);
+                    this.saveAuthState();
+                    return true;
+                } else {  // no data, bad credentials
+                    this.clearUserData();
+                    this.saveAuthState();
+                    return false;
+                }
             }
-        })
+        }
+        catch (err) {
+            console.log('checkCredentials getData.catch', err);
+            return false;
+        };
+    }
+
+    async checkSubscription(): Promise<boolean> {
+        console.log('checkSubscription');
+        // check even if supposed to be auto-renew, as user may have cancelled
+        if (!this.userLoggedIn) return (false);
+        // if not logged in, renewal irrelevant and/or this.renewal will be absent
+        // if logged in, the this.xxx values should be populated
+        const n = Date.now();
+        const d = new Date(this.renewal);  // from local user data
+        const millis = d.valueOf() - n.valueOf();
+        const duration: number = Math.trunc(millis / (60 * 60 * 24 * 1000));
+        if (duration < this.WARN_DAYS) {
+            // check to see if user has re-upped via app store
+            // only check for renewal if within warn_days of expiring, just to reduce traffic/server load
+            // verify with apple first
+            if (!this.plt.is('ios')) {
+                // if not on ios, no need to check "with apple"
+                let storeData: storeDataType = await this.checkStore();
+                switch (storeData.state) {
+                    case 'current':
+                        // reconcile local subscription date if needed
+                        this.reconcileSubscription(storeData.date);
+                        // warning message
+                        // alert(
+                        //     "Your subscription to Marrelli's Red Book Care Plans expires in " + (duration + 1).toString() + " days." +
+                        //     "  It will automatically renew 24 hrs before expiration, unless you cancel.");
+                        return true;
+                        break;
+                    case 'expired':
+                        alert(
+                            "Your subscription to Marrelli's Red Book Care Plans has expired.  " +
+                            "Please renew to continue building Red Book-based Care Plans.");
+                        return false;
+                        break;
+                    case 'none':
+                        return false;
+                        break;
+                    default:
+                        return false;
+                        break;
+                }
+            } else {
+                // TODO:  decide if there's anything to be done here if not on ios 
+                // use local data?
+            }
+        }
+    }
+
+    async checkStore(): Promise<storeDataType> {
+        console.log('checkStore');
+        // no purchases at all,
+        // purchases but not mine,
+        // purchase mine but expired,
+        // purchase mine and current
+
+        // initialize to not found
+        let storeResult: storeDataType
+            = { subscription: 'none', state: 'never', date: '' };
+        try {
+            let purchases = await this.iap.restorePurchases()
+            // if (!!purchases) {  // need this?  don't think so
+            console.log(purchases);
+            // see if a valid one of mine in the list
+            // [ { productId:, state: (android), transactionId:, date:, 
+            //     productType: (android), receipt: (android), signature: (android) }, ...]
+            if (purchases.length > 0) {
+                for (var rp = 0; rp < purchases.length; rp++) {
+                    if (purchases[rp]['productId'] == 'CP3SubAnnual' ||
+                        purchases[rp]['productId'] == 'CP3SubMonthly') {
+                        // found one
+                        console.log(purchases[rp]['productId']);
+                        console.log(purchases[rp]['state']);
+                        console.log(purchases[rp]['date']);
+                        console.log(purchases[rp]['transactionId']);
+                        // get date
+                        const n = Date.now();
+                        const d = new Date(purchases[rp]['date']);
+                        // check current
+                        if (d.valueOf() > n.valueOf()) {
+                            // found a good one, we can exit (even if there's another good one)
+                            storeResult = {
+                                subscription: purchases[rp]['productId'],
+                                state: 'current',
+                                date: purchases[rp]['date']
+                            };
+                            break;
+                        } else {
+                            // found an expired one, note but keep looking
+                            storeResult = {
+                                subscription: purchases[rp]['productId'],
+                                state: 'expired',
+                                date: purchases[rp]['date']
+                            };
+                        }
+                    }
+                }
+            }
+        }
+        catch (err) {
+            console.log('restorePurchase error', err);
+        }
+        // error, or
+        // never found in purchases, or
+        // nothing in purchases,
+        //  storeResult will be as initialized
+        return storeResult;
     }
 
     logout() {
@@ -173,8 +220,21 @@ export class AuthenticationProvider {
         this.saveAuthState();
     }
 
+    private setUserData(data: any) {
+        this.userLoggedIn = data.userLoggedIn;
+
+        this.user = data.user;
+        this.password = data.password;
+        this.key = data.key;
+        this.renewal = data.renewal;
+        this.renewalType = data.renewalType;
+        this.clientKey = data.clientKey;
+        this.subType = data.subType;
+    }
+
     private clearUserData() {
         this.userLoggedIn = false;
+
         this.user = "";
         this.password = "";
         this.key = "";
@@ -182,7 +242,6 @@ export class AuthenticationProvider {
         this.renewalType = "";
         this.clientKey = ""; // for payments--TODO, might drop this
         this.subType = "";
-        this.userValidSubscription = false;
     }
 
     readAuthState(): Promise<boolean> {
@@ -200,7 +259,6 @@ export class AuthenticationProvider {
                         this.renewalType = state["renewalType"];
                         this.clientKey = state["clientKey"];  // for payments--TODO, might drop this
                         this.subType = state["subType"];
-                        // this.userValidSubscription = this.checkSubscription();
                     } else {
                         this.clearUserData();
                     }
@@ -220,7 +278,6 @@ export class AuthenticationProvider {
         // state["renewalType"] = this.renewalType;
         // state["clientKey"] = this.clientKey;
         // state["subType"] = this.subType;
-        // state["userValidSubscription"] = this.userValidSubscription;
         // state["userLoggedIn"] = this.userLoggedIn;
         const s = this.encrypt(state, STATE_ENCRYPT_KEY);
         // write
@@ -272,7 +329,7 @@ export class AuthenticationProvider {
                 renewalDate.getDate().toString() + "/" +
                 year.toString();
             const userData = this.getUserDataObject({ renewal: ds });
-            // remove the flags?  userLoggedIn and userValidSubscription
+            // remove the userLoggedIn flag? 
             var api: string = this.cpapi.apiURL + "user/" + this.user;
             let httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
             let postOptions = { headers: httpHeaders }
@@ -292,18 +349,19 @@ export class AuthenticationProvider {
         });
     }
 
-    renewSubscription(renewalDate: Date): Promise<boolean> {
+    reconcileSubscription(renewalDate: string): Promise<boolean> {
         return new Promise((resolve, reject) => {
             // update user on cpapi with renewed subscription date
             console.log("renewSubscription");
             // TODO: encrypt user data 
-            var ds = (renewalDate.getMonth() + 1).toString() + "/" +
-                renewalDate.getDate().toString() + "/" +
-                renewalDate.getFullYear().toString();
+            var ds = renewalDate;
+            // var ds = (renewalDate.getMonth() + 1).toString() + "/" +
+            //     renewalDate.getDate().toString() + "/" +
+            //     renewalDate.getFullYear().toString();
             // TODO:  maybe: read the userData from the server and update only the renewal date
             // TODO:  could i get here if these this.xxx values blank?
             const userData = this.getUserDataObject({ renewal: ds });
-            // TODO: same question:  should i remove the flages userLoggedIn and userValidSubscription before writing?
+            // TODO: same question:  should i remove the userLoggedIn flag before writing?
             var api: string = this.cpapi.apiURL + "user/" + this.user;
             // this.conn.checkConnection();
             let httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -335,7 +393,6 @@ export class AuthenticationProvider {
             renewalType: "auto",
             clientKey: "keyval",
             subType: this.subType,
-            userValidSubscription: this.userValidSubscription
         };
         return { ...base, ...parm };
     }
