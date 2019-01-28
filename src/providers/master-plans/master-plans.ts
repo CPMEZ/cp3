@@ -46,8 +46,6 @@ export class MasterPlansProvider {
     // this.cache.remove(type);
     // **************** for debugging
 
-
-    // TODO check for current subscription too
     if (this.auth.userLoggedIn) {
       return new Promise(resolve => {
         // check cache first
