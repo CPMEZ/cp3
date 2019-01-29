@@ -1,0 +1,26 @@
+<ion-header>
+
+  <ion-navbar class="navbarStyle" color="primary">
+    <ion-title>Sample Standard Plan</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <h2>Alzheimer's & Dimentia</h2>
+  <!-- <h1 class="h1text">Alzheimer's & Dimentia</h1> -->
+  <h1 class="h1text">Red Book Standard Care Plan</h1>
+  <div *ngFor="let p of samplePlan.problems">
+    <p class="ptext prob">{{p.text}}</p>
+    <div>
+      <div class="goal"><em>Outcomes</em></div>
+      <div *ngFor="let g of p.goals">
+        <label class="ptext goal"><em>{{g.term}}</em> {{g.text}}</label>
+      </div>
+      <div class="int"><em>Interventions</em></div>
+      <div *ngFor="let n of p.interventions">
+        <label class="ptext int">{{n.text}}</label>
+      </div>
+    </div>
+  </div>
+</ion-content>

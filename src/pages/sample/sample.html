@@ -1,0 +1,44 @@
+<ion-header>
+
+  <ion-navbar class="navbarStyle" color="primary">
+    <ion-title>Standard Plans</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="help()">
+        <ion-icon name="help"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <p>Subscribe to the Red Book for pre-defined standard care plans that you can customize to your patients.
+    Conditions are added periodically.
+  </p>
+  <!-- <p>Standard plans may be used alone or may be merged to compose plans for patients with multiple conditions.
+  </p> -->
+  <p>Standard plans are comprehensive with much opportunity to customize for your patient.
+    Similar, alternative outcomes and interventions are suggested, so you can select the best fit.
+    In the app, you'll be able to select just the items you want before importing.
+  </p>
+  <div align="right">
+    <button ion-button (click)="showAlz()">
+      See a complete example: Alzheimer's
+    </button>
+  </div>
+  <br>
+  <div>
+    <p>Current Standard Plans</p>
+    <ion-list>
+      <div ion-item no-lines *ngFor="let z of itemsList">
+        <p style="color: black;">{{z.text}}</p>
+      </div>
+    </ion-list>
+  </div>
+  <div *ngIf="!auth.userLoggedIn">
+    <button ion-button (click)="subscribe()">
+      Subscribe
+    </button>
+  </div>
+</ion-content>
