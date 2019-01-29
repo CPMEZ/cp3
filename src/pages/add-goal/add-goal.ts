@@ -53,7 +53,7 @@ export class AddGoalPage {
       types: "goals",
       type: "goal",
       searchName: "Outcome",
-      planName: this.plan.name,      
+      planName: this.plan.name + ': ' + this.problem.text,      
       item: this.goal
     });
   }

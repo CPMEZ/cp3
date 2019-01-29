@@ -68,7 +68,7 @@ export class AddInterventionPage {
       types: "interventions",
       type: "intervention",
       searchName: "Intervention",
-      planName: this.plan.name,      
+      planName: this.plan.name + ': ' + this.problem.text,      
       item: this.intervention
     });
   }
