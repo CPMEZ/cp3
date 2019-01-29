@@ -31,30 +31,49 @@
   </ion-item>
 
   <ion-item no-lines>
-    <p>There are different ways to create a new plan:</p>
-    <ul>
+    <p>There are different ways to create a new plan</p>
+    <!-- <ul>
       <li>You may create an "empty" plan and add topics, outcomes, and interventions to it later.</li>
       <li>You may create from a "guided" starter plan, which suggests care focus areas, to which you can add your outcomes and interventions.</li>
        <span *ngIf="auth.userLoggedIn"><li>You may also add standard plans or discipline topics from the Red Book.</li></span> 
       <li>You may copy an existing Plan from your My Care Plans.</li>
-      </ul>
-      <p>The newly-created plan will be shown at the end of your My Care Plans list.  You may need to scroll down to see it.</p>
+      </ul> -->
+  </ion-item>
+  <ion-item no-lines>
+    <p>
+      You may create an "empty" plan and add topics, outcomes, and interventions to it later.
+    </p>
   </ion-item>
   <ion-item no-lines>
     <button ion-button [disabled]="(!canUseName || !newPlan.name)" (click)="addPlan('empty')">Add Care Plan</button>
   </ion-item>
   <ion-item no-lines>
-    <button ion-button [disabled]="(!canUseName || !newPlan.name)" (click)="addPlan('guided')">Add Guided Care Plan</button>
+    <p>You may create from a "guided" starter plan, which suggests care focus areas, to which you can add your outcomes
+      and interventions.</p>
   </ion-item>
   <ion-item no-lines>
-    <button ion-button *ngIf="auth.userLoggedIn" [disabled]="(!canUseName || !newPlan.name)" (click)="stdPlan()">Add a Standard Plan from the
-      Red Book</button>
+    <button ion-button [disabled]="(!canUseName || !newPlan.name)" (click)="addPlan('guided')">Add Guided Care Plan</button>
+  </ion-item>
+  <ion-item *ngIf="auth.userLoggedIn" no-lines>
+    <p>You may also add standard plans or discipline topics from the Red Book.</p>
+  </ion-item>
+  <ion-item *ngIf="auth.userLoggedIn" no-lines>
+    <button ion-button [disabled]="(!canUseName || !newPlan.name)" (click)="stdPlan()">Add a
+      Standard Plan from the Red Book</button>
+  </ion-item>
+  <ion-item no-lines>
+    <p>You may copy an existing Plan from your My Care Plans.</p>
   </ion-item>
   <ion-item no-lines>
     <button ion-button [disabled]="(!canUseName || !newPlan.name)" (click)="copyPlan()">Copy One of My Plans</button>
   </ion-item>
   <ion-item no-lines>
-    <p>Please remember to respect applicable privacy regulations, as well as good professional practice, when naming your care plans.</p>
+    <p>The newly-created plan will be shown at the end of your My Care Plans list. You may need to scroll down to see
+      it.</p>
+  </ion-item>
+  <ion-item no-lines>
+    <p>Please remember to respect applicable privacy regulations, as well as good professional practice, when naming
+      your care plans.</p>
   </ion-item>
   <ion-item no-lines>
     <button ion-button (click)="cancelEdit()">Cancel Adding a Plan</button>
