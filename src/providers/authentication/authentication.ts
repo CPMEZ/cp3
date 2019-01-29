@@ -131,19 +131,15 @@ export class AuthenticationProvider {
                         //     "Your subscription to Marrelli's Red Book Care Plans expires in " + (duration + 1).toString() + " days." +
                         //     "  It will automatically renew 24 hrs before expiration, unless you cancel.");
                         return true;
-                        break;
                     case 'expired':
                         alert(
                             "Your subscription to Marrelli's Red Book Care Plans has expired.  " +
                             "Please renew to continue building Red Book-based Care Plans.");
                         return false;
-                        break;
                     case 'none':
                         return false;
-                        break;
                     default:
                         return false;
-                        break;
                 }
             } else {
                 // TODO:  decide if there's anything to be done here if not on ios 
