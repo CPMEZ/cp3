@@ -2,12 +2,13 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, Events } from 'ionic-angular';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { MasterPlansProvider } from '../../providers/master-plans/master-plans';
-import { CarePlanPage } from '../careplan/careplan';
 import { HelpPage } from '../help/help';
 import { ConnectionProvider } from '../../providers/connection/connection';
 import { SubselectPage } from '../subselect/subselect';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 import { TermsPage } from '../terms/terms';
+import { WelcomePage } from '../welcome/welcome';
+import { CarePlanPage } from '../careplan/careplan';
 
 // TODO this should use oauth, google, facebook, linkedin
 
@@ -48,7 +49,11 @@ export class LoginPage {
     this.auth.password = this.pwd;
     try {
       await this.auth.authenticate();
-      this.goToWork();
+      if (this.auth.userLoggedIn) {
+        this.goToWork();
+      } else {
+        this.navCtrl.pop();
+      }
     }
     catch (err) { alert('UserId or Password not recognized'); }
   }
@@ -66,11 +71,12 @@ export class LoginPage {
       console.log('got event loadComplete');
       try { loading.dismiss(); }
       catch (err) { console.log('load timeout before complete'); }
-      this.navCtrl.setRoot(CarePlanPage);
+      // reset the stack, so that "back" goes to welcome instead of login
+      this.navCtrl.setRoot(WelcomePage)
+      this.navCtrl.push(CarePlanPage);
     })
     // insurance
     setTimeout(() => {
-      // console.log('in timer');
       try {
         loading.dismiss();
       }
@@ -82,9 +88,11 @@ export class LoginPage {
     this.navCtrl.push(SubselectPage);
   }
 
-  cancelEdit() {
+  workOffline() {
     // proceed without signing in
-    this.navCtrl.setRoot(CarePlanPage);
+    // reset the stack, so that "back" goes to welcome instead of login
+    this.navCtrl.setRoot(WelcomePage)
+    this.navCtrl.push(CarePlanPage);
   }
 
   help() {

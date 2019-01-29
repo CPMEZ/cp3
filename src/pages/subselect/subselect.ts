@@ -4,6 +4,7 @@ import { IonicPage, NavController, NavParams, LoadingController, AlertController
 import { InAppPurchase } from '@ionic-native/in-app-purchase';
 import { SubscribePage } from '../subscribe/subscribe';
 import { TermsPage } from '../terms/terms';
+import { AuthenticationProvider } from '../../providers/authentication/authentication';
 
 @IonicPage()
 @Component({
@@ -25,6 +26,7 @@ export class SubselectPage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
+    public auth: AuthenticationProvider,
     private loadCtrl: LoadingController,
     private alertCtrl: AlertController,
     private plt: Platform,

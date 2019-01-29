@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, Platform } from 'ionic-angular';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
-import { CarePlanPage } from '../careplan/careplan';
+// import { CarePlanPage } from '../careplan/careplan';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
+import { WelcomePage } from '../welcome/welcome';
 
 @IonicPage()
 @Component({
@@ -66,7 +67,7 @@ export class SubscribePage {
                 // save the new user's previously-created plans
                 //    initializes server-stored plans when empty
                 this.PPP.pushWeb();
-                this.navCtrl.setRoot(CarePlanPage);
+                this.navCtrl.setRoot(WelcomePage);
               });
             }
           }]
@@ -82,7 +83,7 @@ export class SubscribePage {
           buttons: [{
             text: "Continue", role: 'cancel',
             handler: () => {
-              this.navCtrl.setRoot(CarePlanPage);
+              this.navCtrl.setRoot(WelcomePage);
             }
           }]
         });

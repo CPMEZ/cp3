@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, Events, AlertController } from 'ionic-angular';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { LoginPage } from '../login/login';
 import { CarePlanPage } from '../careplan/careplan';
 import { ConnectionProvider } from '../../providers/connection/connection';
 import { TermsPage } from '../terms/terms';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
+import { SamplePage } from '../sample/sample';
 
 @IonicPage()
 @Component({
@@ -21,6 +22,7 @@ export class WelcomePage {
     public navParams: NavParams,
     public events: Events,
     private loadCtrl: LoadingController,
+    private alertCtrl: AlertController,
     public auth: AuthenticationProvider,
     public conn: ConnectionProvider,
     public PPP: PersonalPlansProvider) {
@@ -59,7 +61,7 @@ export class WelcomePage {
         // console.log('on loading complete event, plans =', this.PPP.plans);
       }
       catch (err) { console.log('load timeout before complete'); }
-      this.navCtrl.setRoot(CarePlanPage);
+      this.navCtrl.push(CarePlanPage);
     })
     // insurance
     setTimeout(() => {
@@ -67,24 +69,42 @@ export class WelcomePage {
       try { loading.dismiss(); 
       }
       catch (err) { console.log('load complete before timeout'); }
-      // TODO:  handle this
-      // this.navCtrl.setRoot(CarePlanPage);
+
     }, 5000);
   }
 
-
   login() {
-    this.navCtrl.setRoot(LoginPage);
+    this.navCtrl.push(LoginPage);
   }
 
-  // alreadyLoggedIn() {
-  //   this.navCtrl.setRoot(CarePlanPage);
-  // }
-  // workOffline() {
-  //   this.navCtrl.setRoot(CarePlanPage);
-  // }
+  logout() {
+    // confirm before logout
+    let prompt = this.alertCtrl.create({
+      title: 'Confirm Log Out',
+      buttons: [
+        {
+          text: "No, don't log out",
+          role: 'cancel'
+        },
+        {
+          text: 'Yes, log out',
+          handler: () => {
+            // this.PPP.write();
+            this.auth.logout();
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
 
-  showTerms() {
+   video() {
+    // invoke html
+  }
+   previewStd() {
+    this.navCtrl.push(SamplePage);
+  }
+   showTerms() {
     this.navCtrl.push(TermsPage);
   }
 

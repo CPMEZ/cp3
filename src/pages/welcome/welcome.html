@@ -19,16 +19,28 @@
     <h2 *ngIf="conn.internet && auth.userLoggedIn">Welcome Back! You're logged in as {{auth.user}}.</h2>
   </div>
   <div text-center>
-    <button ion-button icon-right *ngIf="conn.internet && auth.userLoggedIn" (click)="goToWork()">
+    <button ion-button *ngIf="conn.internet && auth.userLoggedIn" (click)="goToWork()">
       CONTINUE
     </button>
-    <button ion-button icon-right *ngIf="conn.internet && !auth.userLoggedIn" (click)="login()">
+    <button ion-button *ngIf="conn.internet && !auth.userLoggedIn" (click)="login()">
       LOG IN
     </button>
+    <button ion-button *ngIf="conn.internet && auth.userLoggedIn" (click)="logout()">
+      LOG OUT
+    </button>
     <h3 *ngIf="!conn.internet">No internet connection? Could not connect to Red Book cloud.</h3>
-    <button ion-button icon-right (click)="goToWork()">
+    <button ion-button (click)="goToWork()">
       WORK OFFLINE
     </button>
+    <h2 class="underline" *ngIf="conn.internet" (click)="video()">Watch a HOW-TO Video</h2>
+    <h2 class="underline" (click)="previewStd()">Preview Red Book Standard Plans</h2>
+    <!-- <button ion-button *ngIf="conn.internet" (click)="video()">
+      WATCH A HOW-TO VIDEO
+    </button> -->
+    <!-- <button ion-button (click)="previewStd()">
+      PREVIEW RED BOOK STANDARD PLANS
+    </button> -->
+    <br>
     <h4 (click)="showTerms()">Using the app indicates you accept the <span class="underline">License Agreement.</span></h4>
   </div>
 </ion-content>
