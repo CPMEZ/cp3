@@ -1,4 +1,8 @@
 page-lookup-plan {
+    p {
+        word-break: break-word;
+        white-space: normal;
+    }
     .problems {
         color:color($colors, primary);
     }

@@ -1,4 +1,8 @@
 page-lookup {
+    p {
+        word-break: break-word;
+        white-space: normal;
+    }
     .problems {
         color:color($colors, primary);
     }
@@ -21,7 +25,7 @@ page-lookup {
         color: white;
         background-color: color($colors, primary) ;
     }
-
+ 
     .tool {
         font-size: 2.0rem;
         margin-left: 1.0rem;
