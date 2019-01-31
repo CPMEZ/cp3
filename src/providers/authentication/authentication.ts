@@ -115,9 +115,11 @@ export class AuthenticationProvider {
         const d = new Date(this.renewal);  // from local user data
         const millis = d.valueOf() - n.valueOf();
         const duration: number = Math.trunc(millis / (60 * 60 * 24 * 1000));
+        // only check for renewal if within warn_days of expiring, just to reduce traffic/server load
+        // [this should preserve the non-apple test subscriptions]
         if (duration < this.WARN_DAYS) {
+            // TODO:  android 
             // check to see if user has re-upped via app store
-            // only check for renewal if within warn_days of expiring, just to reduce traffic/server load
             // verify with apple first
             if (!this.plt.is('ios')) {
                 // if not on ios, no need to check "with apple"
@@ -125,27 +127,45 @@ export class AuthenticationProvider {
                 switch (storeData.state) {
                     case 'current':
                         // reconcile local subscription date if needed
+                        // TEMP
+                        alert('duration<warn, ios, storestate=current');
                         this.reconcileSubscription(storeData.date);
-                        // warning message
-                        // alert(
-                        //     "Your subscription to Marrelli's Red Book Care Plans expires in " + (duration + 1).toString() + " days." +
-                        //     "  It will automatically renew 24 hrs before expiration, unless you cancel.");
                         return true;
                     case 'expired':
+                        // TEMP
+                        alert('duration<warn, ios, storestate=expired');
                         alert(
                             "Your subscription to Marrelli's Red Book Care Plans has expired.  " +
                             "Please renew to continue building Red Book-based Care Plans.");
                         return false;
                     case 'none':
+                        // TEMP
+                        alert('duration<warn, ios, storestate=none');
                         return false;
                     default:
                         return false;
                 }
-            } else {
-                // TODO:  decide if there's anything to be done here if not on ios 
-                // use local data?
+            } else {  // not ios, using server data, not store
+                if (duration < 0) {
+                    // TEMP
+                    alert('duration<0, NOT ios');
+                    alert(
+                        "Your subscription to Marrelli's Red Book Care Plans has expired.  " +
+                        "Please renew to continue building Red Book-based Care Plans.");
+                    return false;
+                } else { // ie, 0 < duration < warn_days
+                    // TEMP
+                    alert('duration<warn, NOT ios');
+                    alert(
+                        "Your subscription to Marrelli's Red Book Care Plans expires in " + (duration + 1).toString() + " days." +
+                        "  It will automatically renew 24 hrs before expiration, unless you cancel.");
+                    return true;
+                }
             }
-        }
+        } else { // TEMP  duration not < warn days
+            alert('duration >= warn'); // TEMP
+            return true; // TEMP
+        } // TEMP
     }
 
     async checkStore(): Promise<storeDataType> {
