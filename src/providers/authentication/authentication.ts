@@ -59,15 +59,18 @@ export class AuthenticationProvider {
             // check subscription
             var goodSubscription = await this.checkSubscription();
             if (goodSubscription) {
+                alert('good subscription');
                 console.log('authenticate checkSubscription goodSubscription');
                 this.userLoggedIn = true;
                 return true;
             } else {
+                alert('bad subscription');
                 console.log('authenticate checkSubscription badSubscription');
                 this.userLoggedIn = false;
                 return false;
             }
         } else {
+            alert('bad credentials');
             this.userLoggedIn = false;
             return false;
         }
@@ -100,6 +103,7 @@ export class AuthenticationProvider {
             }
         }
         catch (err) {
+            alert('check credentials getData.catch');
             console.log('checkCredentials getData.catch', err);
             return false;
         };
@@ -126,21 +130,26 @@ export class AuthenticationProvider {
                 let storeData: storeDataType = await this.checkStore();
                 switch (storeData.state) {
                     case 'current':
+                    // 2 second test:  test1 has not expired (apple-sandbox-2 within 5 minutes)
                         // reconcile local subscription date if needed
                         // TEMP
-                        alert('duration<warn, ios, storestate=current');
+                        alert('2: duration<warn, ios, storestate=current');
                         this.reconcileSubscription(storeData.date);
                         return true;
                     case 'expired':
+                    // 3 third test:  test1 has expired (apple-sandbox-2 after 5 minutes)
                         // TEMP
-                        alert('duration<warn, ios, storestate=expired');
+                        alert('3: duration<warn, ios, storestate=expired');
                         alert(
                             "Your subscription to Marrelli's Red Book Care Plans has expired.  " +
                             "Please renew to continue building Red Book-based Care Plans.");
                         return false;
                     case 'none':
+                    // 1 first test:  test1 has no apple subscription (apple-sandbox-2)
+                    // have to set up to be duration < warn days to reach here
+                    // eg 2/4, 5/19
                         // TEMP
-                        alert('duration<warn, ios, storestate=none');
+                        alert('1: duration<warn, ios, storestate=none');
                         return false;
                     default:
                         return false;
@@ -148,14 +157,14 @@ export class AuthenticationProvider {
             } else {  // not ios, using server data, not store
                 if (duration < 0) {
                     // TEMP
-                    alert('duration<0, NOT ios');
+                    alert('4: duration<0, NOT ios');
                     alert(
                         "Your subscription to Marrelli's Red Book Care Plans has expired.  " +
                         "Please renew to continue building Red Book-based Care Plans.");
                     return false;
                 } else { // ie, 0 < duration < warn_days
                     // TEMP
-                    alert('duration<warn, NOT ios');
+                    alert('5: duration<warn, NOT ios');
                     alert(
                         "Your subscription to Marrelli's Red Book Care Plans expires in " + (duration + 1).toString() + " days." +
                         "  It will automatically renew 24 hrs before expiration, unless you cancel.");
@@ -163,7 +172,8 @@ export class AuthenticationProvider {
                 }
             }
         } else { // TEMP  duration not < warn days
-            alert('duration >= warn'); // TEMP
+        // 6 test_ expires > 5 days
+            alert('6: duration >= warn'); // TEMP
             return true; // TEMP
         } // TEMP
     }
@@ -181,6 +191,7 @@ export class AuthenticationProvider {
         try {
             let purchases = await this.iap.restorePurchases()
             // if (!!purchases) {  // need this?  don't think so
+            alert('got purchases');
             console.log(purchases);
             // see if a valid one of mine in the list
             // [ { productId:, state: (android), transactionId:, date:, 
@@ -200,6 +211,7 @@ export class AuthenticationProvider {
                         // check current
                         if (d.valueOf() > n.valueOf()) {
                             // found a good one, we can exit (even if there's another good one)
+                            alert('good one ' + purchases[rp]['productId']);
                             storeResult = {
                                 subscription: purchases[rp]['productId'],
                                 state: 'current',
@@ -208,6 +220,7 @@ export class AuthenticationProvider {
                             break;
                         } else {
                             // found an expired one, note but keep looking
+                            alert('expired ' + purchases[rp]['productId']);
                             storeResult = {
                                 subscription: purchases[rp]['productId'],
                                 state: 'expired',
