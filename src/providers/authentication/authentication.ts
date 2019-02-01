@@ -131,7 +131,7 @@ export class AuthenticationProvider {
             // TODO:  android 
             // check to see if user has re-upped via app store
             // verify with apple first
-            if (!this.plt.is('ios')) {
+            if (this.plt.is('ios')) {
                 // if not on ios, no need to check "with apple"
                 let storeData: storeDataType = await this.checkStore();
                 switch (storeData.state) {
