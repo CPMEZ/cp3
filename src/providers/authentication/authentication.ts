@@ -40,12 +40,12 @@ export class AuthenticationProvider {
         private plt: Platform,
         private LSP: LocalStoreProvider) {
         console.log('Constructor AuthenticationProvider Provider');
+        // console.log(plt.platforms);
     }
 
     async alreadyLoggedIn(): Promise<boolean> {
         // check already logged in
-        // console.log('in alreadyLoggedIn');
-        let t=false;
+        let t = false;
         const r = await this.readAuthState();
         if (r) { t = await this.checkSubscription(); }
         return t;
@@ -63,12 +63,10 @@ export class AuthenticationProvider {
             var goodSubscription = await this.checkSubscription();
             if (goodSubscription) {
                 alert('good subscription');
-                console.log('authenticate checkSubscription goodSubscription');
                 this.userLoggedIn = true;
                 return true;
             } else {
                 alert('bad subscription');
-                console.log('authenticate checkSubscription badSubscription');
                 this.userLoggedIn = false;
                 return false;
             }
@@ -83,15 +81,12 @@ export class AuthenticationProvider {
         console.log('getUserData');
         var path = this.cpapi.apiURL + "user/" + this.user + "?p=" + this.password;
         if ((!user) || (!pwd)) {
-            // exit if either missing
             return false;
         }
         try {
             let data = await this.cpapi.getData(path);
-            // this.cpapi.getData(path)
             if (!!data) {
                 const d = JSON.parse(data);
-                console.log('getUserData getData got data');
                 console.log(d);
                 if (d) {
                     // set userData values
@@ -131,31 +126,39 @@ export class AuthenticationProvider {
             // TODO:  android 
             // check to see if user has re-upped via app store
             // verify with apple first
+    // MOCK ****************************************************
+    // if (1 === 1) {
+    // let storeData: storeDataType = await this.mockCheckStore();
+    // MOCK ****************************************************
+            // if not on ios, no need to check "with apple"
             if (this.plt.is('ios')) {
-                // if not on ios, no need to check "with apple"
                 let storeData: storeDataType = await this.checkStore();
                 switch (storeData.state) {
                     case 'current':
-                    // 2 second test:  test1 has not expired (apple-sandbox-2 within 5 minutes)
+                        // 2 second test:  test1 has not expired (apple-sandbox-2 within 5 minutes)
                         // reconcile local subscription date if needed
                         // TEMP
                         alert('2: duration<warn, ios, storestate=current');
                         this.reconcileSubscription(storeData.date);
                         return true;
                     case 'expired':
-                    // 3 third test:  test1 has expired (apple-sandbox-2 after 5 minutes)
+                        // 3 third test:  test1 has expired (apple-sandbox-2 after 5 minutes)
                         // TEMP
                         alert('3: duration<warn, ios, storestate=expired');
                         alert(
                             "Your subscription to Marrelli's Red Book Care Plans has expired.  " +
-                            "Please renew to continue building Red Book-based Care Plans.");
+                            "Please renew to continue building Red Book-based Care Plans.  " +
+                            "Choose WORK OFFLINE to continue without renewing.");
                         return false;
-                    case 'none':
-                    // 1 first test:  test1 has no apple subscription (apple-sandbox-2)
-                    // have to set up to be duration < warn days to reach here
-                    // eg 2/4, 5/19
+                    case 'never':
+                        // 1 first test:  test1 has no apple subscription (apple-sandbox-2)
+                        // have to set up to be duration < warn days to reach here
+                        // eg 2/4, 5/19
                         // TEMP
-                        alert('1: duration<warn, ios, storestate=none');
+                        alert('1: duration<warn, ios, storestate=never');
+                        alert(
+                            "Shouldn't have reached this point with good credentials but " +
+                            "no valid store subscription.  You must be a beta tester.  :)");
                         return false;
                     default:
                         return false;
@@ -166,7 +169,8 @@ export class AuthenticationProvider {
                     alert('4: duration<0, NOT ios');
                     alert(
                         "Your subscription to Marrelli's Red Book Care Plans has expired.  " +
-                        "Please renew to continue building Red Book-based Care Plans.");
+                        "Please renew to continue building Red Book-based Care Plans.  " +
+                        "Choose WORK OFFLINE to continue without renewing.");
                     return false;
                 } else { // ie, 0 < duration < warn_days
                     // TEMP
@@ -178,10 +182,18 @@ export class AuthenticationProvider {
                 }
             }
         } else { // TEMP  duration not < warn days
-        // 6 test_ expires > 5 days
+            // 6 test_ expires > 5 days
             alert('6: duration >= warn'); // TEMP
             return true; // TEMP
         } // TEMP
+    }
+
+    async mockCheckStore(): Promise<storeDataType> {
+        return {
+            subscription: 'CP3SubMonthly',
+            state: 'current',
+            date: '2/3/2019'
+        } as storeDataType;
     }
 
     async checkStore(): Promise<storeDataType> {
@@ -196,22 +208,22 @@ export class AuthenticationProvider {
             = { subscription: 'none', state: 'never', date: '' };
         try {
             let purchases = await this.iap.restorePurchases()
-            // if (!!purchases) {  // need this?  don't think so
             alert('got purchases');
-            console.log(purchases);
             // see if a valid one of mine in the list
             // [ { productId:, state: (android), transactionId:, date:, 
             //     productType: (android), receipt: (android), signature: (android) }, ...]
             if (purchases.length > 0) {
+                alert('# purchases=' + purchases.length);
                 for (var rp = 0; rp < purchases.length; rp++) {
+                    alert('purchase #: ' + rp +
+                        purchases[rp]['productId'] + ' ' +
+                        'state: ' + purchases[rp]['state'] + ' ' +
+                        'date: ' + purchases[rp]['date'] + ' ' +
+                        'transId: ' + purchases[rp]['transactionId']
+                    )
                     if (purchases[rp]['productId'] == 'CP3SubAnnual' ||
                         purchases[rp]['productId'] == 'CP3SubMonthly') {
                         // found one
-                        console.log(purchases[rp]['productId']);
-                        console.log(purchases[rp]['state']);
-                        console.log(purchases[rp]['date']);
-                        console.log(purchases[rp]['transactionId']);
-                        // get date
                         const n = Date.now();
                         const d = new Date(purchases[rp]['date']);
                         // check current
@@ -226,7 +238,7 @@ export class AuthenticationProvider {
                             break;
                         } else {
                             // found an expired one, note but keep looking
-                            alert('expired ' + purchases[rp]['productId']);
+                            // alert('expired ' + purchases[rp]['productId']);
                             storeResult = {
                                 subscription: purchases[rp]['productId'],
                                 state: 'expired',
@@ -287,14 +299,6 @@ export class AuthenticationProvider {
                         const state = this.decrypt(data, STATE_ENCRYPT_KEY);
                         console.log('got state', state);
                         this.setUserData(state);
-                        // this.userLoggedIn = state["userLoggedIn"];
-                        // this.user = state["user"];
-                        // this.password = state["password"];
-                        // this.key = state["key"];
-                        // this.renewal = state["renewal"];
-                        // this.renewalType = state["renewalType"];
-                        // this.clientKey = state["clientKey"];  // for payments--TODO, might drop this
-                        // this.subType = state["subType"];
                     } else {
                         this.clearUserData();
                     }
@@ -307,16 +311,7 @@ export class AuthenticationProvider {
     saveAuthState() {
         // write user auth parms to local storage
         let state = this.getUserDataObject({});
-        // state["user"] = this.user;
-        // state["password"] = this.password;
-        // state["key"] = this.key;
-        // state["renewal"] = this.renewal;
-        // state["renewalType"] = this.renewalType;
-        // state["clientKey"] = this.clientKey;
-        // state["subType"] = this.subType;
-        // state["userLoggedIn"] = this.userLoggedIn;
         const s = this.encrypt(state, STATE_ENCRYPT_KEY);
-        // write
         this.LSP.set(STORAGE_KEY, s)
             .then(result => console.log("saved session"))
             .catch(e => console.log("error: " + e));
