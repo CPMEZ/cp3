@@ -19,6 +19,8 @@ interface storeDataType {
 @Injectable()
 export class AuthenticationProvider {
 
+    justLoggedIn: boolean = false;
+
     userLoggedIn: boolean = false;
     user: string = "";
     password: string = "";
@@ -40,12 +42,13 @@ export class AuthenticationProvider {
         console.log('Constructor AuthenticationProvider Provider');
     }
 
-    alreadyLoggedIn(): Promise<boolean> {
+    async alreadyLoggedIn(): Promise<boolean> {
         // check already logged in
         // console.log('in alreadyLoggedIn');
-        return new Promise<boolean>((resolve) => {
-            this.readAuthState().then((r) => { resolve(r); })
-        });
+        let t=false;
+        const r = await this.readAuthState();
+        if (r) { t = await this.checkSubscription(); }
+        return t;
     }
 
 
@@ -88,11 +91,12 @@ export class AuthenticationProvider {
             // this.cpapi.getData(path)
             if (!!data) {
                 const d = JSON.parse(data);
-                console.log('checkCredentials getData got data');
+                console.log('getUserData getData got data');
                 console.log(d);
                 if (d) {
                     // set userData values
                     this.setUserData(d);
+                    this.userLoggedIn = true;  // until checkSubscription might override it
                     this.saveAuthState();
                     return true;
                 } else {  // no data, bad credentials
@@ -112,7 +116,9 @@ export class AuthenticationProvider {
     async checkSubscription(): Promise<boolean> {
         console.log('checkSubscription');
         // check even if supposed to be auto-renew, as user may have cancelled
-        if (!this.userLoggedIn) return (false);
+
+        // if (!this.userLoggedIn) return (false);
+
         // if not logged in, renewal irrelevant and/or this.renewal will be absent
         // if logged in, the this.xxx values should be populated
         const n = Date.now();
@@ -250,7 +256,7 @@ export class AuthenticationProvider {
     }
 
     private setUserData(data: any) {
-        this.userLoggedIn = data.userLoggedIn;
+        if (!!data.userLoggedIn) this.userLoggedIn = data.userLoggedIn;
 
         this.user = data.user;
         this.password = data.password;
@@ -258,7 +264,7 @@ export class AuthenticationProvider {
         this.renewal = data.renewal;
         this.renewalType = data.renewalType;
         this.clientKey = data.clientKey;
-        this.subType = data.subType;
+        if (!!data.subType) this.subType = data.subType;
     }
 
     private clearUserData() {
@@ -280,14 +286,15 @@ export class AuthenticationProvider {
                     if (data) {
                         const state = this.decrypt(data, STATE_ENCRYPT_KEY);
                         console.log('got state', state);
-                        this.userLoggedIn = state["userLoggedIn"];
-                        this.user = state["user"];
-                        this.password = state["password"];
-                        this.key = state["key"];
-                        this.renewal = state["renewal"];
-                        this.renewalType = state["renewalType"];
-                        this.clientKey = state["clientKey"];  // for payments--TODO, might drop this
-                        this.subType = state["subType"];
+                        this.setUserData(state);
+                        // this.userLoggedIn = state["userLoggedIn"];
+                        // this.user = state["user"];
+                        // this.password = state["password"];
+                        // this.key = state["key"];
+                        // this.renewal = state["renewal"];
+                        // this.renewalType = state["renewalType"];
+                        // this.clientKey = state["clientKey"];  // for payments--TODO, might drop this
+                        // this.subType = state["subType"];
                     } else {
                         this.clearUserData();
                     }

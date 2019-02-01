@@ -50,6 +50,7 @@ export class LoginPage {
     try {
       await this.auth.authenticate();
       if (this.auth.userLoggedIn) {
+        this.auth.justLoggedIn = true;
         this.goToWork();
       } else {
         this.navCtrl.pop();
@@ -71,9 +72,9 @@ export class LoginPage {
       console.log('got event loadComplete');
       try { loading.dismiss(); }
       catch (err) { console.log('load timeout before complete'); }
+      console.log(this.navCtrl.getViews());
       // reset the stack, so that "back" goes to welcome instead of login
-      this.navCtrl.setRoot(WelcomePage)
-      this.navCtrl.push(CarePlanPage);
+      this.navCtrl.setPages([{page: WelcomePage}, {page: CarePlanPage}]);
     })
     // insurance
     setTimeout(() => {
@@ -91,8 +92,7 @@ export class LoginPage {
   workOffline() {
     // proceed without signing in
     // reset the stack, so that "back" goes to welcome instead of login
-    this.navCtrl.setRoot(WelcomePage)
-    this.navCtrl.push(CarePlanPage);
+    this.navCtrl.setPages([{ page: WelcomePage }, { page: CarePlanPage }]);
   }
 
   help() {

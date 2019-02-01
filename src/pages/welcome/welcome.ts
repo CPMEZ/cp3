@@ -28,12 +28,10 @@ export class WelcomePage {
     public PPP: PersonalPlansProvider) {
     console.log('Constructor Welcome');
     conn.checkConnection();
-    this.auth.alreadyLoggedIn()
-      .then((r) => {
-        if (this.auth.userLoggedIn) {
-          this.auth.checkSubscription();
-        }
-      });
+    if (!this.auth.justLoggedIn) {
+      this.auth.alreadyLoggedIn()
+        .then((r) => { this.auth.justLoggedIn = false; });
+    }
   }
 
   ionViewDidLoad() {
