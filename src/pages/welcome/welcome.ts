@@ -97,7 +97,7 @@ export class WelcomePage {
   }
 
    video() {
-    // invoke html
+    //  window.open("https://marrelli.com/rbapp/rbhowto.mp4", '_system', 'location=yes');
   }
    previewStd() {
     this.navCtrl.push(SamplePage);
