@@ -57,6 +57,7 @@ export class AuthenticationProvider {
     // 3) reconcile subscription
     async authenticate(): Promise<boolean> {
         console.log('authenticate', this.user, this.password);
+        this.reportState('authenticate before getUserData');
         var goodCredentials = await this.getUserData(this.user, this.password);
         if (goodCredentials) {
             // check subscription
@@ -64,15 +65,18 @@ export class AuthenticationProvider {
             if (goodSubscription) {
                 alert('good subscription');
                 this.userLoggedIn = true;
+                this.reportState('authenticate after goodSubscription');
                 return true;
             } else {
                 alert('bad subscription');
                 this.userLoggedIn = false;
+                this.reportState('authenticate after badSubscription');
                 return false;
             }
         } else {
             alert('bad credentials');
             this.userLoggedIn = false;
+            this.reportState('authenticate after bad credentials');
             return false;
         }
     }
@@ -90,8 +94,14 @@ export class AuthenticationProvider {
                 console.log(d);
                 if (d) {
                     // set userData values
-                    this.setUserData(d);
                     this.userLoggedIn = true;  // until checkSubscription might override it
+                    this.user = d['user'];
+                    this.key = d['key'];
+                    this.renewal = d['renewal'];
+                    this.renewalType = d['renewalType'];
+                    this.clientKey = d['clientKey'];
+                    this.subType = d['subType'];
+                    this.reportState('after getData');
                     this.saveAuthState();
                     return true;
                 } else {  // no data, bad credentials
@@ -102,8 +112,11 @@ export class AuthenticationProvider {
             }
         }
         catch (err) {
-            alert('check credentials getData.catch');
             console.log('checkCredentials getData.catch', err);
+            this.clearUserData();
+            // reset user, in case they just typo'd the pwd
+            this.user = user;
+            this.saveAuthState();
             return false;
         };
     }
@@ -126,25 +139,25 @@ export class AuthenticationProvider {
             // TODO:  android 
             // check to see if user has re-upped via app store
             // verify with apple first
-    // MOCK ****************************************************
-    // if (1 === 1) {
-    // let storeData: storeDataType = await this.mockCheckStore();
-    // MOCK ****************************************************
-            // if not on ios, no need to check "with apple"
-            if (this.plt.is('ios')) {
-                let storeData: storeDataType = await this.checkStore();
+            // MOCK ****************************************************
+            if (1 === 1) {
+                let storeData: storeDataType = await this.mockCheckStore();
+                // MOCK ****************************************************
+                // if not on ios, no need to check "with apple"
+                // if (this.plt.is('ios')) {
+                //     let storeData: storeDataType = await this.checkStore();
                 switch (storeData.state) {
                     case 'current':
                         // 2 second test:  test1 has not expired (apple-sandbox-2 within 5 minutes)
                         // reconcile local subscription date if needed
                         // TEMP
-                        alert('2: duration<warn, ios, storestate=current');
+                        console.log('2: duration<warn, ios, storestate=current');
                         this.reconcileSubscription(storeData.date);
                         return true;
                     case 'expired':
                         // 3 third test:  test1 has expired (apple-sandbox-2 after 5 minutes)
                         // TEMP
-                        alert('3: duration<warn, ios, storestate=expired');
+                        console.log('3: duration<warn, ios, storestate=expired');
                         alert(
                             "Your subscription to Marrelli's Red Book Care Plans has expired.  " +
                             "Please renew to continue building Red Book-based Care Plans.  " +
@@ -155,7 +168,7 @@ export class AuthenticationProvider {
                         // have to set up to be duration < warn days to reach here
                         // eg 2/4, 5/19
                         // TEMP
-                        alert('1: duration<warn, ios, storestate=never');
+                        console.log('1: duration<warn, ios, storestate=never');
                         alert(
                             "Shouldn't have reached this point with good credentials but " +
                             "no valid store subscription.  You must be a beta tester.  :)");
@@ -192,7 +205,7 @@ export class AuthenticationProvider {
         return {
             subscription: 'CP3SubMonthly',
             state: 'current',
-            date: '2/3/2019'
+            date: '2/8/2020'
         } as storeDataType;
     }
 
@@ -267,19 +280,8 @@ export class AuthenticationProvider {
         this.saveAuthState();
     }
 
-    private setUserData(data: any) {
-        if (!!data.userLoggedIn) this.userLoggedIn = data.userLoggedIn;
-
-        this.user = data.user;
-        this.password = data.password;
-        this.key = data.key;
-        this.renewal = data.renewal;
-        this.renewalType = data.renewalType;
-        this.clientKey = data.clientKey;
-        if (!!data.subType) this.subType = data.subType;
-    }
-
     private clearUserData() {
+        console.log('clearUserData');
         this.userLoggedIn = false;
 
         this.user = "";
@@ -298,7 +300,14 @@ export class AuthenticationProvider {
                     if (data) {
                         const state = this.decrypt(data, STATE_ENCRYPT_KEY);
                         console.log('got state', state);
-                        this.setUserData(state);
+                        this.userLoggedIn = state['userLoggedIn'];
+                        this.user = state['user'];
+                        this.password = state['password'];
+                        this.key = state['key'];
+                        this.renewal = state['renewal'];
+                        this.renewalType = state['renewalType'];
+                        this.clientKey = state['clientKey'];
+                        this.subType = state['subType'];
                     } else {
                         this.clearUserData();
                     }
@@ -309,8 +318,17 @@ export class AuthenticationProvider {
     }
 
     saveAuthState() {
-        // write user auth parms to local storage
-        let state = this.getUserDataObject({});
+        // write user auth parms to LOCAL storage
+        const state = {
+            userLoggedIn: this.userLoggedIn,
+            user: this.user,
+            password: this.password,
+            key: this.key,
+            renewal: this.renewal,
+            renewalType: this.renewalType,
+            clientKey: this.clientKey,
+            subType: this.subType
+        }
         const s = this.encrypt(state, STATE_ENCRYPT_KEY);
         this.LSP.set(STORAGE_KEY, s)
             .then(result => console.log("saved session"))
@@ -359,7 +377,17 @@ export class AuthenticationProvider {
             ds = month.toString() + "/" +
                 renewalDate.getDate().toString() + "/" +
                 year.toString();
-            const userData = this.getUserDataObject({ renewal: ds });
+            this.reportState('before createSubscription');
+            const userData = {
+                user: this.user,
+                password: this.password,
+                key: this.key,
+                renewal: ds,
+                renewalType: this.renewalType,
+                clientKey: this.clientKey,
+                subType: productId
+            };
+            // this.getUserDataObject({ renewal: ds });
             // remove the userLoggedIn flag? 
             var api: string = this.cpapi.apiURL + "user/" + this.user;
             let httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -369,6 +397,7 @@ export class AuthenticationProvider {
                 .subscribe(data => {
                     console.log("saved user");
                     console.log('returned from new user post', data);
+                    this.reportState('after createSubscription');
                     resolve(true);
                 },
                     error => {
@@ -380,52 +409,51 @@ export class AuthenticationProvider {
         });
     }
 
-    reconcileSubscription(renewalDate: string): Promise<boolean> {
+    reconcileSubscription(storeDate: string): Promise<boolean> {
+        // TODO:  maybe: read the userData from the server and update only the renewal date
         return new Promise((resolve, reject) => {
-            // update user on cpapi with renewed subscription date
             console.log("renewSubscription");
             // TODO: encrypt user data 
-            var ds = renewalDate;
-            // var ds = (renewalDate.getMonth() + 1).toString() + "/" +
-            //     renewalDate.getDate().toString() + "/" +
-            //     renewalDate.getFullYear().toString();
-            // TODO:  maybe: read the userData from the server and update only the renewal date
-            // TODO:  could i get here if these this.xxx values blank?
-            const userData = this.getUserDataObject({ renewal: ds });
-            // TODO: same question:  should i remove the userLoggedIn flag before writing?
-            var api: string = this.cpapi.apiURL + "user/" + this.user;
-            // this.conn.checkConnection();
-            let httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
-            let postOptions = { headers: httpHeaders }
-            console.log('before renew post', userData);
-            this.http.post(api, userData, postOptions)
-                .subscribe(data => {
-                    console.log("renewed user");
-                    console.log('returned by renew post', data);
-                    this.saveAuthState();
-                    resolve(true);
-                },
-                    error => {
-                        console.log('renewal post error', error);
-                        alert("There was a problem updating your user information.");
-                        console.log(error);
-                        reject(false);
-                    });
+            const n = new Date(storeDate);  // from store
+            const d = new Date(this.renewal);  // from local user data
+            // check subscription date <> this.renewal, ie
+            //      apple has different date than i have, means
+            //      user renewed w apple, or user got refunded by apple
+            if (n.valueOf() !== d.valueOf()) {
+                // update user on cpapi with renewed subscription date
+                const userData = {
+                    user: this.user,
+                    password: this.password,
+                    key: this.key,
+                    renewal: storeDate,
+                    renewalType: this.renewalType,
+                    clientKey: this.clientKey,
+                    subType: this.subType
+                };
+                this.reportState('before reconcileSubscription');
+                var api: string = this.cpapi.apiURL + "user/" + this.user;
+                // this.conn.checkConnection();
+                let httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
+                let postOptions = { headers: httpHeaders }
+                console.log('before renew post', userData);
+                this.http.post(api, userData, postOptions)
+                    .subscribe(data => {
+                        console.log("renewed user");
+                        console.log('returned by renew post', data);
+                        this.reportState('after reconcileSubscription');
+                        this.saveAuthState();
+                        resolve(true);
+                    },
+                        error => {
+                            console.log('renewal post error', error);
+                            alert("There was a problem updating your user information.");
+                            console.log(error);
+                            reject(false);
+                        });
+            } else {  // update not needed, dates agree
+                resolve(true);
+            }
         });
-    }
-
-    private getUserDataObject(parm: object) {
-        const base = {
-            userLoggedIn: this.userLoggedIn,
-            user: this.user,
-            password: this.password,
-            key: this.key,
-            renewal: this.renewal,
-            renewalType: "auto",
-            clientKey: "keyval",
-            subType: this.subType,
-        };
-        return { ...base, ...parm };
     }
 
     checkUser(user: string): Promise<boolean> {
@@ -437,5 +465,18 @@ export class AuthenticationProvider {
                 .subscribe(data => { resolve(false); },
                     error => { resolve(true); });
         });
+    }
+
+    reportState(msg: string): void {
+        console.log(msg + '-->');
+        console.log('userLoggedIn=', this.userLoggedIn);  // until checkSubscription might override it
+        console.log('user=', this.user);
+        console.log('password=', this.password);
+        console.log('key=', this.key);
+        console.log('renewal=', this.renewal);
+        console.log('renewalType=', this.renewalType);
+        console.log('clientKey=', this.clientKey);
+        console.log('subType=', this.subType);
+        console.log(msg + '<--');
     }
 }
