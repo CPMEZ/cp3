@@ -53,6 +53,8 @@ export class LoginPage {
         this.auth.justLoggedIn = true;
         this.goToWork();
       } else {
+        // goes back to wherever, which would be
+        // careplanpage or wecomepage
         this.navCtrl.pop();
       }
     }
@@ -84,14 +86,15 @@ export class LoginPage {
       catch (err) { console.log('load complete before timeout'); }
     }, 5000);
   }
-
+  
   subscribe() {
     this.navCtrl.push(SubselectPage);
   }
-
+  
   workOffline() {
     // proceed without signing in
     // reset the stack, so that "back" goes to welcome instead of login
+    console.log(this.navCtrl.getViews());
     this.navCtrl.setPages([{ page: WelcomePage }, { page: CarePlanPage }]);
   }
 
