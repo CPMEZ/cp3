@@ -46,7 +46,6 @@ print() {
   }
 
   subscribe() {
-    // alert('Subscribing is not available during initial test');
     this.navCtrl.push(SubselectPage);
   }
 

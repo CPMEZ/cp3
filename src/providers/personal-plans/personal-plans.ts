@@ -378,7 +378,6 @@ export class PersonalPlansProvider {
       this.http.post(api, p)
         .subscribe(data => { console.log("saved to web"); },
           error => {
-            // alert("not saved to web");  // remove for production
             //  if no web connection?
             console.log(error);
           });
