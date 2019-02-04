@@ -44,7 +44,8 @@ export class WelcomePage {
     this.events.unsubscribe('loadComplete');
   }
 
-  goToWork() {
+  workOnline() {
+    console.log('welcome workOnline');
     // this logic repeated in login.ts
     // console.log('loading plans from welcome');
     let loading = this.loadCtrl.create({
@@ -59,7 +60,8 @@ export class WelcomePage {
         // console.log('on loading complete event, plans =', this.PPP.plans);
       }
       catch (err) { console.log('load timeout before complete'); }
-      this.navCtrl.push(CarePlanPage);
+      // this.navCtrl.push(CarePlanPage);
+      this.navCtrl.setPages([{ page: WelcomePage }, { page: CarePlanPage }]);
     })
     // insurance
     setTimeout(() => {
@@ -69,6 +71,16 @@ export class WelcomePage {
       catch (err) { console.log('load complete before timeout'); }
 
     }, 5000);
+  }
+
+  workOffline() {
+    console.log('welcome workOffline');
+    // currently just does workOnline()
+    // but might want to logout, 
+    //    OR set userLoggedIn=false, 
+    //    OR just read local plans, 
+    //    OR ???
+    this.workOnline();
   }
 
   login() {
@@ -97,7 +109,7 @@ export class WelcomePage {
   }
 
    video() {
-    //  window.open("https://marrelli.com/rbapp/rbhowto.mp4", '_system', 'location=yes');
+     window.open("https://marrelli.com/app-support/video/rbhowto.mp4", '_system', 'location=yes');
   }
    previewStd() {
     this.navCtrl.push(SamplePage);

@@ -19,7 +19,7 @@
     <h2 *ngIf="conn.internet && auth.userLoggedIn">Welcome Back! You're logged in as {{auth.user}}.</h2>
   </div>
   <div text-center>
-    <button ion-button *ngIf="conn.internet && auth.userLoggedIn" (click)="goToWork()">
+    <button ion-button *ngIf="conn.internet && auth.userLoggedIn" (click)="workOnline()">
       CONTINUE
     </button>
     <button ion-button *ngIf="conn.internet && !auth.userLoggedIn" (click)="login()">
@@ -29,7 +29,7 @@
       LOG OUT
     </button>
     <h3 *ngIf="!conn.internet">No internet connection? Could not connect to Red Book cloud.</h3>
-    <button ion-button (click)="goToWork()">
+    <button ion-button (click)="workOffline()">
       WORK OFFLINE
     </button>
     <h2 class="underline" *ngIf="conn.internet" (click)="video()">Watch a HOW-TO Video</h2>
