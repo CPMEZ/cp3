@@ -57,7 +57,7 @@ export class SubscribePage {
     this.auth.createSubscription(this.productId)
       .then((a) => { 
         // create sucessful
-        console.log('subscription created=',a);
+        console.log('subscription created a=',a);
         let prompt = this.alertCtrl.create({
           title: 'Set Up Complete!',
           buttons: [{
@@ -76,7 +76,7 @@ export class SubscribePage {
       })
       // create failed
       .catch((b) => {
-        console.log('subscription created=',b);
+        console.log('subscription created b=',b);
         let prompt = this.alertCtrl.create({
           title: 'Problem:',
           message: 'Set up did not complete correctly',
