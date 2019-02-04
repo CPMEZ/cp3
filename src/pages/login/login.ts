@@ -74,7 +74,7 @@ export class LoginPage {
       console.log('got event loadComplete');
       try { loading.dismiss(); }
       catch (err) { console.log('load timeout before complete'); }
-      console.log(this.navCtrl.getViews());
+      // console.log(this.navCtrl.getViews());
       // reset the stack, so that "back" goes to welcome instead of login
       this.navCtrl.setPages([{page: WelcomePage}, {page: CarePlanPage}]);
     })
@@ -94,7 +94,7 @@ export class LoginPage {
   workOffline() {
     // proceed without signing in
     // reset the stack, so that "back" goes to welcome instead of login
-    console.log(this.navCtrl.getViews());
+    // console.log(this.navCtrl.getViews());
     this.navCtrl.setPages([{ page: WelcomePage }, { page: CarePlanPage }]);
   }
 
