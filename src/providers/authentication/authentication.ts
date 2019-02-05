@@ -226,6 +226,13 @@ export class AuthenticationProvider {
             //     productType: (android), receipt: (android), signature: (android) }, ...]
             if (purchases.length > 0) {
                 alert('# purchases=' + purchases.length);
+                var purchValues = "";
+                for (const key in purchases[0]) {
+                    if (purchases[0].hasOwnProperty(key)) {
+                        purchValues += key + ': ' + purchases[0][key] + ', ';
+                    }
+                }
+                alert(purchValues);
                 for (var rp = 0; rp < purchases.length; rp++) {
                     alert('purchase #: ' + rp +
                         purchases[rp]['productId'] + ' ' +
@@ -237,7 +244,8 @@ export class AuthenticationProvider {
                         purchases[rp]['productId'] == 'CP3SubMonthly') {
                         // found one
                         const n = Date.now();
-                        const d = new Date(purchases[rp]['date']);
+                        // d is date of transaction, so add an appropriate duration
+                        const d = this.getExpiration(purchases[rp]['date'], purchases[rp]['productId']);
                         // check current
                         if (d.valueOf() > n.valueOf()) {
                             // found a good one, we can exit (even if there's another good one)
@@ -269,6 +277,34 @@ export class AuthenticationProvider {
         // nothing in purchases,
         //  storeResult will be as initialized
         return storeResult;
+    }
+
+    getExpiration(start: string, subType: string): Date {
+        var exp: Date, d: Date, m: number, y: number;
+        switch (subType) {
+            case 'CP3SubAnnual':
+                d = new Date(start);
+                y = d.getFullYear() + 1;
+                exp = new Date((d.getMonth() + 1) + "/" + d.getDate() + "/" + y.toString());
+                break;
+            case 'CP3SubMonthly':
+                d = new Date(start);
+                m = d.getMonth() + 1 + 1;  // "extra" 1 because getMonth 0-based
+                y = d.getFullYear();
+                // rotate year if needed
+                if (m === 13) { m = 1; y += 1; }
+                exp = new Date((m.toString()) + "/" + d.getDate() + "/" + y.toString());
+                break;
+            default:  // assume monthly
+                d = new Date(start);
+                m = d.getMonth() + 1 + 1;  // "extra" 1 because getMonth 0-based
+                y = d.getFullYear();
+                // rotate year if needed
+                if (m === 13) { m = 1; y += 1; }
+                exp = new Date((m.toString()) + "/" + d.getDate() + "/" + y.toString());
+                break;
+        }
+        return exp;
     }
 
     logout() {
