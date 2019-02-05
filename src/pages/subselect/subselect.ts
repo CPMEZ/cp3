@@ -78,20 +78,29 @@ export class SubselectPage {
         content: 'Purchasing subscription...'
       });
       loading.present();
-      alert(p.productId);
+      alert(p.productId);  // debug on device
       this.iap.subscribe(p.productId)
         .then((data) => {
           loading.dismiss();
           console.log('subscribe success', data);
           this.success = true;
           let prompt = this.alertCtrl.create({
-            title: (rs=='subscribed') ? 'Subscribed!' : 'Renewed!',
+            title: (rs == 'subscribed') ? 'Subscribed!' : 'Renewed!',
             message: 'Welcome to the Red Book.',
             buttons: [{ text: "Continue", role: 'cancel' }]
           });
           prompt.present()
             .then(() => {
-              this.navCtrl.push(SubscribePage, { id: p.productId });
+              if (rs === 'subscribe') {
+                this.navCtrl.push(SubscribePage, { id: p.productId });
+              } else { // ==='renew'
+                // authenticate, go to plans page
+                // authenticate includes reconcileSubscription 
+                //  which will resolve newly-renewed sub
+                this.auth.authenticate().then(() => {
+                  this.navCtrl.setRoot(WelcomePage);
+                });
+              }
             });
         })
         .catch((err) => {
@@ -103,47 +112,54 @@ export class SubselectPage {
             message: 'Unable to complete purchase.',
             buttons: [{ text: "Continue", role: 'cancel' }]
           });
-          prompt.present();
+          prompt.present()
+            .then(() => {
+              // go back to where we came from
+              this.navCtrl.pop();
+            });
         })
-    } else { // TEMP, for mock
-      // MOCK =====================================
-      let loading = this.loadCtrl.create({
-        content: 'Purchasing subscription...'
-      });
-      loading.present();
-      loading.dismiss();
-      console.log('subscribe success');
-      this.success = true;
+    } else {
+      // redirect to the web store, someday?
       let prompt = this.alertCtrl.create({
-        title: (rs == 'subscribed') ? 'Subscribed!' : 'Renewed!',
-        message: 'Welcome to the Red Book.',
+        title: 'Sorry',
+        message: 'You may only subscribe from a mobile device.',
         buttons: [{ text: "Continue", role: 'cancel' }]
       });
       prompt.present()
         .then(() => {
-          if (rs === 'subscribe') {
-            this.navCtrl.push(SubscribePage, { id: p.productId });
-          } else { // ==='renew'
-            // authenticate, go to plans page
-            // authenticate includes reconcileSubscription 
-            //  which will resolve newly-renewed sub
-            this.auth.authenticate().then(() => {
-              this.navCtrl.setRoot(WelcomePage);
-            });
-          }
+          // go back to where we came from
+          this.navCtrl.pop();
         });
-      // MOCK =====================================
     }
-
-    // TEMP comment, this is the real code
-    // } else {
-    //   // redirect to the web store, someday?
-    //   let prompt = this.alertCtrl.create({
-    //     title: 'Sorry',
-    //     message: 'You may only subscribe from a mobile device.',
-    //     buttons: [{ text: "Continue", role: 'cancel' }]
+    // }
+    // MOCK =====================================
+    // for testing on browser
+    // let loading = this.loadCtrl.create({
+    //   content: 'Purchasing subscription...'
+    // });
+    // loading.present();
+    // loading.dismiss();
+    // console.log('subscribe success');
+    // this.success = true;
+    // let prompt = this.alertCtrl.create({
+    //   title: (rs == 'subscribed') ? 'Subscribed!' : 'Renewed!',
+    //   message: 'Welcome to the Red Book.',
+    //   buttons: [{ text: "Continue", role: 'cancel' }]
+    // });
+    // prompt.present()
+    //   .then(() => {
+    //     if (rs === 'subscribe') {
+    //       this.navCtrl.push(SubscribePage, { id: p.productId });
+    //     } else { // ==='renew'
+    //       // authenticate, go to plans page
+    //       // authenticate includes reconcileSubscription 
+    //       //  which will resolve newly-renewed sub
+    //       this.auth.authenticate().then(() => {
+    //         this.navCtrl.setRoot(WelcomePage);
+    //       });
+    //     }
     //   });
-    //   prompt.present();
+    // MOCK =====================================
     // }
   }
 
