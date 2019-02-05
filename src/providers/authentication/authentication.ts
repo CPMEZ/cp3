@@ -19,7 +19,7 @@ interface storeDataType {
 @Injectable()
 export class AuthenticationProvider {
 
-    justLoggedIn: boolean = false;
+    firstTime: boolean = true;
 
     userLoggedIn: boolean = false;
     user: string = "";
@@ -27,8 +27,9 @@ export class AuthenticationProvider {
     key: string = "";
     renewal: string = "";
     renewalType: string = "";
-    clientKey: string = "";  // for payments--TODO, might drop this
+    // subLastVerified: string = "";
     subType: string = "";
+    subState: string = "never";  // current, expired, never; used in subselect to enable 'renew'
 
     WARN_DAYS: number = 5;
 
@@ -42,15 +43,6 @@ export class AuthenticationProvider {
         console.log('Constructor AuthenticationProvider Provider');
         // console.log(plt.platforms);
     }
-
-    async alreadyLoggedIn(): Promise<boolean> {
-        // check already logged in
-        let t = false;
-        const r = await this.readAuthState();
-        if (r) { t = await this.checkSubscription(); }
-        return t;
-    }
-
 
     // 1) check credentials
     // 2) check subscription
@@ -99,7 +91,6 @@ export class AuthenticationProvider {
                     this.key = d['key'];
                     this.renewal = d['renewal'];
                     this.renewalType = d['renewalType'];
-                    this.clientKey = d['clientKey'];
                     this.subType = d['subType'];
                     this.reportState('after getData');
                     this.saveAuthState();
@@ -113,6 +104,7 @@ export class AuthenticationProvider {
         }
         catch (err) {
             console.log('checkCredentials getData.catch', err);
+            alert('UserId or Password not recognized'); 
             this.clearUserData();
             // reset user, in case they just typo'd the pwd
             this.user = user;
@@ -133,7 +125,10 @@ export class AuthenticationProvider {
         const d = new Date(this.renewal);  // from local user data
         const millis = d.valueOf() - n.valueOf();
         const duration: number = Math.trunc(millis / (60 * 60 * 24 * 1000));
-        // only check for renewal if within warn_days of expiring, just to reduce traffic/server load
+        // TODO:  ****in production, need to check this more often/earlier to catch cancelled subs
+        // only check for renewal on some kind of interval, just to reduce traffic/server load
+        // maybe "subLastVerified" in server user data
+
         // [this should preserve the non-apple test subscriptions]
         if (duration < this.WARN_DAYS) {
             // TODO:  android 
@@ -152,12 +147,14 @@ export class AuthenticationProvider {
                         // reconcile local subscription date if needed
                         // TEMP
                         console.log('2: duration<warn, ios, storestate=current');
+                        this.subState = 'current';
                         this.reconcileSubscription(storeData.date);
                         return true;
                     case 'expired':
                         // 3 third test:  test1 has expired (apple-sandbox-2 after 5 minutes)
                         // TEMP
                         console.log('3: duration<warn, ios, storestate=expired');
+                        this.subState = 'expired';
                         alert(
                             "Your subscription to Marrelli's Red Book Care Plans has expired.  " +
                             "Please renew to continue building Red Book-based Care Plans.  " +
@@ -169,6 +166,7 @@ export class AuthenticationProvider {
                         // eg 2/4, 5/19
                         // TEMP
                         console.log('1: duration<warn, ios, storestate=never');
+                        this.subState = 'never';
                         alert(
                             "Shouldn't have reached this point with good credentials but " +
                             "no valid store subscription.  You must be a beta tester.  :)");
@@ -204,8 +202,8 @@ export class AuthenticationProvider {
     async mockCheckStore(): Promise<storeDataType> {
         return {
             subscription: 'CP3SubMonthly',
-            state: 'current',
-            date: '2/8/2020'
+            state: 'expired',
+            date: '2/2/2019'
         } as storeDataType;
     }
 
@@ -273,6 +271,8 @@ export class AuthenticationProvider {
     }
 
     logout() {
+        // reset firstTime, for use in welcome (??)
+        this.firstTime = true;
         // save the user id, just for user convenience in re-logging in
         const uid = this.user;
         this.clearUserData();
@@ -289,8 +289,8 @@ export class AuthenticationProvider {
         this.key = "";
         this.renewal = "";
         this.renewalType = "";
-        this.clientKey = ""; // for payments--TODO, might drop this
         this.subType = "";
+        this.subState = "";  // TODO:  this might cause a problem, i added after testing code for subState
     }
 
     readAuthState(): Promise<boolean> {
@@ -306,7 +306,6 @@ export class AuthenticationProvider {
                         this.key = state['key'];
                         this.renewal = state['renewal'];
                         this.renewalType = state['renewalType'];
-                        this.clientKey = state['clientKey'];
                         this.subType = state['subType'];
                     } else {
                         this.clearUserData();
@@ -326,7 +325,6 @@ export class AuthenticationProvider {
             key: this.key,
             renewal: this.renewal,
             renewalType: this.renewalType,
-            clientKey: this.clientKey,
             subType: this.subType
         }
         const s = this.encrypt(state, STATE_ENCRYPT_KEY);
@@ -384,7 +382,6 @@ export class AuthenticationProvider {
                 key: this.key,
                 renewal: ds,
                 renewalType: this.renewalType,
-                clientKey: this.clientKey,
                 subType: productId
             };
             // this.getUserDataObject({ renewal: ds });
@@ -427,7 +424,6 @@ export class AuthenticationProvider {
                     key: this.key,
                     renewal: storeDate,
                     renewalType: this.renewalType,
-                    clientKey: this.clientKey,
                     subType: this.subType
                 };
                 this.reportState('before reconcileSubscription');
@@ -474,9 +470,9 @@ export class AuthenticationProvider {
         console.log('password=', this.password);
         console.log('key=', this.key);
         console.log('renewal=', this.renewal);
-        console.log('renewalType=', this.renewalType);
-        console.log('clientKey=', this.clientKey);
+        // console.log('renewalType=', this.renewalType);
         console.log('subType=', this.subType);
-        console.log(msg + '<--');
+        console.log('subState=', this.subState);
+        console.log('<--' + msg);
     }
 }
