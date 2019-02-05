@@ -34,9 +34,10 @@ export class LoginPage {
     console.log('Login constructor: user', this.userId);
     conn.checkConnection();
   }
-
+  
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
+    this.pwd = '';  // ensure local pwd not retained from prior uses
   }
 
   ionViewWillLeave() {
@@ -50,12 +51,16 @@ export class LoginPage {
     try {
       await this.auth.authenticate();
       if (this.auth.userLoggedIn) {
-        this.auth.justLoggedIn = true;
         this.goToWork();
       } else {
+        // OR just stay here, make 'em go back on their own
+        // BUT they may want to choose subscribe, if log in failed
+        // AND might have failed bc expired
+
+        
         // goes back to wherever, which would be
         // careplanpage or wecomepage
-        this.navCtrl.pop();
+        // this.navCtrl.pop();
       }
     }
     catch (err) { alert('UserId or Password not recognized'); }
