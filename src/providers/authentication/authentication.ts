@@ -26,7 +26,6 @@ export class AuthenticationProvider {
     password: string = "";
     key: string = "";
     renewal: string = "";
-    renewalType: string = "";
     // subLastVerified: string = "";
     subType: string = "";
     subState: string = "never";  // current, expired, never; used in subselect to enable 'renew'
@@ -90,7 +89,6 @@ export class AuthenticationProvider {
                     this.user = d['user'];
                     this.key = d['key'];
                     this.renewal = d['renewal'];
-                    this.renewalType = d['renewalType'];
                     this.subType = d['subType'];
                     this.reportState('after getData');
                     this.saveAuthState();
@@ -291,7 +289,6 @@ export class AuthenticationProvider {
         this.password = "";
         this.key = "";
         this.renewal = "";
-        this.renewalType = "";
         this.subType = "";
         this.subState = "";  // TODO:  this might cause a problem, i added after testing code for subState
     }
@@ -308,7 +305,6 @@ export class AuthenticationProvider {
                         this.password = state['password'];
                         this.key = state['key'];
                         this.renewal = state['renewal'];
-                        this.renewalType = state['renewalType'];
                         this.subType = state['subType'];
                     } else {
                         this.clearUserData();
@@ -327,7 +323,6 @@ export class AuthenticationProvider {
             password: this.password,
             key: this.key,
             renewal: this.renewal,
-            renewalType: this.renewalType,
             subType: this.subType
         }
         const s = this.encrypt(state, STATE_ENCRYPT_KEY);
@@ -384,7 +379,6 @@ export class AuthenticationProvider {
                 password: this.password,
                 key: this.key,
                 renewal: ds,
-                renewalType: this.renewalType,
                 subType: productId
             };
             // this.getUserDataObject({ renewal: ds });
@@ -426,7 +420,6 @@ export class AuthenticationProvider {
                     password: this.password,
                     key: this.key,
                     renewal: storeDate,
-                    renewalType: this.renewalType,
                     subType: this.subType
                 };
                 this.reportState('before reconcileSubscription');
@@ -473,7 +466,6 @@ export class AuthenticationProvider {
         console.log('password=', this.password);
         console.log('key=', this.key);
         console.log('renewal=', this.renewal);
-        // console.log('renewalType=', this.renewalType);
         console.log('subType=', this.subType);
         console.log('subState=', this.subState);
         console.log('<--' + msg);
