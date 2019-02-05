@@ -1,22 +1,24 @@
 <ion-header>
-
   <ion-navbar class="navbarStyle" color="primary">
     <ion-title>Subscribe</ion-title>
   </ion-navbar>
-
 </ion-header>
 
-
 <ion-content padding>
-  <ion-item no-lines *ngIf="auth.userLoggedIn">
+  <ion-item no-lines *ngIf="auth.userLoggedIn && auth.subState=='current'">
     <h1>You're already subscribed, logged in, and ready to go.</h1>
   </ion-item>
-  <ion-item no-lines *ngIf="!auth.userLoggedIn">
+  <ion-item no-lines *ngIf="auth.subState=='expired'">
+    <h1>Your subscription has expired.  Choose 'Renew' to re-subscribe with your existing user ID.</h1>
+  </ion-item>
+  <ion-item no-lines *ngIf="!auth.userLoggedIn && auth.subState=='never'">
     <h1>Subscribe to use Red Book Care Plan content.</h1>
-
+  </ion-item>
+  <ion-item no-lines *ngIf="!auth.userLoggedIn">
     <div ion-item no-lines *ngFor="let p of products" class="hilite">
       <div>{{p.title}} {{p.price}}
-        <button ion-button (click)="subscribe(p)">Purchase</button>
+        <button *ngIf="auth.subState=='never'" ion-button (click)="subscribe(p, 'subscribe')">Purchase</button>
+        <button *ngIf="auth.subState=='expired'" ion-button (click)="subscribe(p, 'renew')">Renew</button>
       </div>
     </div>
   </ion-item>
@@ -66,7 +68,7 @@
   <ion-item no-lines *ngIf="!auth.userLoggedIn">
     <!-- <div (click)="test()"> -->
     <div>
-      After tapping <span class="hilite">Purchase</span> you will confirm your purchase with the Store.
+      After tapping <span *ngIf="auth.subState!='expired'" class="hilite">Purchase</span> <span *ngIf="auth.subState=='expired'" class="hilite">Renew</span> you will confirm your purchase with the Store.
     </div>
   </ion-item>
   <ion-item no-lines *ngIf="!auth.userLoggedIn">
