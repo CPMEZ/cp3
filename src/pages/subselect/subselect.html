@@ -17,8 +17,8 @@
   <ion-item no-lines *ngIf="!auth.userLoggedIn">
     <div ion-item no-lines *ngFor="let p of products" class="hilite">
       <div>{{p.title}} {{p.price}}
-        <button *ngIf="auth.subState=='never'" ion-button (click)="subscribe(p, 'subscribe')">Purchase</button>
-        <button *ngIf="auth.subState=='expired'" ion-button (click)="subscribe(p, 'renew')">Renew</button>
+        <button ion-button (click)="subscribe(p, 'subscribe')">Purchase</button>
+        <!-- <button *ngIf="auth.subState=='expired'" ion-button (click)="subscribe(p, 'renew')">Renew</button> -->
       </div>
     </div>
   </ion-item>
@@ -68,7 +68,7 @@
   <ion-item no-lines *ngIf="!auth.userLoggedIn">
     <!-- <div (click)="test()"> -->
     <div>
-      After tapping <span *ngIf="auth.subState!='expired'" class="hilite">Purchase</span> <span *ngIf="auth.subState=='expired'" class="hilite">Renew</span> you will confirm your purchase with the Store.
+      After tapping <span class="hilite">Purchase</span> you will confirm your purchase with the Store.
     </div>
   </ion-item>
   <ion-item no-lines *ngIf="!auth.userLoggedIn">
