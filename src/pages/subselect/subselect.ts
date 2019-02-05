@@ -5,6 +5,7 @@ import { InAppPurchase } from '@ionic-native/in-app-purchase';
 import { SubscribePage } from '../subscribe/subscribe';
 import { TermsPage } from '../terms/terms';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
+import { WelcomePage } from '../welcome/welcome';
 
 @IonicPage()
 @Component({
@@ -43,6 +44,7 @@ export class SubselectPage {
   }
 
   mockInitStore() {
+    console.log('mockInitStore');
     this.products = [
       {
         title: 'CP3SubAnnual',
@@ -68,12 +70,9 @@ export class SubselectPage {
     }
   }
 
-  subscribe(p) {
+  subscribe(p, rs) {
     // check:
-    // current subscription
-    // expired subscription
     // can make payments--if not, don't show the subscribe at all
-    // TODO also check for active internet connection
     if (this.plt.is('cordova')) {
       let loading = this.loadCtrl.create({
         content: 'Purchasing subscription...'
@@ -86,7 +85,7 @@ export class SubselectPage {
           console.log('subscribe success', data);
           this.success = true;
           let prompt = this.alertCtrl.create({
-            title: 'Subscribed!',
+            title: (rs=='subscribed') ? 'Subscribed!' : 'Renewed!',
             message: 'Welcome to the Red Book.',
             buttons: [{ text: "Continue", role: 'cancel' }]
           });
@@ -116,14 +115,23 @@ export class SubselectPage {
       console.log('subscribe success');
       this.success = true;
       let prompt = this.alertCtrl.create({
-        title: 'Subscribed!',
+        title: (rs == 'subscribed') ? 'Subscribed!' : 'Renewed!',
         message: 'Welcome to the Red Book.',
         buttons: [{ text: "Continue", role: 'cancel' }]
       });
       prompt.present()
-      .then(() => {
-        this.navCtrl.push(SubscribePage, { id: p.productId });
-      });
+        .then(() => {
+          if (rs === 'subscribe') {
+            this.navCtrl.push(SubscribePage, { id: p.productId });
+          } else { // ==='renew'
+            // authenticate, go to plans page
+            // authenticate includes reconcileSubscription 
+            //  which will resolve newly-renewed sub
+            this.auth.authenticate().then(() => {
+              this.navCtrl.setRoot(WelcomePage);
+            });
+          }
+        });
       // MOCK =====================================
     }
 
@@ -139,11 +147,11 @@ export class SubselectPage {
     // }
   }
 
-  test() {
-    // if (this.plt.is('browser')) {
-    this.navCtrl.push(SubscribePage, { id: 'CP3SubMonthly' });
-    // }
-  }
+  // test() {
+  //   // if (this.plt.is('browser')) {
+  //   this.navCtrl.push(SubscribePage, { id: 'CP3SubMonthly' });
+  //   // }
+  // }
 
   cancelEdit() {
     this.navCtrl.pop();
