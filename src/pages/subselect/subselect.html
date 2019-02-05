@@ -11,7 +11,7 @@
   <ion-item no-lines *ngIf="auth.subState=='expired'">
     <h1>Your subscription has expired.  Choose 'Renew' to re-subscribe with your existing user ID.</h1>
   </ion-item>
-  <ion-item no-lines *ngIf="!auth.userLoggedIn && auth.subState=='never'">
+  <ion-item no-lines *ngIf="(!auth.userLoggedIn) && (auth.subState!='current') && (auth.subState!='expired')">
     <h1>Subscribe to use Red Book Care Plan content.</h1>
   </ion-item>
   <ion-item no-lines *ngIf="!auth.userLoggedIn">
