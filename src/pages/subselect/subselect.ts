@@ -32,6 +32,7 @@ export class SubselectPage {
     private alertCtrl: AlertController,
     private plt: Platform,
     private iap: InAppPurchase) {
+      this.auth.reportState('constructor subselect');
     if (this.plt.is('cordova')) {
       this.initStore();
     } else {

@@ -28,7 +28,7 @@ export class AuthenticationProvider {
     renewal: string = "";
     // subLastVerified: string = "";
     subType: string = "";
-    subState: string = "never";  // current, expired, never; used in subselect to enable 'renew'
+    subState: string = 'never';  // current, expired, never; used in subselect to enable 'renew'
 
     WARN_DAYS: number = 5;
 
@@ -48,7 +48,6 @@ export class AuthenticationProvider {
     // 3) reconcile subscription
     async authenticate(): Promise<boolean> {
         console.log('authenticate', this.user, this.password);
-        this.reportState('authenticate before getUserData');
         var goodCredentials = await this.getUserData(this.user, this.password);
         if (goodCredentials) {
             // check subscription
@@ -56,18 +55,15 @@ export class AuthenticationProvider {
             if (goodSubscription) {
                 alert('good subscription');
                 this.userLoggedIn = true;
-                this.reportState('authenticate after goodSubscription');
                 return true;
             } else {
                 alert('bad subscription');
                 this.userLoggedIn = false;
-                this.reportState('authenticate after badSubscription');
                 return false;
             }
         } else {
             alert('bad credentials');
             this.userLoggedIn = false;
-            this.reportState('authenticate after bad credentials');
             return false;
         }
     }
@@ -90,7 +86,6 @@ export class AuthenticationProvider {
                     this.key = d['key'];
                     this.renewal = d['renewal'];
                     this.subType = d['subType'];
-                    this.reportState('after getData');
                     this.saveAuthState();
                     return true;
                 } else {  // no data, bad credentials
@@ -137,6 +132,8 @@ export class AuthenticationProvider {
             //     let storeData: storeDataType = await this.mockCheckStore();
             // MOCK ****************************************************
             // if not on ios, no need to check "with apple"
+            // console.log(this.plt.platforms());  // all of a sudden this returns ios when on --lab, 
+            //                                          therefore does case 1 vs cases 4 or 5, but doesn't matter
             if (this.plt.is('ios')) {
                 let storeData: storeDataType = await this.checkStore();
                 switch (storeData.state) {
@@ -144,14 +141,15 @@ export class AuthenticationProvider {
                         // 2 second test:  test1 has not expired (apple-sandbox-2 within 5 minutes)
                         // reconcile local subscription date if needed
                         // TEMP
-                        console.log('2: duration<warn, ios, storestate=current');
+                        alert('2: duration<warn, ios, storestate=current');
                         this.subState = 'current';
+                        this.subType = storeData.subscription;
                         this.reconcileSubscription(storeData.date);
                         return true;
                     case 'expired':
                         // 3 third test:  test1 has expired (apple-sandbox-2 after 5 minutes)
                         // TEMP
-                        console.log('3: duration<warn, ios, storestate=expired');
+                        alert('3: duration<warn, ios, storestate=expired');
                         this.subState = 'expired';
                         alert(
                             "Your subscription to Marrelli's Red Book Care Plans has expired.  " +
@@ -163,7 +161,7 @@ export class AuthenticationProvider {
                         // have to set up to be duration < warn days to reach here
                         // eg 2/4, 5/19
                         // TEMP
-                        console.log('1: duration<warn, ios, storestate=never');
+                        alert('1: duration<warn, ios, storestate=never');
                         this.subState = 'never';
                         alert(
                             "Shouldn't have reached this point with good credentials but " +
@@ -234,12 +232,6 @@ export class AuthenticationProvider {
                 }
                 alert(purchValues);
                 for (var rp = 0; rp < purchases.length; rp++) {
-                    alert('purchase #: ' + rp +
-                        purchases[rp]['productId'] + ' ' +
-                        'state: ' + purchases[rp]['state'] + ' ' +
-                        'date: ' + purchases[rp]['date'] + ' ' +
-                        'transId: ' + purchases[rp]['transactionId']
-                    )
                     if (purchases[rp]['productId'] == 'CP3SubAnnual' ||
                         purchases[rp]['productId'] == 'CP3SubMonthly') {
                         // found one
@@ -267,6 +259,8 @@ export class AuthenticationProvider {
                         }
                     }
                 }
+            } else {  // no purchases retrieved
+                // returns default storeResult:  state: 'never'
             }
         }
         catch (err) {
@@ -285,7 +279,7 @@ export class AuthenticationProvider {
             case 'CP3SubAnnual':
                 d = new Date(start);
                 y = d.getFullYear() + 1;
-                exp = new Date((d.getMonth() + 1) + "/" + d.getDate() + "/" + y.toString());
+                exp = new Date((d.getMonth() + 1) + "/" + d.getDate().toString() + "/" + y.toString());
                 break;
             case 'CP3SubMonthly':
                 d = new Date(start);
@@ -293,7 +287,7 @@ export class AuthenticationProvider {
                 y = d.getFullYear();
                 // rotate year if needed
                 if (m === 13) { m = 1; y += 1; }
-                exp = new Date((m.toString()) + "/" + d.getDate() + "/" + y.toString());
+                exp = new Date((m.toString()) + "/" + d.getDate().toString() + "/" + y.toString());
                 break;
             default:  // assume monthly
                 d = new Date(start);
@@ -301,7 +295,7 @@ export class AuthenticationProvider {
                 y = d.getFullYear();
                 // rotate year if needed
                 if (m === 13) { m = 1; y += 1; }
-                exp = new Date((m.toString()) + "/" + d.getDate() + "/" + y.toString());
+                exp = new Date((m.toString()) + "/" + d.getDate().toString() + "/" + y.toString());
                 break;
         }
         return exp;
@@ -382,42 +376,43 @@ export class AuthenticationProvider {
         return new Promise((resolve, reject) => {
             // set up a new user on cpapi
             // console.log("createSubscription");
-            // TODO: encrypt user data 
-            var renewalDate = new Date(Date.now());
+            // TODO: encrypt user data
+            var baseDate = new Date(Date.now());
+            const strNow = (baseDate.getMonth() + 1) + '/' + baseDate.getDate() + '/' + baseDate.getFullYear();
+            var renewalDate = this.getExpiration(strNow, productId);
             // TODO we'll later change to store validateReceipt to determine && see below also
-            renewalDate.setDate(renewalDate.getDate());
-            var ds;
-            var month = renewalDate.getMonth() + 1;  // getMonth is 0-based, make 1-based
-            var year = renewalDate.getFullYear();
-            switch (productId) { // match values in subselect.ts.initStore()
-                case 'CP3SubMonthly':
-                    // expires next month
-                    month += 1;
-                    if (month === 13) {
-                        // end of year, make jan next year
-                        month = 1;
-                        year += 1;
-                    }
-                    break;
-                case 'CP3SubAnnual':
-                    // expires same date next year
-                    year += 1;
-                    break;
-                default:
-                    break;
-            }
-            ds = month.toString() + "/" +
-                renewalDate.getDate().toString() + "/" +
-                year.toString();
-            this.reportState('before createSubscription');
+            // renewalDate.setDate(renewalDate.getDate());
+            // var ds;
+            // var month = renewalDate.getMonth() + 1;  // getMonth is 0-based, make 1-based
+            // var year = renewalDate.getFullYear();
+            // switch (productId) { // match values in subselect.ts.initStore()
+            //     case 'CP3SubMonthly':
+            //         // expires next month
+            //         month += 1;
+            //         if (month === 13) {
+            //             // end of year, make jan next year
+            //             month = 1;
+            //             year += 1;
+            //         }
+            //         break;
+            //     case 'CP3SubAnnual':
+            //         // expires same date next year
+            //         year += 1;
+            //         break;
+            //     default:
+            //         break;
+            // }
+            // ds = month.toString() + "/" +
+            //     renewalDate.getDate().toString() + "/" +
+            //     year.toString();
             const userData = {
                 user: this.user,
                 password: this.password,
                 key: this.key,
-                renewal: ds,
+                // renewal: ds,
+                renewal: renewalDate,
                 subType: productId
             };
-            // this.getUserDataObject({ renewal: ds });
             // remove the userLoggedIn flag? 
             var api: string = this.cpapi.apiURL + "user/" + this.user;
             let httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -425,13 +420,9 @@ export class AuthenticationProvider {
             console.log('before new user post', userData);
             this.http.post(api, userData, postOptions)
                 .subscribe(data => {
-                    console.log("saved user");
-                    console.log('returned from new user post', data);
-                    this.reportState('after createSubscription');
                     resolve(true);
                 },
                     error => {
-                        console.log('new user post error', error);
                         alert("There was a problem saving or restoring your user information.");
                         console.log(error);
                         reject(false);
@@ -443,7 +434,7 @@ export class AuthenticationProvider {
         // TODO:  maybe: read the userData from the server and update only the renewal date
         return new Promise((resolve, reject) => {
             console.log("renewSubscription");
-            // TODO: encrypt user data 
+            // TODO: encrypt user data
             const n = new Date(storeDate);  // from store
             const d = new Date(this.renewal);  // from local user data
             // check subscription date <> this.renewal, ie
@@ -455,10 +446,9 @@ export class AuthenticationProvider {
                     user: this.user,
                     password: this.password,
                     key: this.key,
-                    renewal: storeDate,
+                    renewal: this.getExpiration(storeDate, this.subType),  // computed end of sub
                     subType: this.subType
                 };
-                this.reportState('before reconcileSubscription');
                 var api: string = this.cpapi.apiURL + "user/" + this.user;
                 // this.conn.checkConnection();
                 let httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -466,14 +456,10 @@ export class AuthenticationProvider {
                 console.log('before renew post', userData);
                 this.http.post(api, userData, postOptions)
                     .subscribe(data => {
-                        console.log("renewed user");
-                        console.log('returned by renew post', data);
-                        this.reportState('after reconcileSubscription');
                         this.saveAuthState();
                         resolve(true);
                     },
                         error => {
-                            console.log('renewal post error', error);
                             alert("There was a problem updating your user information.");
                             console.log(error);
                             reject(false);
@@ -496,14 +482,26 @@ export class AuthenticationProvider {
     }
 
     reportState(msg: string): void {
-        console.log(msg + '-->');
-        console.log('userLoggedIn=', this.userLoggedIn);  // until checkSubscription might override it
-        console.log('user=', this.user);
-        console.log('password=', this.password);
-        console.log('key=', this.key);
-        console.log('renewal=', this.renewal);
-        console.log('subType=', this.subType);
-        console.log('subState=', this.subState);
-        console.log('<--' + msg);
+        if (this.plt.is('cordova')) {
+            const st = msg + '-->' +
+                'userLoggedIn=' + this.userLoggedIn + ' ' +
+                'user=' + this.user + ' ' +
+                'password=' + this.password + ' ' +
+                'key=' + this.key + ' ' +
+                'renewal=' + this.renewal + ' ' +
+                'subType=' + this.subType + ' ' +
+                'subState=' + this.subState;
+            alert(st);
+        } else {
+            console.log(msg + '-->');
+            console.log('userLoggedIn=', this.userLoggedIn);  // until checkSubscription might override it
+            console.log('user=', this.user);
+            console.log('password=', this.password);
+            console.log('key=', this.key);
+            console.log('renewal=', this.renewal);
+            console.log('subType=', this.subType);
+            console.log('subState=', this.subState);
+            console.log('<--' + msg);
+        }
     }
 }
