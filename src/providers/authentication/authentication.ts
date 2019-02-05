@@ -104,7 +104,7 @@ export class AuthenticationProvider {
         }
         catch (err) {
             console.log('checkCredentials getData.catch', err);
-            alert('UserId or Password not recognized'); 
+            alert('UserId or Password not recognized');
             this.clearUserData();
             // reset user, in case they just typo'd the pwd
             this.user = user;
@@ -135,12 +135,12 @@ export class AuthenticationProvider {
             // check to see if user has re-upped via app store
             // verify with apple first
             // MOCK ****************************************************
-            if (1 === 1) {
-                let storeData: storeDataType = await this.mockCheckStore();
-                // MOCK ****************************************************
-                // if not on ios, no need to check "with apple"
-                // if (this.plt.is('ios')) {
-                //     let storeData: storeDataType = await this.checkStore();
+            // if (1 === 1) {
+            //     let storeData: storeDataType = await this.mockCheckStore();
+            // MOCK ****************************************************
+            // if not on ios, no need to check "with apple"
+            if (this.plt.is('ios')) {
+                let storeData: storeDataType = await this.checkStore();
                 switch (storeData.state) {
                     case 'current':
                         // 2 second test:  test1 has not expired (apple-sandbox-2 within 5 minutes)
@@ -201,9 +201,12 @@ export class AuthenticationProvider {
 
     async mockCheckStore(): Promise<storeDataType> {
         return {
-            subscription: 'CP3SubMonthly',
-            state: 'expired',
-            date: '2/2/2019'
+            subscription: '',
+            state: 'never',
+            date: ''
+            // subscription: 'CP3SubMonthly',
+            // state: 'expired',
+            // date: '2/2/2019'
         } as storeDataType;
     }
 
