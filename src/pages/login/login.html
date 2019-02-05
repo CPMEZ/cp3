@@ -24,7 +24,7 @@
     <div>No internet connection? Could not connect to Red Book cloud.</div>
   </ion-item>
   <ion-item no-lines *ngIf="conn.internet">
-    <button ion-button (click)="login()">LOG IN</button><br>
+    <button ion-button [disabled]="!(pwd && userId)" (click)="login()">LOG IN</button><br>
     <div>Log in to your Red Book account.</div>
   </ion-item>
   <br><br>
