@@ -13,7 +13,8 @@ const STATE_ENCRYPT_KEY = 'A little life with dried tubers'  // ts eliot the was
 interface storeDataType {
     subscription: string,
     state: string,
-    date: string
+    date: string,
+    expDate: string
 }
 
 @Injectable()
@@ -43,14 +44,10 @@ export class AuthenticationProvider {
         // console.log(plt.platforms);
     }
 
-    // 1) check credentials
-    // 2) check subscription
-    // 3) reconcile subscription
     async authenticate(): Promise<boolean> {
         console.log('authenticate', this.user, this.password);
         var goodCredentials = await this.getUserData(this.user, this.password);
         if (goodCredentials) {
-            // check subscription
             var goodSubscription = await this.checkSubscription();
             if (goodSubscription) {
                 // alert('good subscription');
@@ -70,10 +67,8 @@ export class AuthenticationProvider {
 
     async getUserData(user: string, pwd: string): Promise<boolean> {
         console.log('getUserData');
-        var path = this.cpapi.apiURL + "user/" + this.user + "?p=" + this.password;
-        if ((!user) || (!pwd)) {
-            return false;
-        }
+        var path = this.cpapi.apiURL + "user/" + user + "?p=" + pwd;
+        if ((!user) || (!pwd)) { return false; }
         try {
             let data = await this.cpapi.getData(path);
             if (!!data) {
@@ -110,8 +105,6 @@ export class AuthenticationProvider {
         console.log('checkSubscription');
         // check even if supposed to be auto-renew, as user may have cancelled
 
-        // if (!this.userLoggedIn) return (false);
-
         // if not logged in, renewal irrelevant and/or this.renewal will be absent
         // if logged in, the this.xxx values should be populated
         const n = Date.now();
@@ -129,28 +122,25 @@ export class AuthenticationProvider {
             // verify with apple first
             // MOCK ****************************************************
             // if (1 === 1) {
-            //     let storeData: storeDataType = await this.mockCheckStore();
+            //     let storeData: storeDataType = await this.mockCheckStore2();
             // MOCK ****************************************************
             // if not on ios, no need to check "with apple"
             // console.log(this.plt.platforms());  // all of a sudden this returns ios when on --lab, 
             //                                          therefore does case 1 vs cases 4 or 5, but doesn't matter
             if (this.plt.is('ios')) {
                 let storeData: storeDataType = await this.checkStore();
+                this.subState = storeData.state;
+                this.subType = storeData.subscription;
                 switch (storeData.state) {
                     case 'current':
                         // 2 second test:  test1 has not expired (apple-sandbox-2 within 5 minutes)
+                        alert('2: duration<warn, ios, storestate=current');
                         // reconcile local subscription date if needed
-                        // TEMP
-                        // alert('2: duration<warn, ios, storestate=current');
-                        this.subState = 'current';
-                        this.subType = storeData.subscription;
-                        this.reconcileSubscription(storeData.date);
+                        this.reconcileSubscription(storeData.expDate);
                         return true;
                     case 'expired':
                         // 3 third test:  test1 has expired (apple-sandbox-2 after 5 minutes)
-                        // TEMP
-                        // alert('3: duration<warn, ios, storestate=expired');
-                        this.subState = 'expired';
+                        alert('3: duration<warn, ios, storestate=expired');
                         alert(
                             "Your subscription to Marrelli's Red Book Care Plans has expired.  " +
                             "Please renew to continue building Red Book-based Care Plans.  " +
@@ -160,9 +150,7 @@ export class AuthenticationProvider {
                         // 1 first test:  test1 has no apple subscription (apple-sandbox-2)
                         // have to set up to be duration < warn days to reach here
                         // eg 2/4, 5/19
-                        // TEMP
-                        // alert('1: duration<warn, ios, storestate=never');
-                        this.subState = 'never';
+                        alert('1: duration<warn, ios, storestate=never');
                         alert(
                             "Shouldn't have reached this point with good credentials but " +
                             "no valid store subscription.  You must be a beta tester.  :)");
@@ -172,16 +160,14 @@ export class AuthenticationProvider {
                 }
             } else {  // not ios, using server data, not store
                 if (duration < 0) {
-                    // TEMP
-                    // alert('4: duration<0, NOT ios');
+                    alert('4: duration<0, NOT ios');
                     alert(
                         "Your subscription to Marrelli's Red Book Care Plans has expired.  " +
                         "Please renew to continue building Red Book-based Care Plans.  " +
                         "Choose WORK OFFLINE to continue without renewing.");
                     return false;
                 } else { // ie, 0 < duration < warn_days
-                    // TEMP
-                    // alert('5: duration<warn, NOT ios');
+                    alert('5: duration<warn, NOT ios');
                     alert(
                         "Your subscription to Marrelli's Red Book Care Plans expires in " + (duration + 1).toString() + " days." +
                         "  It will automatically renew 24 hrs before expiration, unless you cancel.");
@@ -190,21 +176,11 @@ export class AuthenticationProvider {
             }
         } else {
             // 6 test_ expires > 5 days
-            // alert('6: duration >= warn');
+            alert('6: duration >= warn');
             return true;
         }
     }
 
-    async mockCheckStore(): Promise<storeDataType> {
-        return {
-            subscription: '',
-            state: 'never',
-            date: ''
-            // subscription: 'CP3SubMonthly',
-            // state: 'expired',
-            // date: '2/2/2019'
-        } as storeDataType;
-    }
 
     async checkStore(): Promise<storeDataType> {
         console.log('checkStore');
@@ -215,50 +191,37 @@ export class AuthenticationProvider {
 
         // initialize to not found
         let storeResult: storeDataType
-            = { subscription: 'none', state: 'never', date: '' };
+            = { subscription: 'none', state: 'never', date: '', expDate: '' };
         try {
             let purchases = await this.iap.restorePurchases()
-            // alert('got purchases');
-            // see if a valid one of mine in the list
             // [ { productId:, state: (android), transactionId:, date:, 
             //     productType: (android), receipt: (android), signature: (android) }, ...]
             if (purchases.length > 0) {
-                // alert('# purchases=' + purchases.length);
-                // var purchValues = "";
-                // for (const key in purchases[0]) {
-                //     if (purchases[0].hasOwnProperty(key)) {
-                //         purchValues += key + ': ' + purchases[0][key] + ', ';
-                //     }
-                // }
-                // alert(purchValues);
-                for (var rp = 0; rp < purchases.length; rp++) {
-                    if (purchases[rp]['productId'] == 'CP3SubAnnual' ||
-                        purchases[rp]['productId'] == 'CP3SubMonthly') {
-                        // found one
-                        const n = Date.now();
-                        // d is date of transaction, so add an appropriate duration
-                        const d = this.getExpiration(purchases[rp]['date'], purchases[rp]['productId']);
-                        // check current
-                        if (d.valueOf() > n.valueOf()) {
-                            // found a good one, we can exit (even if there's another good one)
-                            // shouldn't we take the latest good one?
-                            // alert('good one ' + purchases[rp]['productId']);
-                            storeResult = {
-                                subscription: purchases[rp]['productId'],
-                                state: 'current',
-                                date: purchases[rp]['date']
-                            };
-                            break;
-                        } else {
-                            // found an expired one, note but keep looking
-                            // alert('expired ' + purchases[rp]['productId']);
-                            storeResult = {
-                                subscription: purchases[rp]['productId'],
-                                state: 'expired',
-                                date: purchases[rp]['date']
-                            };
-                        }
-                    }
+                // filter for my types only
+                const myTypes = ['CP3SubAnnual', 'CP3SubMonthly'];
+                let fp = purchases.filter(x => myTypes.indexOf(x['productId']) !== -1);
+                // add expiration date -- using this to compare equalizes monthly and annual purchases
+                fp.forEach(x => x['expDate'] = this.getExpiration(x['date'], x['productId']));
+                // reduce to latest expiring-purchase only
+                const latestExpPurchase = fp.reduce((a, b) => (a['expDate'] > b['expDate']) ? a : b);
+                if (latestExpPurchase['expDate'] > Date.now()) {
+                    // good subscription
+                    console.log('good subscription');
+                    storeResult = {
+                        subscription: latestExpPurchase['productId'],
+                        state: 'current',
+                        date: latestExpPurchase['date'],
+                        expDate: latestExpPurchase['expDate']  // this is making an explicit conversion to ISOString
+                    };
+                } else {
+                    // expired subscription
+                    console.log('expired subscription');
+                    storeResult = {
+                        subscription: latestExpPurchase['productId'],
+                        state: 'expired',
+                        date: latestExpPurchase['date'],
+                        expDate: latestExpPurchase['expDate']  // this is making an explicit conversion to ISOString
+                    };
                 }
             } else {  // no purchases retrieved
                 // returns default storeResult:  state: 'never'
@@ -278,16 +241,18 @@ export class AuthenticationProvider {
         var exp: Date, d: Date;
         // days-in-month ignores leap years, let store worry about it
         const dIM = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+        const day = 24 * 60 * 60 * 1000;
+        const year = 365 * day;
         d = new Date(start);
         switch (subType) {
             case 'CP3SubAnnual':
-                exp.setDate(d.getDate() + 365);
+                exp = new Date(d.valueOf() + year);
                 break;
             case 'CP3SubMonthly':
-                exp.setDate(d.getDate() + dIM[d.getMonth()]);
+                exp = new Date(d.valueOf() + (dIM[d.getMonth()] * day));
                 break;
             default:  // assume monthly
-                exp.setDate(d.getDate() + dIM[d.getMonth()]);
+                exp = new Date(d.valueOf() + (dIM[d.getMonth()] * day));
                 break;
         }
         return exp;
@@ -378,7 +343,7 @@ export class AuthenticationProvider {
                 password: this.password,
                 key: this.key,
                 // renewal: ds,
-                renewal: renewalDate,
+                renewal: renewalDate.toISOString(),
                 subType: productId
             };
             // remove the userLoggedIn flag? 
@@ -398,12 +363,12 @@ export class AuthenticationProvider {
         });
     }
 
-    reconcileSubscription(storeDate: string): Promise<boolean> {
+    reconcileSubscription(expDate: string): Promise<boolean> {
         // TODO:  maybe: read the userData from the server and update only the renewal date
         return new Promise((resolve, reject) => {
             console.log("renewSubscription");
             // TODO: encrypt user data
-            const n = new Date(storeDate);  // from store
+            const n = new Date(expDate);  // from store
             const d = new Date(this.renewal);  // from local user data
             // check subscription date <> this.renewal, ie
             //      apple has different date than i have, means
@@ -414,7 +379,7 @@ export class AuthenticationProvider {
                     user: this.user,
                     password: this.password,
                     key: this.key,
-                    renewal: this.getExpiration(storeDate, this.subType),  // computed end of sub
+                    renewal: expDate,
                     subType: this.subType
                 };
                 var api: string = this.cpapi.apiURL + "user/" + this.user;
@@ -474,3 +439,108 @@ export class AuthenticationProvider {
         }
     }
 }
+
+// old checkStore code
+                // for (var rp = 0; rp < purchases.length; rp++) {
+                //     if (purchases[rp]['productId'] == 'CP3SubAnnual' ||
+                //         purchases[rp]['productId'] == 'CP3SubMonthly') {
+                //         // found one
+                //         const n = Date.now();
+                //         // d is date of transaction, so add an appropriate duration
+                //         const d = this.getExpiration(purchases[rp]['date'], purchases[rp]['productId']);
+                //         // check current
+                //         if (d.valueOf() > n.valueOf()) {
+                //             // found a good one, we can exit (even if there's another good one)
+                //             // shouldn't we take the latest good one?
+                //             // alert('good one ' + purchases[rp]['productId']);
+                //             storeResult = {
+                //                 subscription: purchases[rp]['productId'],
+                //                 state: 'current',
+                //                 date: purchases[rp]['date']
+                //             };
+                //             break;
+                //         } else {
+                //             // found an expired one, note but keep looking
+                //             // alert('expired ' + purchases[rp]['productId']);
+                //             storeResult = {
+                //                 subscription: purchases[rp]['productId'],
+                //                 state: 'expired',
+                //                 date: purchases[rp]['date']
+                //             };
+                //         }
+                //     }
+                // }
+
+
+// MOCKS
+
+// async mockCheckStore(): Promise < storeDataType > {
+//     return {
+//         subscription: '',
+//         state: 'never',
+//         date: '',
+//         expDate: ''
+//         // subscription: 'CP3SubMonthly',
+//         // state: 'expired',
+//         // date: '2/2/2019'
+//     } as storeDataType;
+// }
+
+// async mockCheckStore2(): Promise < storeDataType > {
+//     console.log('mockcheckStore2');
+//     let storeResult: storeDataType
+//         = { subscription: 'none', state: 'never', date: '', expDate: '' };
+//     try {
+//         // let purchases = await this.iap.restorePurchases()
+//         const purchases =
+//             [
+//                 { productId: "CP3SubMonthly", state: 3, transactionId: 'abc123', date: "2017-02-02T06:00:00.000Z" },
+//                 { productId: "CP3SubMonthly", state: 3, transactionId: 'abc123', date: "2017-02-04T06:00:00.000Z" },
+//                 { productId: "CP3SubAnnual", state: 3, transactionId: 'abc123', date: "2016-03-19T06:00:00.000Z" },
+//                 { productId: "CP3SubMonthly", state: 3, transactionId: 'abc123', date: "2017-01-14T06:00:00.000Z" },
+//                 { productId: "CP3SubMonthly", state: 3, transactionId: 'abc123', date: "2017-02-01T06:00:00.000Z" },
+//                 { productId: "CP3SubMonthly", state: 3, transactionId: 'abc123', date: "2016-12-19T06:00:00.000Z" },
+//             ]
+//             if(purchases.length > 0) {
+//     // filter for my types only
+//     const myTypes = ['CP3SubAnnual', 'CP3SubMonthly'];
+//     let fp = purchases.filter(x => myTypes.indexOf(x['productId']) !== -1);
+//     console.log(fp);
+//     // add expiration date -- using this to compare equalizes monthly and annual purchases
+//     fp.forEach(x => {
+//         console.log('fd[] date', x['date']);
+//         x['expDate'] = this.getExpiration(x['date'], x['productId']);
+//         console.log('fd[] expDate', x['expDate'].toISOString());
+//     });
+//     console.log(fp);
+//     // reduce to latest expiring-purchase only
+//     const latestExpPurchase = fp.reduce((a, b) => (a['expDate'] > b['expDate']) ? a : b);
+//     console.log(latestExpPurchase);
+//     if (latestExpPurchase['expDate'] > Date.now()) {
+//         // good subscription
+//         console.log('good subscription');
+//         storeResult = {
+//             subscription: latestExpPurchase['productId'],
+//             state: 'current',
+//             date: latestExpPurchase['date'],
+//             expDate: latestExpPurchase['expDate']
+//         };
+//     } else {
+//         // expired subscription
+//         console.log('expired subscription');
+//         storeResult = {
+//             subscription: latestExpPurchase['productId'],
+//             state: 'expired',
+//             date: latestExpPurchase['date'],
+//             expDate: latestExpPurchase['expDate']
+//         };
+//     }
+// } else {  // no purchases retrieved
+//     // returns default storeResult:  state: 'never'
+// }
+//         }
+//         catch (err) {
+//     console.log('restorePurchase error', err);
+// }
+// return storeResult;
+//     }
