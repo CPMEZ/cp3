@@ -53,16 +53,16 @@ export class AuthenticationProvider {
             // check subscription
             var goodSubscription = await this.checkSubscription();
             if (goodSubscription) {
-                alert('good subscription');
+                // alert('good subscription');
                 this.userLoggedIn = true;
                 return true;
             } else {
-                alert('bad subscription');
+                // alert('bad subscription');
                 this.userLoggedIn = false;
                 return false;
             }
         } else {
-            alert('bad credentials');
+            // alert('bad credentials');
             this.userLoggedIn = false;
             return false;
         }
@@ -141,7 +141,7 @@ export class AuthenticationProvider {
                         // 2 second test:  test1 has not expired (apple-sandbox-2 within 5 minutes)
                         // reconcile local subscription date if needed
                         // TEMP
-                        alert('2: duration<warn, ios, storestate=current');
+                        // alert('2: duration<warn, ios, storestate=current');
                         this.subState = 'current';
                         this.subType = storeData.subscription;
                         this.reconcileSubscription(storeData.date);
@@ -149,7 +149,7 @@ export class AuthenticationProvider {
                     case 'expired':
                         // 3 third test:  test1 has expired (apple-sandbox-2 after 5 minutes)
                         // TEMP
-                        alert('3: duration<warn, ios, storestate=expired');
+                        // alert('3: duration<warn, ios, storestate=expired');
                         this.subState = 'expired';
                         alert(
                             "Your subscription to Marrelli's Red Book Care Plans has expired.  " +
@@ -161,7 +161,7 @@ export class AuthenticationProvider {
                         // have to set up to be duration < warn days to reach here
                         // eg 2/4, 5/19
                         // TEMP
-                        alert('1: duration<warn, ios, storestate=never');
+                        // alert('1: duration<warn, ios, storestate=never');
                         this.subState = 'never';
                         alert(
                             "Shouldn't have reached this point with good credentials but " +
@@ -173,7 +173,7 @@ export class AuthenticationProvider {
             } else {  // not ios, using server data, not store
                 if (duration < 0) {
                     // TEMP
-                    alert('4: duration<0, NOT ios');
+                    // alert('4: duration<0, NOT ios');
                     alert(
                         "Your subscription to Marrelli's Red Book Care Plans has expired.  " +
                         "Please renew to continue building Red Book-based Care Plans.  " +
@@ -181,18 +181,18 @@ export class AuthenticationProvider {
                     return false;
                 } else { // ie, 0 < duration < warn_days
                     // TEMP
-                    alert('5: duration<warn, NOT ios');
+                    // alert('5: duration<warn, NOT ios');
                     alert(
                         "Your subscription to Marrelli's Red Book Care Plans expires in " + (duration + 1).toString() + " days." +
                         "  It will automatically renew 24 hrs before expiration, unless you cancel.");
                     return true;
                 }
             }
-        } else { // TEMP  duration not < warn days
+        } else {
             // 6 test_ expires > 5 days
-            alert('6: duration >= warn'); // TEMP
-            return true; // TEMP
-        } // TEMP
+            // alert('6: duration >= warn');
+            return true;
+        }
     }
 
     async mockCheckStore(): Promise<storeDataType> {
@@ -218,19 +218,19 @@ export class AuthenticationProvider {
             = { subscription: 'none', state: 'never', date: '' };
         try {
             let purchases = await this.iap.restorePurchases()
-            alert('got purchases');
+            // alert('got purchases');
             // see if a valid one of mine in the list
             // [ { productId:, state: (android), transactionId:, date:, 
             //     productType: (android), receipt: (android), signature: (android) }, ...]
             if (purchases.length > 0) {
-                alert('# purchases=' + purchases.length);
-                var purchValues = "";
-                for (const key in purchases[0]) {
-                    if (purchases[0].hasOwnProperty(key)) {
-                        purchValues += key + ': ' + purchases[0][key] + ', ';
-                    }
-                }
-                alert(purchValues);
+                // alert('# purchases=' + purchases.length);
+                // var purchValues = "";
+                // for (const key in purchases[0]) {
+                //     if (purchases[0].hasOwnProperty(key)) {
+                //         purchValues += key + ': ' + purchases[0][key] + ', ';
+                //     }
+                // }
+                // alert(purchValues);
                 for (var rp = 0; rp < purchases.length; rp++) {
                     if (purchases[rp]['productId'] == 'CP3SubAnnual' ||
                         purchases[rp]['productId'] == 'CP3SubMonthly') {
@@ -241,7 +241,8 @@ export class AuthenticationProvider {
                         // check current
                         if (d.valueOf() > n.valueOf()) {
                             // found a good one, we can exit (even if there's another good one)
-                            alert('good one ' + purchases[rp]['productId']);
+                            // shouldn't we take the latest good one?
+                            // alert('good one ' + purchases[rp]['productId']);
                             storeResult = {
                                 subscription: purchases[rp]['productId'],
                                 state: 'current',
@@ -381,30 +382,6 @@ export class AuthenticationProvider {
             const strNow = (baseDate.getMonth() + 1) + '/' + baseDate.getDate() + '/' + baseDate.getFullYear();
             var renewalDate = this.getExpiration(strNow, productId);
             // TODO we'll later change to store validateReceipt to determine && see below also
-            // renewalDate.setDate(renewalDate.getDate());
-            // var ds;
-            // var month = renewalDate.getMonth() + 1;  // getMonth is 0-based, make 1-based
-            // var year = renewalDate.getFullYear();
-            // switch (productId) { // match values in subselect.ts.initStore()
-            //     case 'CP3SubMonthly':
-            //         // expires next month
-            //         month += 1;
-            //         if (month === 13) {
-            //             // end of year, make jan next year
-            //             month = 1;
-            //             year += 1;
-            //         }
-            //         break;
-            //     case 'CP3SubAnnual':
-            //         // expires same date next year
-            //         year += 1;
-            //         break;
-            //     default:
-            //         break;
-            // }
-            // ds = month.toString() + "/" +
-            //     renewalDate.getDate().toString() + "/" +
-            //     year.toString();
             const userData = {
                 user: this.user,
                 password: this.password,
@@ -481,6 +458,7 @@ export class AuthenticationProvider {
         });
     }
 
+    // helper
     reportState(msg: string): void {
         if (this.plt.is('cordova')) {
             const st = msg + '-->' +

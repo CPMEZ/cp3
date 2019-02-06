@@ -32,7 +32,7 @@ export class SubselectPage {
     private alertCtrl: AlertController,
     private plt: Platform,
     private iap: InAppPurchase) {
-      this.auth.reportState('constructor subselect');
+      // this.auth.reportState('constructor subselect');
     if (this.plt.is('cordova')) {
       this.initStore();
     } else {
@@ -64,7 +64,7 @@ export class SubselectPage {
     // TODO change button label to "renew" if they're already subscribed?
     try {
       this.products = await this.iap.getProducts(['CP3SubMonthly', 'CP3SubAnnual']);
-      alert('PRODUCTS' + JSON.stringify(this.products));
+      // alert('PRODUCTS' + JSON.stringify(this.products));
     }
     catch (err) {
       console.log('store error', err);
@@ -79,7 +79,7 @@ export class SubselectPage {
         content: 'Purchasing subscription...'
       });
       loading.present();
-      alert(p.productId);  // debug on device
+      // alert(p.productId);  // debug on device
       this.iap.subscribe(p.productId)
         .then((data) => {
           loading.dismiss();
