@@ -275,28 +275,19 @@ export class AuthenticationProvider {
     }
 
     getExpiration(start: string, subType: string): Date {
-        var exp: Date, d: Date, m: number, y: number;
+        var exp: Date, d: Date;
+        // days-in-month ignores leap years, let store worry about it
+        const dIM = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+        d = new Date(start);
         switch (subType) {
             case 'CP3SubAnnual':
-                d = new Date(start);
-                y = d.getFullYear() + 1;
-                exp = new Date((d.getMonth() + 1) + "/" + d.getDate().toString() + "/" + y.toString());
+                exp.setDate(d.getDate() + 365);
                 break;
             case 'CP3SubMonthly':
-                d = new Date(start);
-                m = d.getMonth() + 1 + 1;  // "extra" 1 because getMonth 0-based
-                y = d.getFullYear();
-                // rotate year if needed
-                if (m === 13) { m = 1; y += 1; }
-                exp = new Date((m.toString()) + "/" + d.getDate().toString() + "/" + y.toString());
+                exp.setDate(d.getDate() + dIM[d.getMonth()]);
                 break;
             default:  // assume monthly
-                d = new Date(start);
-                m = d.getMonth() + 1 + 1;  // "extra" 1 because getMonth 0-based
-                y = d.getFullYear();
-                // rotate year if needed
-                if (m === 13) { m = 1; y += 1; }
-                exp = new Date((m.toString()) + "/" + d.getDate().toString() + "/" + y.toString());
+                exp.setDate(d.getDate() + dIM[d.getMonth()]);
                 break;
         }
         return exp;
