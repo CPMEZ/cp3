@@ -30,12 +30,7 @@ export class LookupPage {
       this.item = this.navParams.get('item');
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad LookupPage');
-  }
-
   ionViewDidEnter() {
-    console.log('ionViewDidEnter LookupPage');
     this.getList();
   }
 

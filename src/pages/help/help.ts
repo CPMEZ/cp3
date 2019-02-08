@@ -22,10 +22,6 @@ export class HelpPage {
       if (plt.is('mobile')) {this.canPrint = true;}
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad HelpPage');
-  }
-
 print() {
   console.log('print');
   this.printer.isAvailable().then(() => {}, ()=>{} );

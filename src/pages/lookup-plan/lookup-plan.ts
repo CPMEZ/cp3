@@ -41,12 +41,7 @@ export class LookupPlanPage {
     }
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad LookupPlanPage');
-  }
-
   ionViewDidEnter() {
-    console.log('ionViewDidEnter LookupPlanPage');
     if (this.searchingMaster) {
       this.getMasterList();
     } else {

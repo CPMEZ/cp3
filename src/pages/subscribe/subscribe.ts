@@ -41,10 +41,6 @@ export class SubscribePage {
     this.productId = navParams.get('id');
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad SubscribePage');
-  }
-
   setup() {
     // subscribe trans success,
     // now create our new user on cpapi

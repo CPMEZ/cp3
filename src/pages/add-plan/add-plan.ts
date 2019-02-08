@@ -29,14 +29,6 @@ export class AddPlanPage {
     public MPP: MasterPlansProvider) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AddPlanPage');
-  }
-
-  ionViewDidEnter() {
-    console.log('ionViewDidEnter AddPlanPage');
-  }
-
   nameChange(){
     // console.log('checking');
     this.canUseName = this.PPP.checkPlanName(this.newPlan['name'].trim());

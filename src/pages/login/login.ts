@@ -36,12 +36,10 @@ export class LoginPage {
   }
   
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
     this.pwd = '';  // ensure local pwd not retained from prior uses
   }
 
   ionViewWillLeave() {
-    console.log('ionViewWillLeave LoginPage');
     this.events.unsubscribe('loadComplete');
   }
 

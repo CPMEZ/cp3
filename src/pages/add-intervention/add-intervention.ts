@@ -30,13 +30,8 @@ export class AddInterventionPage {
     this.problem = navParams.get("problem");
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AddInterventionPage');
-  }
-
   ionViewDidEnter() {
     // may have come from add, may have returned from selection
-    console.log('ionViewDidEnter AddInterventionPage');
     this.intervention["text"] = "";
     this.intervention["hint"] = "";
     if (this.MPP.listSelection) {

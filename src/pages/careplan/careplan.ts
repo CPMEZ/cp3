@@ -83,18 +83,11 @@ export class CarePlanPage {
     );
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad CareplanPage');
-    // console.log('plans', this.PPP.plans);
-  }
-  
   ionViewDidEnter() {
-    console.log('ionViewDidEnter CareplanPage');
     this.ddChanges = false;  // init/re-init on load
   }
 
   ionViewWillLeave() {
-    console.log('ionViewWillLeave CareplanPage');
     // console.log('ddchanges', this.ddChanges);
     if (this.ddChanges) {
       this.PPP.write();
@@ -104,7 +97,6 @@ export class CarePlanPage {
   }
   
   ionViewWillUnload() {
-    console.log('ionViewWillUnload CareplanPage');
     this.subs.unsubscribe();
     document.removeEventListener('touchmove', () => { });
     document.removeEventListener('touchend', () => { });

@@ -32,10 +32,6 @@ export class TextPlanPage {
     this.plan = navParams.get('plan');
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad TextPlanPage');
-  }
-
   discList(int: any): string {
     let discText: string = "";
     if (int.interdisciplinary) { discText += "Interdisciplinary, " }

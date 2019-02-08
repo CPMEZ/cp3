@@ -28,13 +28,8 @@ export class AddProblemPage {
     this.plan = navParams.get('plan');
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AddProblemPage');
-  }
-
   ionViewDidEnter() {
     // may have come from add, may have returned from selection
-    console.log('ionViewDidEnter AddProblemPage');
     this.problem["text"] = "";
     this.problem["hint"] = "";
     if (this.MPP.listSelection) {

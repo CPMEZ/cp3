@@ -25,9 +25,6 @@ export class EditProblemPage {
     this.saveProblem.text = this.problem.text;
   }
   
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad EditProblemPage');
-  }
   editDone() {
     const d: Date = new Date();
     this.plan.updated = d.toLocaleDateString();

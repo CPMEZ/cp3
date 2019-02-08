@@ -25,11 +25,6 @@ export class PreviewPage {
       this.addCheckedProperty(this.copyOfSource);
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad PreviewPage');
-  }
-
-
   save() {
     // exit w save
     // reduce the content to only the items checked

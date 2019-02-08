@@ -25,9 +25,6 @@ export class EditGoalPage {
     this.saveGoal.text = this.goal.text;
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad EditGoalPage');
-  }
   editDone() {
     const d: Date = new Date();
     this.plan.updated = d.toLocaleDateString();

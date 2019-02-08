@@ -34,13 +34,7 @@ export class WelcomePage {
     }
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad WelcomePage');
-  }
-
-
   ionViewWillUnload() {
-    console.log('ionViewWillUnload WelcomePage');
     this.events.unsubscribe('loadComplete');
   }
 

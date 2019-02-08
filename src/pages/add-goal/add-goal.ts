@@ -30,13 +30,8 @@ export class AddGoalPage {
     this.problem = navParams.get('problem');
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AddGoalPage');
-  }
-
   ionViewDidEnter() {
     // may have come from add, may have returned from selection
-    console.log('ionViewDidEnter AddGoalPage');
     this.goal["text"] = "";
     this.goal["hint"] = "";
     if (this.MPP.listSelection) {

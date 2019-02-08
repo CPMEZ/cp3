@@ -40,10 +40,6 @@ export class SubselectPage {
     }
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad SubselectPage');
-  }
-
   mockInitStore() {
     console.log('mockInitStore');
     this.products = [

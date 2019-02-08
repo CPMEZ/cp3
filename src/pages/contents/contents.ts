@@ -94,16 +94,11 @@ export class ContentsPage {
   }
 
   ionViewDidEnter() {
-    console.log('ionViewDidEnter ContentsPage');
     this.ddChanges = false;  // init/re-init on load
   }
 
 
   ionViewWillLeave() {
-    console.log('ionViewWillLeave ContentsPage');
-    // this.subs.unsubscribe();
-    // document.removeEventListener('touchmove', () => { });
-    // document.removeEventListener('touchend', () => { });
     if (this.ddChanges) {
       this.PPP.write();
       this.ddChanges = false;  // reset after save
@@ -111,7 +106,6 @@ export class ContentsPage {
   }
 
   ionViewWillUnload() {
-    console.log('ionViewWillUnload ContentsPage');
     this.subs.unsubscribe();
     document.removeEventListener('touchmove', () => { });
     document.removeEventListener('touchend', () => { });

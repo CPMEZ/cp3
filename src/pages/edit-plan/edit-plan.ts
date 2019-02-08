@@ -29,10 +29,6 @@ export class EditPlanPage {
     this.canUseName = true;
   }
   
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad EditPlanPage');
-  }
-
   nameChange() {
     // console.log('checking');
     if (this.savePlan.name === this.newName.trim())  {

@@ -26,9 +26,6 @@ export class EditInterventionPage {
     this.saveIntervention.text = this.intervention.text;
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad EditInterventionPage');
-  }
   editDone() {
     const d: Date = new Date();
     this.plan.updated = d.toLocaleDateString();
