@@ -134,13 +134,13 @@ export class AuthenticationProvider {
                 switch (storeData.state) {
                     case 'current':
                         // 2 second test:  test1 has not expired (apple-sandbox-2 within 5 minutes)
-                        alert('2: duration<warn, ios, storestate=current');
+                        // alert('2: duration<warn, ios, storestate=current');
                         // reconcile local subscription date if needed
                         this.reconcileSubscription(storeData.expDate);
                         return true;
                     case 'expired':
                         // 3 third test:  test1 has expired (apple-sandbox-2 after 5 minutes)
-                        alert('3: duration<warn, ios, storestate=expired');
+                        // alert('3: duration<warn, ios, storestate=expired');
                         alert(
                             "Your subscription to Marrelli's Red Book Care Plans has expired.  " +
                             "Please renew to continue building Red Book-based Care Plans.  " +
@@ -150,7 +150,7 @@ export class AuthenticationProvider {
                         // 1 first test:  test1 has no apple subscription (apple-sandbox-2)
                         // have to set up to be duration < warn days to reach here
                         // eg 2/4, 5/19
-                        alert('1: duration<warn, ios, storestate=never');
+                        // alert('1: duration<warn, ios, storestate=never');
                         alert(
                             "Shouldn't have reached this point with good credentials but " +
                             "no valid store subscription.  You must be a beta tester.  :)");
@@ -160,14 +160,14 @@ export class AuthenticationProvider {
                 }
             } else {  // not ios, using server data, not store
                 if (duration < 0) {
-                    alert('4: duration<0, NOT ios');
+                    // alert('4: duration<0, NOT ios');
                     alert(
                         "Your subscription to Marrelli's Red Book Care Plans has expired.  " +
                         "Please renew to continue building Red Book-based Care Plans.  " +
                         "Choose WORK OFFLINE to continue without renewing.");
                     return false;
                 } else { // ie, 0 < duration < warn_days
-                    alert('5: duration<warn, NOT ios');
+                    // alert('5: duration<warn, NOT ios');
                     alert(
                         "Your subscription to Marrelli's Red Book Care Plans expires in " + (duration + 1).toString() + " days." +
                         "  It will automatically renew 24 hrs before expiration, unless you cancel.");
@@ -176,7 +176,7 @@ export class AuthenticationProvider {
             }
         } else {
             // 6 test_ expires > 5 days
-            alert('6: duration >= warn');
+            // alert('6: duration >= warn');
             return true;
         }
     }
