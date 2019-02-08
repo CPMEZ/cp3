@@ -23,7 +23,7 @@
     </button>
     <span (click)="editPlan()">{{plan.name}}</span>
   </div>
-  <ion-grid>
+  <ion-grid class="verticalLine" style="margin-left:18px !important; margin-right: 0px;">
     <div *ngFor="let p of plan.problems; let i = index">
       <div>
         <ion-row>
