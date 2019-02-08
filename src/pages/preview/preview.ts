@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
+import { WelcomePage } from '../welcome/welcome';
+import { CarePlanPage } from '../careplan/careplan';
 
 @IonicPage()
 @Component({
@@ -40,7 +42,7 @@ export class PreviewPage {
       // add the target to personal plans
       this.PPP.plans.push(this.target);
       this.PPP.write();
-      this.navCtrl.popToRoot(); // go back to plans page
+      this.navCtrl.setPages([{ page: WelcomePage }, { page: CarePlanPage }]);
     } else if (this.fromPage === 'contents') {
       // we're adding from the contents page
       this.PPP.write();
