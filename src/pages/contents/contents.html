@@ -33,9 +33,9 @@
           </ion-col>
           <ion-col col-9><span class="problem" (click)="problemEdit(p)">{{p.text}}</span></ion-col>
           <ion-col col-1>
-            <button *ngIf="p.expanded" class="tool" (click)="topicMenu($event, p)">
-              <ion-icon name="menu"></ion-icon>
-            </button>
+            <!-- <button *ngIf="p.expanded" class="tool" (click)="topicMenu($event, p)"> -->
+              <ion-icon name="menu" *ngIf="p.expanded" class="tool" (click)="topicMenu($event, p)"></ion-icon>
+            <!-- </button> -->
           </ion-col>
         </ion-row>
         <div io-item *ngIf="p.expanded">
