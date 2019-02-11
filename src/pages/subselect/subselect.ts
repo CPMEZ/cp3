@@ -44,12 +44,8 @@ export class SubselectPage {
     console.log('mockInitStore');
     this.products = [
       {
-        title: 'CP3SubAnnual',
-        price: 99.99
-      },
-      {
         title: 'CP3SubMonthly',
-        price: 9.99
+        price: 4.99
       }
     ]
   }
