@@ -103,7 +103,8 @@ export class WelcomePage {
   }
 
    video() {
-     window.open("https://marrelli.com/app-support/video/rbhowto.mp4", '_system', 'location=yes');
+    //  window.open("https://marrelli.com/app-support/video/rbhowto.mp4", '_system', 'location=yes');
+     window.open("http://google.com", '_system', 'location=yes');
   }
    previewStd() {
     this.navCtrl.push(SamplePage);
