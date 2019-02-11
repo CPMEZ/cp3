@@ -10,7 +10,10 @@ page-contents {
         white-space: normal;
     }
     .verticalLine {
-        border-left: solid #ff0000;
+        margin-left: 0px !important; 
+        margin-right: 15px !important;
+        border-right: solid #ff0000;
+        // border-left: solid #ff0000;
         border-color: rgb(238, 238, 238);
     }
     .toolbar {

@@ -23,14 +23,15 @@
     </button>
     <span (click)="editPlan()">{{plan.name}}</span>
   </div>
-  <ion-grid class="verticalLine" style="margin-left:18px !important; margin-right: 0px;">
+  <ion-grid class="verticalLine">
     <div *ngFor="let p of plan.problems; let i = index">
       <div>
         <ion-row>
+
           <ion-col col-1>
             <ion-icon class="expandTool" [name]="p.icon" (click)="toggleProblemExpand(p)"></ion-icon>
           </ion-col>
-          <ion-col col-10><span class="problem" (click)="problemEdit(p)">{{p.text}}</span></ion-col>
+          <ion-col col-9><span class="problem" (click)="problemEdit(p)">{{p.text}}</span></ion-col>
           <ion-col col-1>
             <button *ngIf="p.expanded" class="tool" (click)="topicMenu($event, p)">
               <ion-icon name="menu"></ion-icon>
