@@ -32,7 +32,10 @@
     <button ion-button (click)="workOffline()">
       WORK OFFLINE
     </button>
-    <h2 class="underline" *ngIf="conn.internet" (click)="video()">Watch a HOW-TO Video</h2>
+    <h2>
+    <a style="color: white;" href="#" onclick="window.open('http://google.com', '_blank', 'location=no'); return false;">Watch a HOW-TO Video</a>
+    </h2>
+    <!-- <h2 class="underline" *ngIf="conn.internet" (click)="video()">Watch a HOW-TO Video</h2> -->
     <h2 class="underline" (click)="previewStd()">Preview Red Book Standard Plans</h2>
     <!-- <button ion-button *ngIf="conn.internet" (click)="video()">
       WATCH A HOW-TO VIDEO

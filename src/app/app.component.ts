@@ -10,8 +10,8 @@ export class MyApp {
   rootPage: any;
   timer: any;
   // constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
-  constructor(platform: Platform
-    , splashScreen: SplashScreen) {
+  constructor(platform: Platform,
+              splashScreen: SplashScreen) {
     // ){
 
     platform.ready().then(() => {

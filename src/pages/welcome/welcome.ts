@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, Events, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, LoadingController, Events, AlertController } from 'ionic-angular';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { LoginPage } from '../login/login';
 import { CarePlanPage } from '../careplan/careplan';
@@ -7,6 +7,7 @@ import { ConnectionProvider } from '../../providers/connection/connection';
 import { TermsPage } from '../terms/terms';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 import { SamplePage } from '../sample/sample';
+// import { InAppBrowserOriginal } from '@ionic-native/in-app-browser';
 
 @IonicPage()
 @Component({
@@ -19,10 +20,10 @@ export class WelcomePage {
   onLine = false;
 
   constructor(public navCtrl: NavController,
-    public navParams: NavParams,
     public events: Events,
     private loadCtrl: LoadingController,
     private alertCtrl: AlertController,
+    // private iab: InAppBrowserOriginal,
     public auth: AuthenticationProvider,
     public conn: ConnectionProvider,
     public PPP: PersonalPlansProvider) {
@@ -50,7 +51,8 @@ export class WelcomePage {
     // cause we don't have async on loadPlans,
     this.events.subscribe('loadComplete', (time) => {
       // console.log('got event loadComplete');
-      try { loading.dismiss(); 
+      try {
+        loading.dismiss();
         // console.log('on loading complete event, plans =', this.PPP.plans);
       }
       catch (err) { console.log('load timeout before complete'); }
@@ -60,7 +62,8 @@ export class WelcomePage {
     // insurance
     setTimeout(() => {
       // console.log('in timer');
-      try { loading.dismiss(); 
+      try {
+        loading.dismiss();
       }
       catch (err) { console.log('load complete before timeout'); }
 
@@ -102,15 +105,16 @@ export class WelcomePage {
     prompt.present();
   }
 
-   video() {
-     alert('video');
-    //  window.open("https://marrelli.com/app-support/video/rbhowto.mp4", '_system', 'location=yes');
-     window.open("http://google.com", '_system', 'location=yes');
-  }
-   previewStd() {
+  // video() {
+  //   alert('video');
+  //   //  window.open("https://marrelli.com/app-support/video/rbhowto.mp4", '_system', 'location=yes');
+  //   // this.iab.create("http://google.com");
+  // }
+
+  previewStd() {
     this.navCtrl.push(SamplePage);
   }
-   showTerms() {
+  showTerms() {
     this.navCtrl.push(TermsPage);
   }
 

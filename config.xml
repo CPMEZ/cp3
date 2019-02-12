@@ -86,4 +86,5 @@
     <plugin name="cordova-plugin-printer" spec="^0.7.3" />
     <engine name="ios" spec="4.5.5" />
     <plugin name="cordova-plugin-splashscreen" spec="~5.0.2" />
+    <plugin name="cordova-plugin-inappbrowser" spec="3.0.0" />
 </widget>
