@@ -45,7 +45,7 @@ export class SubselectPage {
     this.products = [
       {
         title: 'CP3SubMonthly',
-        price: 4.99
+        price: 5.99
       }
     ]
   }
