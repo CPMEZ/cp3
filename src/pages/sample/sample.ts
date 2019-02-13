@@ -31,7 +31,7 @@ export class SamplePage {
       { text: "Human Immunodeficiency Virus/Acquired Immune Deficiency Syndrome (HIV/AIDS)" },
       { text: "Infection Control and Prevention" },
       { text: "Infusion" },
-      { text: "Lung" },
+      { text: "Lung/Respiratory" },
       { text: "Ostomy" },
       { text: "Oxygen Use" },
       { text: "Pain Management" },
