@@ -9,10 +9,8 @@ import { WelcomePage } from '../pages/welcome/welcome';
 export class MyApp {
   rootPage: any;
   timer: any;
-  // constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
   constructor(platform: Platform,
               splashScreen: SplashScreen) {
-    // ){
 
     platform.ready().then(() => {
       console.log('platform ready')
@@ -20,10 +18,8 @@ export class MyApp {
       this.timer = setTimeout(() => {
         if (platform.is('cordova')) {
           // for ios quirks
-          // console.log('splashscreen hide');
           splashScreen.hide();
         }
-        // console.log('setting rootPage');
         this.rootPage = WelcomePage;
       }, 2000);
     }); 

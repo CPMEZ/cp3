@@ -55,7 +55,6 @@ export class LoginPage {
         // BUT they may want to choose subscribe, if log in failed
         // AND might have failed bc expired
 
-        
         // goes back to wherever, which would be
         // careplanpage or wecomepage
         // this.navCtrl.pop();

@@ -29,6 +29,7 @@ export class WelcomePage {
     public PPP: PersonalPlansProvider) {
     console.log('Constructor Welcome');
     conn.checkConnection();
+    auth.readAuthState();
     if (this.auth.firstTime) {
       this.auth.authenticate()
         .then((r) => { this.auth.firstTime = false; });
