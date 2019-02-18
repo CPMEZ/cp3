@@ -1,19 +1,19 @@
 <ion-header>
 
   <ion-navbar class="navbarStyle" color="primary">
-    <ion-title>Preview</ion-title>
+    <ion-title>Select Care</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 <ion-content padding>
-  <p class="helpful">Preview before adding </p>
+  <!-- <p class="helpful">Preview before adding </p> -->
   <p class="helpful">Check the items you want to include</p>
     <button ion-button (click)="selectAll()">Select All</button>
     <button ion-button (click)="selectNone()">Select None</button>
     <!-- hack because ppp.plans[] have .name, and master have .text -->
-  <h1 *ngIf="type !== 'My Plan'" class="h1text">{{type}}: {{copyOfSource.text}}</h1>
-  <h1 *ngIf="type == 'My Plan'" class="h1text">{{type}}: {{copyOfSource.name}}</h1>
+  <h1 *ngIf="type!=='My Plan'" class="h1text">{{type}}: {{copyOfSource.text}}</h1>
+  <h1 *ngIf="type=='My Plan'" class="h1text">{{type}}: {{copyOfSource.name}}</h1>
   <div *ngFor="let p of copyOfSource.problems">
     <p class="ptext prob">{{p.text}}</p>
     <div>
