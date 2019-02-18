@@ -4,6 +4,13 @@
     <description>Tina Marrelli's Red Book Care Planning</description>
     <author email="stan@e-caregiving.com" href="http://marrelli.com/">Marrelli and Associates</author>
     <content src="index.html" />
+    <config-file parent="CFBundleDisplayName" platform="ios" target="*-Info.plist">
+        <string>HospiceCP</string>
+    </config-file>
+    <!-- this alleged to be the macOs way to do same as above 
+    <edit-config file="*-Info.plist" mode="merge" target="CFBundleDisplayName">
+        <string>HospiceCP</string>
+    </edit-config> -->
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
