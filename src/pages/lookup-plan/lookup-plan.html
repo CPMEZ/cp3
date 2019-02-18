@@ -22,8 +22,8 @@
     <ion-list>
       <div ion-item no-lines *ngFor="let z of itemsList">
         <!-- definite hack -->
-        <p *ngIf="searchingMaster" (click)="choose(z)">{{z.text}}</p>
-        <p *ngIf="!searchingMaster" (click)="choose(z)">{{z.name}}</p>
+        <p class="searchList" *ngIf="searchingMaster" (click)="choose(z)">{{z.text}}</p>
+        <p class="searchList" *ngIf="!searchingMaster" (click)="choose(z)">{{z.name}}</p>
       </div>
     </ion-list>
   </div>
