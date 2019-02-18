@@ -198,7 +198,8 @@ export class AuthenticationProvider {
             //     productType: (android), receipt: (android), signature: (android) }, ...]
             if (purchases.length > 0) {
                 // filter for my types only
-                const myTypes = ['CP3SubAnnual', 'CP3SubMonthly'];
+                // const myTypes = ['CP3SubAnnual', 'CP3SubMonthly'];
+                const myTypes = ['CP3SubMonthly'];
                 let fp = purchases.filter(x => myTypes.indexOf(x['productId']) !== -1);
                 // add expiration date -- using this to compare equalizes monthly and annual purchases
                 fp.forEach(x => x['expDate'] = this.getExpiration(x['date'], x['productId']));
