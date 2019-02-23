@@ -38,6 +38,10 @@
       <ion-label>Long Term</ion-label>
       <ion-radio value="LT"></ion-radio>
     </ion-item>
+    <ion-item>
+      <ion-label>Not Applicable</ion-label>
+      <ion-radio value=""></ion-radio>
+    </ion-item>
   </ion-list>
   <button ion-button [disabled]="!goal.text" (click)="editDone()">Save</button>
   <button ion-button (click)="cancelEdit()">Cancel</button>
