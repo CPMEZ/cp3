@@ -82,16 +82,18 @@ export class PreviewPage {
 
   cancelEdit() {
     // exit w/o save
+    this.navCtrl.pop(); // go back to previous page
+    
     // go back to the page we're called from
-    if (this.fromPage === 'plans') {
-      this.navCtrl.popToRoot(); // go back to plans page
-    } else if (this.fromPage === 'contents') {
-      // remove select list from nav stack
-      this.navCtrl.removeView(this.navCtrl.getPrevious())
-        .then(() => {
-          this.navCtrl.pop(); // go back to contents page
-        });
-    }
+    // if (this.fromPage === 'plans') {
+    //   this.navCtrl.popToRoot(); // go back to plans page
+    // } else if (this.fromPage === 'contents') {
+    //   // remove select list from nav stack
+    //   this.navCtrl.removeView(this.navCtrl.getPrevious())
+    //     .then(() => {
+          // this.navCtrl.pop(); // go back to contents page
+    //     });
+    // }
   }
 
   addCheckedProperty(p: any) {
