@@ -5,9 +5,11 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-item no-lines *ngIf="auth.userLoggedIn && auth.subState=='current'">
-    <h1>You're already subscribed, logged in, and ready to go.</h1>
-  </ion-item>
+  <div *ngIf="auth.userLoggedIn && auth.subState=='current'">
+    <ion-item no-lines>
+      <h1>You're already subscribed, logged in, and ready to go.</h1>
+    </ion-item>
+  </div>
   <ion-item no-lines *ngIf="auth.subState=='expired'">
     <h1>Your subscription has expired. Choose 'Renew' to re-subscribe with your existing user ID.</h1>
   </ion-item>
@@ -22,23 +24,25 @@
       </div>
     </div>
   </ion-item>
-    <div *ngIf="!auth.userLoggedIn">
-      <ion-item no-lines>
+  <div *ngIf="!auth.userLoggedIn">
+    <ion-item no-lines>
       <h3 class="hilite">Subscribing is a <em>two-step</em> process:</h3>
-      </ion-item>
-      <ion-item no-lines>
-        <div>
-          <span class="hilite">1)</span> After tapping <span class="hilite">Purchase</span> you will confirm with the Store.
-        </div>
-      </ion-item>
-      <ion-item no-lines>
-        <div><span class="hilite">2)</span> Then, after a successful purchase, you'll <span class="hilite">set up your
+    </ion-item>
+    <ion-item no-lines>
+      <div>
+        <span class="hilite">1)</span> After tapping <span class="hilite">Purchase</span> you will confirm with the
+        Store.
+      </div>
+    </ion-item>
+    <ion-item no-lines>
+      <div><span class="hilite">2)</span> Then, after a successful purchase, you'll <span class="hilite">set up your
           subscriber information</span> with the Red Book.</div>
-        <!-- <div><span class="hilite">2)</span> Then, after a successful purchase, you'll <span class="hilite">set up your
+      <!-- <div><span class="hilite">2)</span> Then, after a successful purchase, you'll <span class="hilite">set up your
           subscriber information</span> with the Red Book, including a unique user ID, a password, and your personal encryption key for securing
           your plans in the cloud.</div> -->
-      </ion-item>
-    </div>
+    </ion-item>
+  </div>
+  <br>
   <ion-item no-lines>
     <div>
       Subscribing gives you access to content to use in your own care
