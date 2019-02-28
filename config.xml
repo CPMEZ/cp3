@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.cpmez.cp3" version="1.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.cpmez.cp3" version="1.0.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>HospiceCP</name>
     <description>Tina Marrelli's Red Book Care Planning</description>
     <author email="stan@e-caregiving.com" href="http://marrelli.com/">Marrelli and Associates</author>
