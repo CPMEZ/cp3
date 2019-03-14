@@ -33,10 +33,8 @@ export class SubselectPage {
     private plt: Platform,
     private iap: InAppPurchase) {
     // this.auth.reportState('constructor subselect');
-    if (this.plt.is('ios')) {
-      this.iosInitStore();
-    } else if (this.plt.is('ios')) {
-      this.andInitStore();
+    if (this.plt.is('cordova')) {
+      this.initStore();
     } else {
       this.mockInitStore();
     }
@@ -52,23 +50,10 @@ export class SubselectPage {
     ]
   }
 
-  async andInitStore() {
+  async initStore() {
     // TODO:  check validateReceipt to see if they've ever
     //      subscribed before, to decide whether to present introductory
     try {
-      this.products = await this.iap.getProducts(['CP3SubMonthly']);
-      // alert('PRODUCTS' + JSON.stringify(this.products));
-    }
-    catch (err) {
-      console.log('store error', err);
-    }
-  }
-
-  async iosInitStore() {
-    // TODO:  check validateReceipt to see if they've ever
-    //      subscribed before, to decide whether to present introductory
-    try {
-      // this.products = await this.iap.getProducts(['CP3SubMonthly', 'CP3SubAnnual']);
       this.products = await this.iap.getProducts(['CP3SubMonthly']);
       // alert('PRODUCTS' + JSON.stringify(this.products));
     }
