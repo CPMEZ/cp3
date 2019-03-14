@@ -212,7 +212,7 @@ export class AuthenticationProvider {
                         subscription: latestExpPurchase['productId'],
                         state: 'current',
                         date: latestExpPurchase['date'],
-                        expDate: latestExpPurchase['expDate']  // this is making an explicit conversion to ISOString
+                        expDate: latestExpPurchase['expDate']  // this is making an implicit conversion to ISOString
                     };
                 } else {
                     // expired subscription
@@ -221,7 +221,7 @@ export class AuthenticationProvider {
                         subscription: latestExpPurchase['productId'],
                         state: 'expired',
                         date: latestExpPurchase['date'],
-                        expDate: latestExpPurchase['expDate']  // this is making an explicit conversion to ISOString
+                        expDate: latestExpPurchase['expDate']  // this is making an implicit conversion to ISOString
                     };
                 }
             } else {  // no purchases retrieved

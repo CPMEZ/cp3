@@ -32,9 +32,11 @@ export class SubselectPage {
     private alertCtrl: AlertController,
     private plt: Platform,
     private iap: InAppPurchase) {
-      // this.auth.reportState('constructor subselect');
-    if (this.plt.is('cordova')) {
-      this.initStore();
+    // this.auth.reportState('constructor subselect');
+    if (this.plt.is('ios')) {
+      this.iosInitStore();
+    } else if (this.plt.is('ios')) {
+      this.andInitStore();
     } else {
       this.mockInitStore();
     }
@@ -50,12 +52,24 @@ export class SubselectPage {
     ]
   }
 
-  async initStore() {
+  async andInitStore() {
     // TODO:  check validateReceipt to see if they've ever
     //      subscribed before, to decide whether to present introductory
-    // TODO change button label to "renew" if they're already subscribed?
     try {
-      this.products = await this.iap.getProducts(['CP3SubMonthly', 'CP3SubAnnual']);
+      this.products = await this.iap.getProducts(['CP3SubMonthly']);
+      // alert('PRODUCTS' + JSON.stringify(this.products));
+    }
+    catch (err) {
+      console.log('store error', err);
+    }
+  }
+
+  async iosInitStore() {
+    // TODO:  check validateReceipt to see if they've ever
+    //      subscribed before, to decide whether to present introductory
+    try {
+      // this.products = await this.iap.getProducts(['CP3SubMonthly', 'CP3SubAnnual']);
+      this.products = await this.iap.getProducts(['CP3SubMonthly']);
       // alert('PRODUCTS' + JSON.stringify(this.products));
     }
     catch (err) {
@@ -74,11 +88,13 @@ export class SubselectPage {
       // alert(p.productId);  // debug on device
       this.iap.subscribe(p.productId)
         .then((data) => {
+          // TODO?  may need to "consume" purchase on android
+          // return iap.consume(data.productType, data.receipt, data.signature);
           loading.dismiss();
           console.log('subscribe success', data);
           this.success = true;
           let prompt = this.alertCtrl.create({
-            title: (rs == 'subscribed') ? 'Subscribed!' : 'Renewed!',
+            title: (rs == 'subscribe') ? 'Subscribed!' : 'Renewed!',
             message: 'Welcome to the Red Book.',
             buttons: [{ text: "Continue", role: 'cancel' }]
           });
