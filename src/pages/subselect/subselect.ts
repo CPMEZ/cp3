@@ -44,17 +44,24 @@ export class SubselectPage {
     console.log('mockInitStore');
     this.products = [
       {
-        title: 'CP3SubMonthly',
+        title: 'cp3submonthly',
         price: 5.99
       }
     ]
+    // ios
+    // this.products = [
+    //   {
+    //     title: 'CP3SubMonthly',
+    //     price: 5.99
+    //   }
+    // ]
   }
 
   async initStore() {
     // TODO:  check validateReceipt to see if they've ever
     //      subscribed before, to decide whether to present introductory
     try {
-      this.products = await this.iap.getProducts(['CP3SubMonthly']);
+      this.products = await this.iap.getProducts(['CP3SubMonthly', 'cp3submonthly']);
       // alert('PRODUCTS' + JSON.stringify(this.products));
     }
     catch (err) {
