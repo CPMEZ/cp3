@@ -109,7 +109,7 @@ export class SubselectPage {
           loading.dismiss();
           this.success = false;
           console.log('subscribe error', err);
-          alert(err);
+          alert(JSON.stringify(err));
           let prompt = this.alertCtrl.create({
             title: 'Store Error',
             message: 'Unable to complete purchase.',
