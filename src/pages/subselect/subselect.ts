@@ -42,6 +42,7 @@ export class SubselectPage {
 
   mockInitStore() {
     console.log('mockInitStore');
+    alert('mockInitStore');
     this.products = [
       {
         title: 'cp3submonthly',
@@ -77,7 +78,7 @@ export class SubselectPage {
         content: 'Purchasing subscription...'
       });
       loading.present();
-      // alert(p.productId);  // debug on device
+      alert(p.productId);  // debug on device
       this.iap.subscribe(p.productId)
         .then((data) => {
           // TODO?  may need to "consume" purchase on android
@@ -108,6 +109,7 @@ export class SubselectPage {
           loading.dismiss();
           this.success = false;
           console.log('subscribe error', err);
+          alert(err);
           let prompt = this.alertCtrl.create({
             title: 'Store Error',
             message: 'Unable to complete purchase.',
