@@ -110,6 +110,9 @@ export class SubselectPage {
           this.success = false;
           console.log('subscribe error', err);
           alert(JSON.stringify(err));
+          if (err.code == -6) {
+            alert(err.text);
+          }
           let prompt = this.alertCtrl.create({
             title: 'Store Error',
             message: 'Unable to complete purchase.',
