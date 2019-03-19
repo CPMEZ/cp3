@@ -335,7 +335,7 @@ export class AuthenticationProvider {
     }
 
     createSubscription(productId: string): Promise<boolean> {
-        alert('createSubscription');
+        // alert('createSubscription ' + productId);
         return new Promise((resolve, reject) => {
             // set up a new user on cpapi
             // console.log("createSubscription");
@@ -359,7 +359,7 @@ export class AuthenticationProvider {
             console.log('before new user post', userData);
             this.http.post(api, userData, postOptions)
                 .subscribe(data => {
-                    alert('returned from post ' + data);
+                    // alert('returned from post ' + data);
                     resolve(true);
                 },
                     error => {

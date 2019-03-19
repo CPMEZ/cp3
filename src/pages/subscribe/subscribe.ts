@@ -46,7 +46,7 @@ export class SubscribePage {
     // now create our new user on cpapi
 
     // TODO need an android version?  no platform-specific stuff in here--do in createSubscription
-    if (this.plt.is('ios')) {
+    if (this.plt.is('cordova')) {
     this.auth.user = this.userId;
     this.auth.password = this.pwd;
     this.auth.key = this.myKey;

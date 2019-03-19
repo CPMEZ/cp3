@@ -78,7 +78,7 @@ export class SubselectPage {
         content: 'Purchasing subscription...'
       });
       loading.present();
-      alert(p.productId);  // debug on device
+      // alert(p.productId);  // debug on device
       this.iap.subscribe(p.productId)
         .then((data) => {
           // TODO?  may need to "consume" purchase on android
