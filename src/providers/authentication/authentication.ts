@@ -127,7 +127,10 @@ export class AuthenticationProvider {
             // if not on ios, no need to check "with apple"
             // console.log(this.plt.platforms());  // all of a sudden this returns ios when on --lab, 
             //                                          therefore does case 1 vs cases 4 or 5, but doesn't matter
-            if (this.plt.is('ios')) {
+
+            // TODO implement/test for android
+            // if (this.plt.is('ios')) {  //<--previous version
+            if (this.plt.is('cordova')) {
                 let storeData: storeDataType = await this.checkStore();
                 this.subState = storeData.state;
                 this.subType = storeData.subscription;
