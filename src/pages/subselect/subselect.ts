@@ -109,7 +109,6 @@ export class SubselectPage {
           loading.dismiss();
           this.success = false;
           console.log('subscribe error', err);
-          alert(JSON.stringify(err));
           if (err.code == -6) {
             alert(err.text);
           }
