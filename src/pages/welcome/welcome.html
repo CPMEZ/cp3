@@ -11,10 +11,9 @@
     <h2><em>Tina Marrelli's</em></h2>
     <img src="assets/imgs/TMFun600.png" class="logo" />
     <h1>Red Book Hospice Care Planning</h1>
+    <h5>Copyright ©2019 Marrelli and Associates, Inc.</h5>
   </div>
-
   <br>
-
   <div text-center>
     <h2 *ngIf="conn.internet && auth.userLoggedIn">Welcome Back! You're logged in as {{auth.user}}.</h2>
   </div>
@@ -33,12 +32,15 @@
       WORK OFFLINE
     </button>
     <h2>
-    <a style="color: white;" href="#" onclick="window.open('https://marrelli.com/app-support/video/', '_blank', 'location=no'); return false;">Watch a HOW-TO Video</a>
+      <a style="color: white;" href="#"
+        onclick="window.open('https://marrelli.com/app-support/video/', '_blank', 'location=no'); return false;">Watch a
+        HOW-TO Video</a>
     </h2>
     <!-- <h2 class="underline" *ngIf="conn.internet" (click)="video()">Watch a HOW-TO Video</h2> -->
     <h2 class="underline" (click)="previewStd()">Preview Red Book Standard Plans</h2>
     <br>
-    <h4 (click)="showTerms()">Using the app indicates you accept the <span class="underline">License Agreement.</span></h4>
+    <h4 (click)="showTerms()">Using the app indicates you accept the <span class="underline">License Agreement.</span>
+    </h4>
   </div>
   <p style="color: white; font-size: xx-small; text-align: center">v1.0.9</p>
 </ion-content>

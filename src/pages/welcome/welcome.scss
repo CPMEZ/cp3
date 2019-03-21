@@ -76,6 +76,11 @@ $screen-xl-min: 1200px;
         background-color:  color($colors, primary);
         font-size: 1.2rem;
     }
+    h5{
+        color: color($colors, light);
+        background-color:  color($colors, primary);
+        font-size: 0.8rem;
+    }
     .marginTop{
         margin-top:100px;
     }
