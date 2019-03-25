@@ -34,7 +34,7 @@ export class LoginPage {
     console.log('Login constructor: user', this.userId);
     conn.checkConnection();
   }
-  
+
   ionViewDidLoad() {
     this.pwd = '';  // ensure local pwd not retained from prior uses
   }
@@ -74,29 +74,30 @@ export class LoginPage {
     // cause we don't have async on loadPlans,
     this.events.subscribe('loadComplete', (time) => {
       console.log('got event loadComplete');
-      try { loading.dismiss(); }
+      try {
+        loading.dismiss();
+        this.navCtrl.setPages([{ page: WelcomePage }, { page: CarePlanPage }]);
+      }
       catch (err) { console.log('load timeout before complete'); }
-      // console.log(this.navCtrl.getViews());
-      // reset the stack, so that "back" goes to welcome instead of login
-      this.navCtrl.setPages([{page: WelcomePage}, {page: CarePlanPage}]);
     })
     // insurance
     setTimeout(() => {
       try {
         loading.dismiss();
+        this.navCtrl.setPages([{ page: WelcomePage }, { page: CarePlanPage }]);
       }
       catch (err) { console.log('load complete before timeout'); }
     }, 5000);
   }
-  
+
   subscribe() {
     this.navCtrl.push(SubselectPage);
   }
-  
+
   workOffline() {
     // proceed without signing in
     // reset the stack, so that "back" goes to welcome instead of login
-    // console.log(this.navCtrl.getViews());
+    this.auth.userLoggedIn = false;
     this.navCtrl.setPages([{ page: WelcomePage }, { page: CarePlanPage }]);
   }
 

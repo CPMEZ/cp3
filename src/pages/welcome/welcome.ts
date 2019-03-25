@@ -54,7 +54,6 @@ export class WelcomePage {
       // console.log('got event loadComplete');
       try {
         loading.dismiss();
-        // console.log('on loading complete event, plans =', this.PPP.plans);
         this.navCtrl.setPages([{ page: WelcomePage }, { page: CarePlanPage }]);
       }
       catch (err) { console.log('load timeout before complete'); }
