@@ -55,29 +55,27 @@ export class WelcomePage {
       try {
         loading.dismiss();
         // console.log('on loading complete event, plans =', this.PPP.plans);
+        this.navCtrl.setPages([{ page: WelcomePage }, { page: CarePlanPage }]);
       }
       catch (err) { console.log('load timeout before complete'); }
-      // this.navCtrl.push(CarePlanPage);
-      this.navCtrl.setPages([{ page: WelcomePage }, { page: CarePlanPage }]);
     })
     // insurance
     setTimeout(() => {
       // console.log('in timer');
       try {
         loading.dismiss();
+        this.navCtrl.setPages([{ page: WelcomePage }, { page: CarePlanPage }]);
       }
-      catch (err) { console.log('load complete before timeout'); }
-
+      catch (err) {
+        console.log('load complete before timeout');
+      }
     }, 5000);
   }
 
   workOffline() {
     console.log('welcome workOffline');
-    // currently just does workOnline()
-    // but might want to logout, 
-    //    OR set userLoggedIn=false, 
-    //    OR just read local plans, 
-    //    OR ???
+    // set userLoggedIn=false, causes reading local plans only (in PPP.loadPlans) 
+    this.auth.userLoggedIn = false;
     this.workOnline();
   }
 
@@ -106,12 +104,7 @@ export class WelcomePage {
     prompt.present();
   }
 
-  // video() {
-  //   alert('video');
-  //   //  window.open("https://marrelli.com/app-support/video/rbhowto.mp4", '_system', 'location=yes');
-  //   // this.iab.create("http://google.com");
-  // }
-
+ 
   previewStd() {
     this.navCtrl.push(SamplePage);
   }

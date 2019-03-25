@@ -389,19 +389,25 @@ export class PersonalPlansProvider {
   readFromWeb(): Promise<object> {
     return new Promise(resolve => {
       var api: string = this.cpapi.apiURL + "data/" + this.auth.user;
-      this.http.get(api)
-        .subscribe((data) => {
-          // console.log('read from web with', this.auth.user);
-          if (data) {
-            let d = this.decrypt(data["plans"] as string, this.auth.key);
-            // console.log('plans after read from web', d);
-            resolve(d);
-          } else {
-            let d = { plans: [] };
-            // console.log('plans after read from web', d);
-            resolve(d);
-          }
-        });
+      try {
+        this.http.get(api)
+          .subscribe((data) => {
+            // console.log('read from web with', this.auth.user);
+            if (data) {
+              // console.log(this.auth.key);
+              let d = this.decrypt(data["plans"] as string, this.auth.key);
+              resolve(d);
+            } else {
+              let d = { plans: [] };
+              resolve(d);
+            }
+          });
+      }
+      catch (err) {
+        console.log(err);
+        let d = { plans: [] };
+        resolve(d);
+      }
     });
   }
 
@@ -424,6 +430,7 @@ export class PersonalPlansProvider {
     // console.log('decrypting');
     // console.log('key', key);
     let bytes = CryptoJS.AES.decrypt(data, key);
+    // console.log(bytes.toString(CryptoJS.enc.Utf8));
     return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
   }
 
