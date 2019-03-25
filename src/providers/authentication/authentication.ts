@@ -45,6 +45,7 @@ export class AuthenticationProvider {
     }
 
     async authenticate(): Promise<boolean> {
+        this.user = this.user.trim();
         console.log('authenticate', this.user, this.password);
         var goodCredentials = await this.getUserData(this.user, this.password);
         if (goodCredentials) {
@@ -78,6 +79,7 @@ export class AuthenticationProvider {
                     // set userData values
                     this.userLoggedIn = true;  // until checkSubscription might override it
                     this.user = d['user'];
+                    this.user = this.user.trim();
                     this.key = d['key'];
                     this.renewal = d['renewal'];
                     this.subType = d['subType'];
@@ -95,7 +97,7 @@ export class AuthenticationProvider {
             alert('UserId or Password not recognized');
             this.clearUserData();
             // reset user, in case they just typo'd the pwd
-            this.user = user;
+            this.user = user.trim();
             this.saveAuthState();
             return false;
         };
@@ -272,7 +274,7 @@ export class AuthenticationProvider {
         // save the user id, just for user convenience in re-logging in
         const uid = this.user;
         this.clearUserData();
-        this.user = uid;
+        this.user = uid.trim();
         this.saveAuthState();
     }
 
@@ -297,6 +299,7 @@ export class AuthenticationProvider {
                         console.log('got state', state);
                         this.userLoggedIn = state['userLoggedIn'];
                         this.user = state['user'];
+                        this.user = this.user.trim();
                         this.password = state['password'];
                         this.key = state['key'];
                         this.renewal = state['renewal'];
@@ -314,12 +317,13 @@ export class AuthenticationProvider {
         // write user auth parms to LOCAL storage
         const state = {
             userLoggedIn: this.userLoggedIn,
-            user: this.user,
+            user: this.user.trim(),
             password: this.password,
             key: this.key,
             renewal: this.renewal,
             subType: this.subType
         }
+        console.log(state.user);
         const s = this.encrypt(state, STATE_ENCRYPT_KEY);
         this.LSP.set(STORAGE_KEY, s)
             .then(result => console.log("saved session"))
@@ -348,7 +352,7 @@ export class AuthenticationProvider {
             var renewalDate = this.getExpiration(strNow, productId);
             // TODO we'll later change to store validateReceipt to determine && see below also
             const userData = {
-                user: this.user,
+                user: this.user.trim(),
                 password: this.password,
                 key: this.key,
                 // renewal: ds,
@@ -356,7 +360,7 @@ export class AuthenticationProvider {
                 subType: productId
             };
             // remove the userLoggedIn flag? 
-            var api: string = this.cpapi.apiURL + "user/" + this.user;
+            var api: string = this.cpapi.apiURL + "user/" + this.user.trim();
             let httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
             let postOptions = { headers: httpHeaders }
             console.log('before new user post', userData);
@@ -386,13 +390,13 @@ export class AuthenticationProvider {
             if (n.valueOf() !== d.valueOf()) {
                 // update user on cpapi with renewed subscription date
                 const userData = {
-                    user: this.user,
+                    user: this.user.trim(),
                     password: this.password,
                     key: this.key,
                     renewal: expDate,
                     subType: this.subType
                 };
-                var api: string = this.cpapi.apiURL + "user/" + this.user;
+                var api: string = this.cpapi.apiURL + "user/" + this.user.trim();
                 // this.conn.checkConnection();
                 let httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
                 let postOptions = { headers: httpHeaders }
