@@ -456,38 +456,6 @@ export class AuthenticationProvider {
     }
 }
 
-// old checkStore code
-                // for (var rp = 0; rp < purchases.length; rp++) {
-                //     if (purchases[rp]['productId'] == 'CP3SubAnnual' ||
-                //         purchases[rp]['productId'] == 'CP3SubMonthly') {
-                //         // found one
-                //         const n = Date.now();
-                //         // d is date of transaction, so add an appropriate duration
-                //         const d = this.getExpiration(purchases[rp]['date'], purchases[rp]['productId']);
-                //         // check current
-                //         if (d.valueOf() > n.valueOf()) {
-                //             // found a good one, we can exit (even if there's another good one)
-                //             // shouldn't we take the latest good one?
-                //             // alert('good one ' + purchases[rp]['productId']);
-                //             storeResult = {
-                //                 subscription: purchases[rp]['productId'],
-                //                 state: 'current',
-                //                 date: purchases[rp]['date']
-                //             };
-                //             break;
-                //         } else {
-                //             // found an expired one, note but keep looking
-                //             // alert('expired ' + purchases[rp]['productId']);
-                //             storeResult = {
-                //                 subscription: purchases[rp]['productId'],
-                //                 state: 'expired',
-                //                 date: purchases[rp]['date']
-                //             };
-                //         }
-                //     }
-                // }
-
-
 // MOCKS
 
 // async mockCheckStore(): Promise < storeDataType > {
