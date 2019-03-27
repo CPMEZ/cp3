@@ -211,7 +211,9 @@ export class AuthenticationProvider {
                 fp.forEach(x => x['expDate'] = this.getExpiration(x['date'], x['productId']));
                 // reduce to latest expiring-purchase only
                 const latestExpPurchase = fp.reduce((a, b) => (a['expDate'] > b['expDate']) ? a : b);
-                if (latestExpPurchase['expDate'] > Date.now()) {
+                if ((latestExpPurchase['expDate'] > Date.now()) 
+                    && ((this.plt.is('ios')) 
+                        || (this.plt.is('android') && latestExpPurchase['state'] == 0))) {
                     // good subscription
                     console.log('good subscription');
                     storeResult = {
@@ -221,7 +223,7 @@ export class AuthenticationProvider {
                         expDate: latestExpPurchase['expDate']  // this is making an implicit conversion to ISOString
                     };
                 } else {
-                    // expired subscription
+                    // expired subscription  // expired or canceled if android
                     console.log('expired subscription');
                     storeResult = {
                         subscription: latestExpPurchase['productId'],
