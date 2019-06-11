@@ -45,7 +45,7 @@ export class AuthenticationProvider {
     }
 
     async authenticate(): Promise<boolean> {
-        this.user = this.user.trim();
+        this.user = this.user.trim().toLowerCase();
         console.log('authenticate', this.user, this.password);
         var goodCredentials = await this.getUserData(this.user, this.password);
         if (goodCredentials) {
@@ -79,7 +79,7 @@ export class AuthenticationProvider {
                     // set userData values
                     this.userLoggedIn = true;  // until checkSubscription might override it
                     this.user = d['user'];
-                    this.user = this.user.trim();
+                    this.user = this.user.trim().toLowerCase();
                     this.key = d['key'];
                     this.renewal = d['renewal'];
                     this.subType = d['subType'];
@@ -97,7 +97,7 @@ export class AuthenticationProvider {
             alert('UserId or Password not recognized');
             this.clearUserData();
             // reset user, in case they just typo'd the pwd
-            this.user = user.trim();
+            this.user = user.trim().toLowerCase();
             this.saveAuthState();
             return false;
         };
@@ -276,7 +276,7 @@ export class AuthenticationProvider {
         // save the user id, just for user convenience in re-logging in
         const uid = this.user;
         this.clearUserData();
-        this.user = uid.trim();
+        this.user = uid.trim().toLowerCase();
         this.saveAuthState();
     }
 
@@ -301,7 +301,7 @@ export class AuthenticationProvider {
                         console.log('got state', state);
                         this.userLoggedIn = state['userLoggedIn'];
                         this.user = state['user'];
-                        this.user = this.user.trim();
+                        this.user = this.user.trim().toLowerCase();
                         this.password = state['password'];
                         this.key = state['key'];
                         this.renewal = state['renewal'];
@@ -319,7 +319,7 @@ export class AuthenticationProvider {
         // write user auth parms to LOCAL storage
         const state = {
             userLoggedIn: this.userLoggedIn,
-            user: this.user.trim(),
+            user: this.user.trim().toLowerCase(),
             password: this.password,
             key: this.key,
             renewal: this.renewal,

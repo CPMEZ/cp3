@@ -46,49 +46,53 @@ export class SubscribePage {
     // now create our new user on cpapi
 
     // TODO need an android version?  no platform-specific stuff in here--do in createSubscription
+    // ensure good format for userid
+    this.userId = this.userId.trim().toLowerCase();
+    
     if (this.plt.is('cordova')) {
-    this.auth.user = this.userId;
-    this.auth.password = this.pwd;
-    this.auth.key = this.myKey;
-    this.auth.createSubscription(this.productId)
-      .then((a) => { 
-        // create sucessful
-        console.log('subscription created a=',a);
-        let prompt = this.alertCtrl.create({
-          title: 'Set Up Complete!',
-          buttons: [{
-            text: 'Continue', role: 'cancel',
-            handler: () => {
-              this.auth.authenticate().then(() => {
-                // save the new user's previously-created plans
-                //    initializes server-stored plans when empty
-                this.PPP.pushWeb();
+      this.auth.user = this.userId;
+      this.auth.password = this.pwd;
+      this.auth.key = this.myKey;
+      this.auth.createSubscription(this.productId)
+        .then((a) => {
+          // create sucessful
+          console.log('subscription created a=', a);
+          let prompt = this.alertCtrl.create({
+            title: 'Set Up Complete!',
+            buttons: [{
+              text: 'Continue', role: 'cancel',
+              handler: () => {
+                this.auth.authenticate().then(() => {
+                  // save the new user's previously-created plans
+                  //    initializes server-stored plans when empty
+                  this.PPP.pushWeb();
+                  this.navCtrl.setRoot(WelcomePage);
+                });
+              }
+            }]
+          });
+          prompt.present();
+        })
+        // create failed
+        .catch((b) => {
+          console.log('subscription created b=', b);
+          let prompt = this.alertCtrl.create({
+            title: 'Problem:',
+            message: 'Set up did not complete correctly',
+            buttons: [{
+              text: "Continue", role: 'cancel',
+              handler: () => {
                 this.navCtrl.setRoot(WelcomePage);
-              });
-            }
-          }]
+              }
+            }]
+          });
+          prompt.present();
         });
-        prompt.present();
-      })
-      // create failed
-      .catch((b) => {
-        console.log('subscription created b=',b);
-        let prompt = this.alertCtrl.create({
-          title: 'Problem:',
-          message: 'Set up did not complete correctly',
-          buttons: [{
-            text: "Continue", role: 'cancel',
-            handler: () => {
-              this.navCtrl.setRoot(WelcomePage);
-            }
-          }]
-        });
-        prompt.present();
-      });
     }
   }
 
   checkAvail() {
+    this.userId = this.userId.trim().toLowerCase();
     this.auth.checkUser(this.userId)
       .then((d) => { this.uidAvail = d; })
   }
