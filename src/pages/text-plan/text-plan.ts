@@ -10,6 +10,7 @@ import { PersonalPlansProvider } from '../../providers/personal-plans/personal-p
 
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
+import { getParentRenderElement } from '@angular/core/src/view/util';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @IonicPage()
@@ -95,24 +96,35 @@ export class TextPlanPage {
         probText: {
           fontSize: 14,
           bold: true,
+          color: 'red',
           margin: [0, 15, 0, 0]
         },
         goalText: {
           fontSize: 14,
           italics: true,
+          color: 'green',
           margin: [10, 10, 0, 0]
         },
         intText: {
           fontSize: 14,
+          color: 'blue',
           margin: [10, 8, 0, 0]
         },
-        typeHeader: {
+        goalHeader: {
           fontSize: 14,
           bold: true,
+          color: 'green',
+          margin: [10, 8, 0, 0]
+        },
+        intHeader: {
+          fontSize: 14,
+          bold: true,
+          color: 'blue',
           margin: [10, 8, 0, 0]
         },
         discText: {
           fontSize: 12,
+          color: 'blue',
           margin: [25, 4, 0, 0]
         },
         ital: {
@@ -133,7 +145,7 @@ export class TextPlanPage {
         });
         if (!this.plan.problems[i].goals) { this.plan.problems[i].goals = [] }
         if (this.plan.problems[i].goals.length > 0) {
-          docDefinition.content.push({ text: "Outcomes", style: "typeHeader" });
+          docDefinition.content.push({ text: "Outcomes", style: "goalHeader" });
           for (let j = 0; j < this.plan.problems[i].goals.length; j++) {
             docDefinition.content.push({
               text: // this.plan.problems[i].goals[j].term +
@@ -146,7 +158,7 @@ export class TextPlanPage {
         }
         if (!this.plan.problems[i].interventions) { this.plan.problems[i].interventions = [] }
         if (this.plan.problems[i].interventions.length > 0) {
-          docDefinition.content.push({ text: "Interventions", style: "typeHeader" });
+          docDefinition.content.push({ text: "Interventions", style: "intHeader" });
           for (let k = 0; k < this.plan.problems[i].interventions.length; k++) {
             docDefinition.content.push({
               text: // "Intervention:  " + 
@@ -244,10 +256,10 @@ export class TextPlanPage {
     if (this.plan.problems) {
       // console.log('# problems:',this.plan.problems.length);
       for (let i = 0; i < this.plan.problems.length; i++) {
-        text += this.plan.problems[i].text + "\r\n";
-        if (this.plan.problems[i].goals) {
+        text += "\r\n" + this.plan.problems[i].text + "\r\n";
+        if (this.plan.problems[i].goals && this.plan.problems[i].goals.length > 0) {
           // console.log('# goals:',this.plan.problems[i].goals.length);
-          text += "   Outcomes";
+          text += "   Outcomes" + "\r\n";
           for (let j = 0; j < this.plan.problems[i].goals.length; j++) {
             text += "    ";
             text += "   " +
@@ -259,12 +271,12 @@ export class TextPlanPage {
                 text += '(Long Term)';
               }
             }
-            text += + "\r\n";
+            text += "\r\n";
           }
         }
-        if (this.plan.problems[i].interventions) {
+        if (this.plan.problems[i].interventions && this.plan.problems[i].interventions.length > 0) {
           // console.log('# interventions:', this.plan.problems[i].interventions.length);
-          text += "   Interventions";
+          text += "   Interventions" + "\r\n";
           for (let k = 0; k < this.plan.problems[i].interventions.length; k++) {
             text += "    " +
               this.plan.problems[i].interventions[k].text + "\r\n";
