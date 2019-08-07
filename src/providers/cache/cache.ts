@@ -30,7 +30,7 @@ export class CacheProvider {
   clearCache() {
     console.log('clearing cache');
     this.LSP.keys()
-      .then((k) => {
+      .then((k: any) => {
         for (const t in k) {
           if (k.hasOwnProperty(t)) {
             // remove everything except session and plans

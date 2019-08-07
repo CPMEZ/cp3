@@ -1,3 +1,7 @@
+_ add a way to message customers, and have them reply
+
+
+
 x add ?+ to discipline
 x change >>+ to conditions only
 
