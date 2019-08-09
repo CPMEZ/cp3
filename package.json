@@ -1,6 +1,6 @@
 {
   "name": "cp3",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "author": "Stan Bell",
   "homepage": "http://marrelli.com/",
   "private": true,
@@ -47,9 +47,10 @@
     "cordova-plugin-inapppurchase": "^1.2.0",
     "cordova-plugin-ionic": "^5.1.2",
     "cordova-plugin-ionic-keyboard": "^2.1.2",
-    "cordova-plugin-ionic-webview": "^2.0.0",
+    "cordova-plugin-ionic-webview": "4.1.0",
     "cordova-plugin-network-information": "^2.0.1",
     "cordova-plugin-printer": "^0.7.3",
+    "cordova-plugin-splashscreen": "~5.0.2",
     "cordova-plugin-statusbar": "^2.4.2",
     "cordova-plugin-whitelist": "^1.3.3",
     "cordova-plugin-x-toast": "^2.7.0",
@@ -61,8 +62,7 @@
     "pdfmake": "^0.1.53",
     "rxjs": "5.5.11",
     "sw-toolbox": "3.6.0",
-    "zone.js": "0.8.26",
-    "cordova-plugin-splashscreen": "~5.0.2"
+    "zone.js": "0.8.26"
   },
   "devDependencies": {
     "@ionic/app-scripts": "^3.2.2",
