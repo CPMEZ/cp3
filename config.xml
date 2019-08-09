@@ -1,7 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.cpmez.cp3" version="1.2.0" android-versionCode="12000" 
-    xmlns="http://www.w3.org/ns/widgets" 
-    xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="12100" id="com.cpmez.cp3" version="1.2.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>HospiceCP</name>
     <description>Tina Marrelli's Red Book Care Planning</description>
     <author email="stan@e-caregiving.com" href="http://marrelli.com/">Marrelli and Associates</author>
@@ -39,9 +37,6 @@
         <splash density="port-xhdpi" src="resources/android/splash/drawable-port-xhdpi-screen.png" />
         <splash density="port-xxhdpi" src="resources/android/splash/drawable-port-xxhdpi-screen.png" />
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
-        <!-- <config-file parent="/manifest" target="AndroidManifest.xml">
-            <uses-permission android:name="android.permission.BILLING" />
-        </config-file> -->
     </platform>
     <platform name="ios">
         <allow-navigation href="*" />
