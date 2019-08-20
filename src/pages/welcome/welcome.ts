@@ -7,6 +7,7 @@ import { ConnectionProvider } from '../../providers/connection/connection';
 import { TermsPage } from '../terms/terms';
 import { PersonalPlansProvider } from '../../providers/personal-plans/personal-plans';
 import { SamplePage } from '../sample/sample';
+import { SubselectPage } from '../subselect/subselect';
 // import { InAppBrowserOriginal } from '@ionic-native/in-app-browser';
 
 @IonicPage()
@@ -101,6 +102,10 @@ export class WelcomePage {
       ]
     });
     prompt.present();
+  }
+
+  subscribe() {
+    this.navCtrl.push(SubselectPage);
   }
 
  

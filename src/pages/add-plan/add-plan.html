@@ -54,12 +54,16 @@
   <ion-item no-lines>
     <button ion-button [disabled]="(!canUseName || !newPlan.name)" (click)="addPlan('guided')">Add Guided Care Plan</button>
   </ion-item>
-  <ion-item *ngIf="auth.userLoggedIn" no-lines>
+  <!-- <ion-item *ngIf="auth.userLoggedIn" no-lines> -->
+  <ion-item no-lines>
     <p>You may also add standard plans or discipline topics from the Red Book.</p>
   </ion-item>
   <ion-item *ngIf="auth.userLoggedIn" no-lines>
     <button ion-button [disabled]="(!canUseName || !newPlan.name)" (click)="stdPlan()">Add a
       Standard Plan from the Red Book</button>
+  </ion-item>
+  <ion-item *ngIf="!auth.userLoggedIn" no-lines>
+    <button ion-button [disabled]="(!canUseName || !newPlan.name)" (click)="login()">Log in to Add from the Red Book</button>
   </ion-item>
   <ion-item no-lines>
     <p>You may copy an existing Plan from your My Care Plans.</p>
