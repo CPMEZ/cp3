@@ -1,6 +1,18 @@
 _ add a way to message customers, and have them reply
 
-
+_ share between subscribers
+	donor push plan to server holding area
+	on text (share) page
+		change from toolbar buttons to a menu
+			email
+			clipboard
+			pdf
+			subscriber <--ADD
+	on add plan page
+		add an option to retrieve from holding area
+			Add from another subscriber
+				shows list of shared pushed plan(s) for selection
+				remove from list after selected? yes
 
 x add ?+ to discipline
 x change >>+ to conditions only
