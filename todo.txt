@@ -1,3 +1,6 @@
+git command line:
+git push origin master
+
 _ add a way to message customers, and have them reply
 
 _ share between subscribers
